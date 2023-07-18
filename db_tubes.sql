@@ -141,7 +141,7 @@ CREATE TABLE `user` (
 --
 
 --
--- Indexes for table `detail_transaksi`
+
 --
 ALTER TABLE `detail_transaksi`
   ADD PRIMARY KEY (`id_detail_detail_transaksi`),
