@@ -135,6 +135,7 @@ CREATE TABLE `user` (
   `tanggal_lahir` date DEFAULT NULL,
   `role` enum('Admin','User') DEFAULT NULL,
   `alamat_user` Text DEFAULT NULL,
+  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
