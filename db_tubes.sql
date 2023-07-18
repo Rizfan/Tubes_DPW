@@ -133,7 +133,8 @@ CREATE TABLE `user` (
   `no_hp` varchar(20) DEFAULT NULL,
   `link_foto_user` varchar(100) DEFAULT NULL,
   `tanggal_lahir` date DEFAULT NULL,
-  `role` enum('Admin','User') DEFAULT NULL
+  `role` enum('Admin','User') DEFAULT NULL,
+  `alamat_user` Text DEFAULT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
