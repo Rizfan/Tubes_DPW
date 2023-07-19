@@ -2,6 +2,7 @@
 $tittle = "Data Penjual";
 include('../../layout/master.php');
 include('../../src/database/penjual.php');
+include('../../src/database/users.php');
 ?>
 
 <section id="manage_penjual">
@@ -43,11 +44,16 @@ include('../../src/database/penjual.php');
                                             <input required type="password" class="form-control" id="password" name="password">
                                         </div>
                                         <div class="form-group">
-                                            <label for="role">Role</label>
-                                            <select class="form-control" id="role" name="role" required>
-                                                <option value="" selected disabled>-- Pilih Role --</option>
-                                                <option value="Admin">Admin</option>
-                                                <option value="User">User</option>
+                                            <label for="user">User</label>
+                                            <select class="form-control" id="user" name="user" required>
+                                                <option value="" selected disabled>-- Pilih User --</option>
+                                                <?php
+                                                $u = get_all_user();
+                                                foreach ($u as $us) {
+                                                ?>
+                                                    <option value="<?= $us['id_user'] ?>"><?= $us['nama'] ?></option>
+                                                <?php
+                                                } ?>
                                             </select>
                                         </div>
                                     </div>
@@ -92,6 +98,7 @@ include('../../src/database/penjual.php');
                             <th scope="col">Nama Toko</th>
                             <th scope="col">Status Toko</th>
                             <th scope="col">Deskripsi Toko</th>
+                            <th scope="col">Opsi</th>
                         </tr>
                     </thead>
                     <!-- End header table -->
@@ -109,7 +116,7 @@ include('../../src/database/penjual.php');
                                 <td><?= $user['nama_toko'] ?></td>
                                 <td><?= $user['status_toko'] ?></td>
                                 <td><?= $user['deskripsi_toko'] ?></td>
-                                
+
 
                                 <td>
                                     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal<?= $user['id_user'] ?>">Edit</button>
@@ -146,16 +153,18 @@ include('../../src/database/penjual.php');
                                                             <input required type="password" class="form-control" id="password" name="password" value="<?= $user['password'] ?>">
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="role">Role</label>
-                                                            <select class="form-control" id="role" name="role" required>
-                                                                <option value="" disabled>-- Pilih Role --
-                                                                </option>
-                                                                <option value="Admin" <?php if ($user['role'] == "Admin") {
-                                                                                            echo "selected";
-                                                                                        } ?>>Admin</option>
-                                                                <option value="User" <?php if ($user['role'] == "User") {
-                                                                                            echo "selected";
-                                                                                        } ?>>User</option>
+                                                            <label for="user">User</label>
+                                                            <select class="form-control" id="user" name="user" required>
+                                                                <option value="" disabled>-- Pilih User --</option>
+                                                                <?php
+                                                                $u = get_all_user();
+                                                                foreach ($u as $us) {
+                                                                ?>
+                                                                    <option value="<?= $us['id_user'] ?>" <?php if ($user['id_user'] == $us['id_user']) {
+                                                                                                                echo "selected";
+                                                                                                            } ?>><?= $us['nama'] ?></option>
+                                                                <?php
+                                                                } ?>
                                                             </select>
                                                         </div>
                                                     </div>
