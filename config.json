@@ -3,6 +3,6 @@
         "host": "localhost",
         "user": "root",
         "pass": "",
-        "name": "db_tubes_dpw"
+        "name": "db_tubes"
     }
 }
