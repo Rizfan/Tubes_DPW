@@ -81,7 +81,7 @@
                 <a class="nav-link collapsed" href="<?php if (str_contains($tittle, "Pengguna")) {
                                                         echo "#";
                                                     } else {
-                                                        echo "../user/index.php";
+                                                        echo "../admin/user/index.php";
                                                     } ?>">
                     <i class="fas fa-users"></i>
                     <span>Data Users</span>
@@ -94,7 +94,7 @@
                 <a class="nav-link collapsed" href="<?php if (str_contains($tittle, "Penjual")) {
                                                         echo "#";
                                                     } else {
-                                                        echo "../penjual/index.php";
+                                                        echo "../admin/penjual/index.php";
                                                     } ?>">
                     <i class="fas fa-store"></i>
                     <span>Data Penjual</span>

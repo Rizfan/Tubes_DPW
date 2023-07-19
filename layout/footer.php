@@ -8,7 +8,7 @@
 <footer class="sticky-footer bg-white">
     <div class="container my-auto">
         <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2021</span>
+            <span>Copyright &copy; Your Website 2023</span>
         </div>
     </div>
 </footer>
@@ -38,24 +38,35 @@
             <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="login.html">Logout</a>
+                <a class="btn btn-primary" href="#">Logout</a>
             </div>
         </div>
     </div>
 </div>
 
-<script src="../../assets/vendor/jquery/jquery.min.js"></script>
-<script src="../../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="../../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
-<script src="../../assets/js/sb-admin-2.min.js"></script>
-<script src="../../assets/vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="../../assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<?php if (str_contains($tittle, "Dashboard")) { ?>
+    <script src="../assets/vendor/jquery/jquery.min.js"></script>
+    <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="../assets/js/sb-admin-2.min.js"></script>
+    <script src="../assets/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
+<?php } else { ?>
+    <script src="../../assets/vendor/jquery/jquery.min.js"></script>
+    <script src="../../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="../../assets/js/sb-admin-2.min.js"></script>
+    <script src="../../assets/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<?php } ?>
 <script>
     $(document).ready(function() {
         $('#table').DataTable();
     });
 </script>
+
 
 </body>
 
