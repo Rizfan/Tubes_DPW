@@ -18,12 +18,12 @@ function create_dompet($saldo = null)
     }
 }
 
-function update_dompet($saldo = null)
+function update_dompet($id_dompet = null, $saldo = null)
 {
     try {
         $db = connect();
-        $query = $db->prepare("INSERT INTO kategori (id_dompet, id_penjual , saldo) 
-                            VALUES (null, :saldo)");
+        $query = $db->prepare("UPDATE dompet SET saldo = :saldo WHERE id_dompet = :id_dompet");
+        $query->bindParam(':id_dompet', $id_dompet);
         $query->bindParam(':saldo', $saldo);
         $query->execute();
         return true;
@@ -42,6 +42,21 @@ function delete_dompet($id_dompet = null)
         $query->bindParam(':id_dompet', $id_dompet);
         $query->execute();
         return true;
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    } finally {
+        $db = null;
+    }
+}
+
+function get_all_dompet()
+{
+    try {
+        $db = connect();
+        $query = $db->prepare("SELECT * FROM dompet JOIN penjual ON dompet.id_penjual = penjual.id_penjual");
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
     } finally {

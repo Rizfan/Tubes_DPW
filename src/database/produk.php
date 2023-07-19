@@ -30,6 +30,7 @@ function create_produk(
 }
 
 function update_produk(
+    $id_produk = null,
     $nama_produk = null,
     $deskripsi_produk = null,
     $harga = null,
@@ -39,8 +40,8 @@ function update_produk(
 ) {
     try {
         $db = connect();
-        $query = $db->prepare("INSERT INTO produk (id_produk, id_penjual, id_kategori, nama_produk, harga, stok, status_produk, deskripsi_produk, link_foto_produk)
-                            VALUES (null, :nama_produk, :stok, :status_produk, :deskripsi_produk, :link_foto_produk)");
+        $query = $db->prepare("UPDATE produk SET nama_produk = :nama_produk, harga = :harga, stok = :stok, status_produk = :status_produk, deskripsi_produk = :deskripsi_produk, link_foto_produk = :link_foto_produk WHERE id_produk = :id_produk");
+        $query->bindParam(':id_produk', $id_produk);
         $query->bindParam(':nama_produk', $nama_produk);
         $query->bindParam(':harga', $harga);
         $query->bindParam(':stok', $stok);
@@ -64,6 +65,21 @@ function delete_produk($id_produk = null)
         $query->bindParam(':id_produk', $id_produk);
         $query->execute();
         return true;
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    } finally {
+        $db = null;
+    }
+}
+
+function get_all_produk()
+{
+    try {
+        $db = connect();
+        $query = $db->prepare("SELECT * FROM produk");
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
     } finally {

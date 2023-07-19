@@ -1,18 +1,20 @@
 <?php
 
-require __DIR__ . '/database.php';
+require_once __DIR__ . '/database.php';
 
-function create_penjual($nama_toko = null, $status_toko = null, $deskripsi_toko = null)
+function cek_id_user($id_user = null)
 {
     try {
         $db = connect();
-        $query = $db->prepare("INSERT INTO penjual (id_penjual, id_user, nama_toko, status_toko, deskripsi_toko) 
-                            VALUES (null, :nama_toko, :status_toko, :deskripsi_toko)");
-        $query->bindParam(':nama_toko', $nama_toko);
-        $query->bindParam(':status_toko', $status_toko);
-        $query->bindParam(':deskripsi_toko', $deskripsi_toko);
+        $query = $db->prepare("SELECT * FROM penjual WHERE id_user = :id_user");
+        $query->bindParam(':id_user', $id_user);
         $query->execute();
-        return true;
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
     } finally {
@@ -20,15 +22,21 @@ function create_penjual($nama_toko = null, $status_toko = null, $deskripsi_toko 
     }
 }
 
-function get_all_user()
+function create_penjual($id_user = null, $nama_toko = null, $status_toko = null, $deskripsi_toko = null)
 {
-
     try {
         $db = connect();
-        $query = $db->prepare("SELECT * FROM penjual");
-        $query->execute();
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        if (cek_id_user($id_user)) {
+            return false;
+        } else {
+            $query = $db->prepare("INSERT INTO penjual (id_penjual, id_user, nama_toko, status_toko, deskripsi_toko) VALUES (null,:id_user, :nama_toko, :status_toko, :deskripsi_toko)");
+            $query->bindParam(':id_user', $id_user);
+            $query->bindParam(':nama_toko', $nama_toko);
+            $query->bindParam(':status_toko', $status_toko);
+            $query->bindParam(':deskripsi_toko', $deskripsi_toko);
+            $query->execute();
+            return true;
+        }
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
     } finally {
@@ -36,12 +44,12 @@ function get_all_user()
     }
 }
 
-function update_penjual($nama_toko = null, $status_toko = null, $deskripsi_toko = null)
+function update_penjual($id_penjual = null, $nama_toko = null, $status_toko = null, $deskripsi_toko = null)
 {
     try {
         $db = connect();
-        $query = $db->prepare("INSERT INTO penjual (id_penjual, id_user, nama_toko, status_toko, deskripsi_toko) 
-                            VALUES (null, :nama_toko, :status_toko, :deskripsi_toko)");
+        $query = $db->prepare("UPDATE penjual SET nama_toko = :nama_toko, status_toko = :status_toko, deskripsi_toko = :deskripsi_toko WHERE id_penjual = :id_penjual");
+        $query->bindParam(':id_penjual', $id_penjual);
         $query->bindParam(':nama_toko', $nama_toko);
         $query->bindParam(':status_toko', $status_toko);
         $query->bindParam(':deskripsi_toko', $deskripsi_toko);
@@ -62,6 +70,21 @@ function delete_penjual($id_penjual = null)
         $query->bindParam(':id_penjual', $id_penjual);
         $query->execute();
         return true;
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    } finally {
+        $db = null;
+    }
+}
+
+function get_all_penjual()
+{
+    try {
+        $db = connect();
+        $query = $db->prepare("SELECT * FROM penjual JOIN user ON penjual.id_user = user.id_user");
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
     } finally {

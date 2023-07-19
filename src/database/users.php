@@ -5,7 +5,7 @@
  * 
  */
 
-require __DIR__ . '/database.php';
+require_once __DIR__ . '/database.php';
 
 function create_user($username = null, $password = null, $email = null, $name = null, $no_hp = null, $link_foto_user = null, $tanggal_lahir = null, $role = null, $alamat_user = null)
 {
