@@ -111,7 +111,31 @@
                     </div>
                 </div> -->
             </li>
+            <li class="nav-item <?php if (str_contains($tittle, "Dompet")) {
+                                    echo "active";
+                                } ?>">
+                <a class="nav-link collapsed" href="<?php if (str_contains($tittle, "Dompet")) {
+                                                        echo "#";
+                                                    } else {
+                                                        echo "../admin/dompet/index.php";
+                                                    } ?>">
+                    <i class="fas fa-wallet"></i>
+                    <span>Data Dompet</span>
+                </a>
+            </li>
 
+            <li class="nav-item <?php if (str_contains($tittle, "Transaksi")) {
+                                    echo "active";
+                                } ?>">
+                <a class="nav-link collapsed" href="<?php if (str_contains($tittle, "Transaksi")) {
+                                                        echo "#";
+                                                    } else {
+                                                        echo "../admin/transaksi/index.php";
+                                                    } ?>">
+                    <i class="fas fa-clipboard-list "></i>
+                    <span>Data Transaksi</span>
+                </a>
+            </li>
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>

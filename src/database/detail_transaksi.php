@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/database.php';
+require_once __DIR__ . '/database.php';
 
 function create_detail_transaksi($jumlah_barang = null)
 {

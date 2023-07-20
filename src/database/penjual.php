@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/database.php';
+require_once __DIR__ . '/dompet.php';
 
 function cek_id_user($id_user = null)
 {
@@ -21,7 +22,20 @@ function cek_id_user($id_user = null)
         $db = null;
     }
 }
-
+function get_id_penjual()
+{
+    try {
+        $db = connect();
+        $query = $db->prepare("SELECT id_penjual FROM penjual ORDER BY id_penjual DESC LIMIT 1");
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    } finally {
+        $db = null;
+    }
+}
 function create_penjual($id_user = null, $nama_toko = null, $status_toko = null, $deskripsi_toko = null)
 {
     try {
@@ -35,6 +49,11 @@ function create_penjual($id_user = null, $nama_toko = null, $status_toko = null,
             $query->bindParam(':status_toko', $status_toko);
             $query->bindParam(':deskripsi_toko', $deskripsi_toko);
             $query->execute();
+
+            $id_penjual = get_id_penjual();
+            $id_penjual1 = $id_penjual[0]['id_penjual'];
+            create_dompet($id_penjual1);
+
             return true;
         }
     } catch (PDOException $e) {

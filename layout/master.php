@@ -86,6 +86,17 @@
                     <i class="fas fa-users"></i>
                     <span>Data Users</span>
                 </a>
+                <!-- <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Manage Data Users</span>
+                </a> -->
+                <!-- <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Custom Components:</h6>
+                        <a class="collapse-item" href="buttons.html">Buttons</a>
+                        <a class="collapse-item" href="cards.html">Cards</a>
+                    </div>
+                </div> -->
             </li>
 
             <li class="nav-item <?php if (str_contains($tittle, "Penjual")) {
@@ -99,17 +110,32 @@
                     <i class="fas fa-store"></i>
                     <span>Data Penjual</span>
                 </a>
-                <!-- <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Manage Data Users</span>
-                </a> -->
-                <!-- <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.html">Buttons</a>
-                        <a class="collapse-item" href="cards.html">Cards</a>
-                    </div>
-                </div> -->
+            </li>
+
+            <li class="nav-item <?php if (str_contains($tittle, "Dompet")) {
+                                    echo "active";
+                                } ?>">
+                <a class="nav-link collapsed" href="<?php if (str_contains($tittle, "Dompet")) {
+                                                        echo "#";
+                                                    } else {
+                                                        echo "../dompet/index.php";
+                                                    } ?>">
+                    <i class="fas fa-wallet"></i>
+                    <span>Data Dompet</span>
+                </a>
+            </li>
+
+            <li class="nav-item <?php if (str_contains($tittle, "Transaksi")) {
+                                    echo "active";
+                                } ?>">
+                <a class="nav-link collapsed" href="<?php if (str_contains($tittle, "Transaksi")) {
+                                                        echo "#";
+                                                    } else {
+                                                        echo "../transaksi/index.php";
+                                                    } ?>">
+                    <i class="fas fa-clipboard-list "></i>
+                    <span>Data Transaksi</span>
+                </a>
             </li>
 
             <!-- Sidebar Toggler (Sidebar) -->

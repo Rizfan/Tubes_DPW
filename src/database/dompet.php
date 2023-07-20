@@ -1,14 +1,13 @@
 <?php
 
-require __DIR__ . '/database.php';
+require_once __DIR__ . '/database.php';
 
-function create_dompet($saldo = null)
+function create_dompet($id_penjual = null)
 {
     try {
         $db = connect();
-        $query = $db->prepare("INSERT INTO kategori (id_dompet, id_penjual , saldo) 
-                            VALUES (null, :saldo)");
-        $query->bindParam(':saldo', $saldo);
+        $query = $db->prepare("INSERT INTO dompet (id_dompet, id_penjual , saldo) VALUES (null,:id_penjual, 0)");
+        $query->bindParam(':id_penjual', $id_penjual);
         $query->execute();
         return true;
     } catch (PDOException $e) {
