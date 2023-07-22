@@ -3,6 +3,7 @@ $tittle = "Data Dompet";
 include('../../layout/master.php');
 include('../../src/database/dompet.php');
 include('../../src/database/penjual.php');
+include('../../src/database/riwayat_dompet.php');
 ?>
 
 <section id="manage_dompet">
@@ -12,13 +13,14 @@ include('../../src/database/penjual.php');
             <!-- Table data -->
             <div class="table-responsive">
 
-                <table class="table  table-striped " id="table">
+                <table class="table table-striped " id="table">
                     <!-- header tabel -->
                     <thead>
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col">Toko / Penjual</th>
                             <th scope="col">Saldo</th>
+                            <th scope="col">Riwayat</th>
                             <th scope="col">Opsi</th>
                         </tr>
                     </thead>
@@ -36,11 +38,64 @@ include('../../src/database/penjual.php');
                                 <th scope="row"><?= $no ?></th>
                                 <td><?= $d['nama_toko'] ?></td>
                                 <td>Rp <?= number_format($d['saldo']) ?></td>
+                                <td>
+                                    <a href="#" data-toggle="modal" data-target="#riwayatModal<?= $d['id_dompet'] ?>">Lihat Riwayat</a>
+
+                                    <!-- Modal Riwayat -->
+                                    <div class="modal fade" id="riwayatModal<?= $d['id_dompet'] ?>" tabindex="-1" aria-labelledby="riwayatModal<?= $d['id_dompet'] ?>" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="riwayatModalLabel">Riwayat Penarikan</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <?php
+                                                    $riwayat = get_riwayat($d['id_dompet']);
+
+                                                    if (count($riwayat) == 0) {
+                                                        echo "Tidak ada riwayat";
+                                                    } else {
+                                                    ?>
+                                                        <table class="table table-bordered">
+                                                            <thead class="thead-dark">
+                                                                <tr>
+                                                                    <th scope="col">No</th>
+                                                                    <th scope="col">Saldo Ditarik</th>
+                                                                    <th scope="col">Tanggal Ditarik</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php
+                                                                $no1 = 1;
+                                                                foreach ($riwayat as $r) {
+                                                                ?>
+                                                                    <tr>
+                                                                        <th scope="row"><?= $no1 ?></th>
+                                                                        <td>Rp <?= number_format($r['saldo_ditarik']) ?></td>
+                                                                        <td><?= $r['tanggal_ditarik'] ?></td>
+                                                                    </tr>
+                                                                <?php
+                                                                    $no1++;
+                                                                }
+                                                                ?>
+                                                            </tbody>
+                                                        </table>
+
+                                                    <?php } ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
 
                                 <td>
                                     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal<?= $d['id_dompet'] ?>">Edit</button>
                                 </td>
                             </tr>
+
                             <!-- Modal edit -->
                             <div class="modal fade" id="editModal<?= $d['id_dompet'] ?>" tabindex="-1" aria-labelledby="editModal<?= $d['id_dompet'] ?>" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -78,7 +133,7 @@ include('../../src/database/penjual.php');
                                                         <div class="input-group-prepend">
                                                             <div class="input-group-text">Rp</div>
                                                         </div>
-                                                        <input type="number" class="form-control" id="saldo" placeholder="Saldo" value="<?= $d['saldo'] ?>">
+                                                        <input type="number" class="form-control" id="saldo" name="saldo" placeholder="Saldo" value="<?= $d['saldo'] ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -91,6 +146,7 @@ include('../../src/database/penjual.php');
                                 </div>
                             </div>
                             <!-- End Modal edit -->
+
 
                         <?php
                             $no++;
@@ -109,5 +165,14 @@ include('../../src/database/penjual.php');
 
 
 <?php
+
+if (isset($_POST['save_edit'])) {
+    $id_dompet = $_POST['id_dompet'];
+    $saldo = $_POST['saldo'];
+
+    update_dompet($id_dompet, $saldo);
+    echo "<script>location='index.php'</script>";
+}
+
 include('../../layout/footer.php');
 ?>

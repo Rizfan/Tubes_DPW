@@ -1,5 +1,5 @@
 <?php
-$tittle = "Data Transaksi";
+$tittle = "Data Detail Transaksi";
 include('../../layout/master.php');
 include('../../src/database/transaksi.php');
 include('../../src/database/detail_transaksi.php');
@@ -9,7 +9,7 @@ $id_transaksi = $_GET['id'];
 
     <div class="card mt-4">
         <div class="card-body">
-
+            <button class="btn btn-primary mb-3" type="button">Tambah Data</button>
             <!-- Table data -->
             <div class="table-responsive">
 
@@ -53,7 +53,12 @@ $id_transaksi = $_GET['id'];
                     </tbody>
 
                 </table>
+                <a href="index.php" class="btn btn-outline-danger">Kembali</a>
             </div>
         </div>
     </div>
 </section>
+
+<?php
+include('../../layout/footer.php');
+?>

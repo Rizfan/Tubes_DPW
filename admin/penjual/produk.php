@@ -1,11 +1,16 @@
 <?php
-$tittle = "Data Penjual";
-include('../../layout/master.php');
 include('../../src/database/penjual.php');
-include('../../src/database/users.php');
+$id = $_GET['id'];
+$penjual = get_penjual($id);
+$tittle = "Data Produk dari Toko $penjual[nama_toko]";
+include('../../layout/master.php');
+include('../../src/database/produk.php');
+include('../../src/database/kategori.php');
+
 ?>
 
-<section id="manage_penjual">
+<section id="manage_produk">
+
     <div class="card mt-4">
         <div class="card-body">
             <!-- Button Tambah -->
@@ -24,28 +29,45 @@ include('../../src/database/users.php');
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form action="#" method="post">
+                        <form action="#" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="id_penjual" value="<?= $id ?>">
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label for="user">User</label>
-                                    <select class="form-control" id="user" name="user" required>
-                                        <option value="" selected disabled>-- Pilih User --</option>
+                                    <label for="user">Kategori</label>
+                                    <select name="id_kategori" id="id_kategori" class="form-control" required>
+                                        <option value="" selected disabled>-- Pilih Kategori --</option>
                                         <?php
-                                        $u = get_all_user();
-                                        foreach ($u as $us) {
-                                        ?>
-                                            <option value="<?= $us['id_user'] ?>"><?= $us['nama'] ?></option>
+                                        $kategori = get_all_kategori();
+                                        foreach ($kategori as $k) { ?>
+                                            <option value="<?= $k['id_kategori'] ?>"><?= $k['nama_kategori'] ?></option>
                                         <?php
                                         } ?>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="nama_toko">Nama Toko</label>
-                                    <input required type="text" class="form-control" id="nama_toko" name="nama_toko">
+                                    <label for="nama_produk">Nama Produk</label>
+                                    <input required type="text" class="form-control" id="nama_produk" name="nama_produk">
                                 </div>
                                 <div class="form-group">
-                                    <label for="deskripsi_toko">Deskripsi Toko</label>
-                                    <textarea name="deskripsi_toko" id="deskripsi_toko" class="form-control" cols="30" rows="5" required></textarea>
+                                    <label for="deskripsi_produk">Deskripsi Produk</label>
+                                    <textarea name="deskripsi_produk" id="deskripsi_produk" class="form-control" cols="30" rows="5" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Harga">Harga</label>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">Rp</div>
+                                        </div>
+                                        <input type="number" class="form-control" id="harga" name="harga" placeholder="harga">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Stok">Stok</label>
+                                    <input required type="number" class="form-control" id="stok" name="stok">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Foto Produk">Foto Produk</label>
+                                    <input type="file" class="form-control" id="foto_produk" name="foto_produk">
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -66,9 +88,12 @@ include('../../src/database/users.php');
                     <thead>
                         <tr>
                             <th scope="col">No</th>
-                            <th scope="col">Nama Toko</th>
-                            <th scope="col">Status Toko</th>
-                            <th scope="col">Deskripsi Toko</th>
+                            <th scope="col">Nama Produk</th>
+                            <th>Deskripsi Produk</th>
+                            <th scope="col">Harga Satuan</th>
+                            <th scope="col">Stok</th>
+                            <th scope="col">Status Produk</th>
+                            <th>Foto Produk</th>
                             <th scope="col">Opsi</th>
                         </tr>
                     </thead>
@@ -78,25 +103,27 @@ include('../../src/database/users.php');
                     <tbody>
 
                         <?php
-                        $users = get_all_penjual();
+                        $pro = get_produk($id);
                         $no = 1;
-                        foreach ($users as $user) {
+                        foreach ($pro as $produk) {
                         ?>
                             <tr>
                                 <th scope="row"><?= $no ?></th>
-                                <td><?= $user['nama_toko'] ?></td>
-                                <td><?= $user['status_toko'] ?></td>
-                                <td><?= $user['deskripsi_toko'] ?></td>
+                                <td><?= $produk['nama_produk'] ?></td>
+                                <td><?= $produk['deskripsi_produk'] ?></td>
+                                <td>Rp <?= number_format($produk['harga']) ?>,-</td>
+                                <td><?= $produk['stok'] ?></td>
+                                <td><?= $produk['status_produk'] ?></td>
+                                <td></td>
 
 
                                 <td>
-                                    <a href="produk.php?id=<?= $user['id_penjual'] ?>" class="btn btn-success">Lihat Produk</a>
-                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal<?= $user['id_penjual'] ?>">Edit</button>
-                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusModal<?= $user['id_penjual'] ?>">Hapus</button>
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal<?= $produk['id_produk'] ?>">Edit</button>
+                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusModal<?= $produk['id_produk'] ?>">Hapus</button>
                                 </td>
                             </tr>
                             <!-- Modal edit -->
-                            <div class="modal fade" id="editModal<?= $user['id_user'] ?>" tabindex="-1" aria-labelledby="editModal<?= $user['id_user'] ?>" aria-hidden="true">
+                            <div class="modal fade" id="editModal<?= $produk['id_produk'] ?>" tabindex="-1" aria-labelledby="editModal<?= $produk['id_produk'] ?>" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -106,41 +133,31 @@ include('../../src/database/users.php');
                                             </button>
                                         </div>
                                         <form action="#" method="post">
-                                            <input type="hidden" name="id_penjual" value="<?= $user['id_penjual'] ?>">
+                                            <input type="hidden" name="id_produk" value="<?= $produk['id_produk'] ?>">
                                             <div class="modal-body">
                                                 <div class="form-group">
                                                     <label for="user">User</label>
-                                                    <select class="form-control" id="user" name="user" required disabled>
-                                                        <?php
-                                                        $u = get_all_user();
-                                                        foreach ($u as $us) {
-                                                        ?>
-                                                            <option value="<?= $us['id_user'] ?>" <?php if ($user['id_user'] == $us['id_user']) {
-                                                                                                        echo "selected";
-                                                                                                    } ?>><?= $us['nama'] ?></option>
-                                                        <?php
-                                                        } ?>
-                                                    </select>
+
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="nama_toko">Nama Toko</label>
-                                                    <input required type="text" class="form-control" id="nama_toko" name="nama_toko" value="<?= $user['nama_toko'] ?>">
+                                                    <label for="nama_produk">Nama Toko</label>
+                                                    <input required type="text" class="form-control" id="nama_produk" name="nama_produk" value="<?= $produk['nama_produk'] ?>">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="status_toko">Status Toko</label>
-                                                    <select name="status_toko" id="status_toko" class="form-control" required>
+                                                    <label for="status_produk">Status Toko</label>
+                                                    <select name="status_produk" id="status_produk" class="form-control" required>
                                                         <option value="" selected disabled>-- Pilih Status --</option>
-                                                        <option value="Aktif" <?php if ($user['status_toko'] == "Aktif") {
+                                                        <option value="Aktif" <?php if ($produk['status_produk'] == "Aktif") {
                                                                                     echo "selected";
                                                                                 } ?>>Aktif</option>
-                                                        <option value="Tidak Aktif" <?php if ($user['status_toko'] == "Tidak Aktif") {
+                                                        <option value="Tidak Aktif" <?php if ($produk['status_produk'] == "Tidak Aktif") {
                                                                                         echo "selected";
                                                                                     } ?>>Tidak Aktif</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="deskripsi_toko">Deskripsi Toko</label>
-                                                    <textarea name="deskripsi_toko" id="deskripsi_toko" class="form-control" cols="30" rows="5" required><?= $user['deskripsi_toko'] ?></textarea>
+                                                    <label for="deskripsi_produk">Deskripsi Toko</label>
+                                                    <textarea name="deskripsi_produk" id="deskripsi_produk" class="form-control" cols="30" rows="5" required><?= $produk['deskripsi_produk'] ?></textarea>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -154,7 +171,7 @@ include('../../src/database/users.php');
                             <!-- End Modal edit -->
 
                             <!-- Modal hapus -->
-                            <div class="modal fade" id="hapusModal<?= $user['id_penjual'] ?>" tabindex="-1" role="dialog" aria-labelledby="hapusModal1Label" aria-hidden="true">
+                            <div class="modal fade" id="hapusModal<?= $produk['id_produk'] ?>" tabindex="-1" role="dialog" aria-labelledby="hapusModal1Label" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -169,7 +186,7 @@ include('../../src/database/users.php');
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                                             <form action="#" method="POST">
-                                                <input type="hidden" name="id" value="<?= $user['id_penjual'] ?>">
+                                                <input type="hidden" name="id" value="<?= $produk['id_produk'] ?>">
                                                 <button type="submit" name="delete_data" class="btn btn-danger">Hapus</button>
                                             </form>
                                         </div>
@@ -190,55 +207,35 @@ include('../../src/database/users.php');
         </div>
     </div>
 </section>
+
 <?php
 
-// Simpan data
 if (isset($_POST['save_tambah'])) {
-    $id_user = $_POST['user'];
-    $nama_toko = $_POST['nama_toko'];
-    $status_toko = "Aktif";
-    $deskripsi_toko = $_POST['deskripsi_toko'];
-
-    $result = create_penjual($id_user, $nama_toko, $status_toko, $deskripsi_toko);
-    if ($result) {
-        echo "<script>alert('Data berhasil ditambahkan!')</script>";
-        echo "<script>window.location.href='index.php'</script>";
-    } else {
-        echo "<script>alert('Data gagal ditambahkan!')</script>";
-        echo "<script>window.location.href='index.php'</script>";
-    }
-}
-// end simpan data
-
-// Edit data
-if (isset($_POST['save_edit'])) {
     $id_penjual = $_POST['id_penjual'];
-    $nama_toko = $_POST['nama_toko'];
-    $status_toko = $_POST['status_toko'];
-    $deskripsi_toko = $_POST['deskripsi_toko'];
+    $id_kategori = $_POST['id_kategori'];
+    $nama_produk = $_POST['nama_produk'];
+    $deskripsi_produk = $_POST['deskripsi_produk'];
+    $harga = $_POST['harga'];
+    $stok = $_POST['stok'];
+    $status_produk = "Aktif";
 
-    $result = update_penjual($id_penjual, $nama_toko, $status_toko, $deskripsi_toko);
+    // ambil data file
+    $namaFile = $_FILES['foto_produk']['name'];
+    $namaSementara = $_FILES['foto_produk']['tmp_name'];
+
+    // tentukan lokasi file akan dipindahkan
+    $dirUpload = "terupload/";
+
+    // pindahkan file
+    $terupload = move_uploaded_file($namaSementara, $dirUpload . $namaFile);
+
+    $result = create_produk($id_penjual, $id_kategori, $nama_produk, $deskripsi_produk, $harga, $stok, $status_produk, $namaFile);
     if ($result) {
-        echo "<script>alert('Data berhasil diubah')</script>";
-        echo "<script>window.location.href='index.php'</script>";
+        echo "<script>alert('Data berhasil ditambahkan');window.location.href='produk.php?id=$id_penjual';</script>";
     } else {
-        echo "<script>alert('Data gagal diubah')</script>";
-        echo "<script>window.location.href='index.php'</script>";
+        echo "<script>alert('Data gagal ditambahkan');window.location.href='produk.php?id=$id_penjual';</script>";
     }
 }
-// end edit data
 
-// Hapus data
-if (isset($_POST['delete_data'])) {
-    $id_penjual = $_POST['id'];
-    $result = delete_penjual($id_penjual);
-    if ($result) {
-        echo "<script>alert('Data berhasil dihapus')</script>";
-        echo "<script>window.location.href='index.php'</script>";
-    } else {
-        echo "<script>alert('Data gagal dihapus')</script>";
-        echo "<script>window.location.href='index.php'</script>";
-    }
-}
-// end hapus data
-include('../../layout/footer.php') ?>
+include('../../layout/footer.php');
+?>

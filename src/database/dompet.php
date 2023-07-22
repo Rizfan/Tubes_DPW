@@ -33,12 +33,12 @@ function update_dompet($id_dompet = null, $saldo = null)
     }
 }
 
-function delete_dompet($id_dompet = null)
+function delete_dompet($id_penjual = null)
 {
     try {
         $db = connect();
-        $query = $db->prepare("DELETE FROM dompet WHERE id_dompet = :id_dompet");
-        $query->bindParam(':id_dompet', $id_dompet);
+        $query = $db->prepare("DELETE FROM dompet WHERE id_penjual = :id_penjual");
+        $query->bindParam(':id_penjual', $id_penjual);
         $query->execute();
         return true;
     } catch (PDOException $e) {

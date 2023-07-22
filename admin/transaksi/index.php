@@ -51,7 +51,7 @@ include('../../src/database/penjual.php');
                                     <td><?= $t['tanggal_pembayaran'] ?></td>
                                 <?php } ?>
                                 <td>
-                                    <a href="#" class="btn btn-success btn-sm">Detail Transaksi</a>
+                                    <a href="detail_transaksi.php?id=<?= $t['id_transaksi'] ?>" class="btn btn-success btn-sm">Detail Transaksi</a>
                                     <button type="button" class="btn btn-primary btn-sm my-1" data-toggle="modal" data-target="#editModal<?= $t['id_transaksi'] ?>">Edit</button>
                                 </td>
                             </tr>

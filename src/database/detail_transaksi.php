@@ -68,7 +68,7 @@ function get_detail($id_transaksi = null)
 {
     try {
         $db = connect();
-        $query = $db->prepare("SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.id_transaksi = transaksi.id_transaksi JOIN produk ON detail_transaksi.id_produk = produk.id_produk WHERE detail_transaksi.id_transaksi = :id_transaksi");
+        $query = $db->prepare("SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.id_transaksi = transaksi.id_transaksi JOIN produk ON detail_transaksi.id_produk = produk.id_produk WHERE detail_transaksi.id_transaksi = :id_transaksi ORDER BY id_detail_transaksi DESC");
         $query->bindParam(':id_transaksi', $id_transaksi);
         $query->execute();
         $result = $query->fetchAll(PDO::FETCH_ASSOC);

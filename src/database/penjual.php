@@ -36,7 +36,7 @@ function get_id_penjual()
         $db = null;
     }
 }
-function create_penjual($id_user = null, $nama_toko = null, $status_toko = null, $deskripsi_toko = null)
+function create_penjual($id_user = null, $nama_toko = null, $status_toko = "Aktif", $deskripsi_toko = null)
 {
     try {
         $db = connect();
@@ -84,10 +84,12 @@ function update_penjual($id_penjual = null, $nama_toko = null, $status_toko = nu
 function delete_penjual($id_penjual = null)
 {
     try {
+        delete_dompet($id_penjual);
         $db = connect();
         $query = $db->prepare("DELETE FROM penjual WHERE id_penjual = :id_penjual");
         $query->bindParam(':id_penjual', $id_penjual);
         $query->execute();
+
         return true;
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
@@ -100,9 +102,25 @@ function get_all_penjual()
 {
     try {
         $db = connect();
-        $query = $db->prepare("SELECT * FROM penjual JOIN user ON penjual.id_user = user.id_user");
+        $query = $db->prepare("SELECT * FROM penjual JOIN user ON penjual.id_user = user.id_user ORDER BY id_penjual DESC");
         $query->execute();
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    } finally {
+        $db = null;
+    }
+}
+
+function get_penjual($id_penjual = null)
+{
+    try {
+        $db = connect();
+        $query = $db->prepare("SELECT * FROM penjual JOIN user ON penjual.id_user = user.id_user WHERE id_penjual = :id_penjual");
+        $query->bindParam(':id_penjual', $id_penjual);
+        $query->execute();
+        $result = $query->fetch(PDO::FETCH_ASSOC);
         return $result;
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());

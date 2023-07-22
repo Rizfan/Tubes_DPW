@@ -75,7 +75,7 @@ function get_all_transaksi()
 {
     try {
         $db = connect();
-        $query = $db->prepare("SELECT * FROM transaksi JOIN user ON transaksi.id_user = user.id_user JOIN penjual ON transaksi.id_penjual = penjual.id_penjual");
+        $query = $db->prepare("SELECT * FROM transaksi JOIN user ON transaksi.id_user = user.id_user JOIN penjual ON transaksi.id_penjual = penjual.id_penjual Order By id_transaksi DESC");
         $query->execute();
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;

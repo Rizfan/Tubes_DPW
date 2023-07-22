@@ -35,7 +35,7 @@ function get_all_user()
 
     try {
         $db = connect();
-        $query = $db->prepare("SELECT * FROM user");
+        $query = $db->prepare("SELECT * FROM user Order By id_user DESC");
         $query->execute();
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
