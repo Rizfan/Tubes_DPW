@@ -229,6 +229,7 @@ include('../../src/database/users.php');
 </section>
 <?php
 
+include('../../layout/footer.php');
 // Simpan data
 if (isset($_POST['save_tambah'])) {
     $username = $_POST['username'];
@@ -242,13 +243,35 @@ if (isset($_POST['save_tambah'])) {
     $tanggal_lahir = "";
 
     $result = create_user($username, $password, $email, $nama_lengkap, $no_hp, $link_foto_user, $tanggal_lahir, $role, $alamat);
-    if ($result) {
-        echo "<script>alert('Data berhasil ditambahkan')</script>";
-        echo "<script>window.location.href='index.php'</script>";
-    } else {
-        echo "<script>alert('Data gagal ditambahkan')</script>";
-        echo "<script>window.location.href='index.php'</script>";
-    }
+    if ($result) { ?>
+        <script>
+            Swal.fire({
+                title: 'Success!',
+                text: 'Berhasil Menyimpan Data!',
+                icon: 'success',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "index.php";
+
+                }
+            });
+        </script>
+    <?php } else { ?>
+        <script>
+            Swal.fire({
+                title: 'Error!',
+                text: 'Gagal Menyimpan Data!',
+                icon: 'error',
+                confirmButtonText: 'Back!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "index.php";
+
+                }
+            });
+        </script>
+    <?php }
 }
 // end simpan data
 
@@ -266,13 +289,35 @@ if (isset($_POST['save_edit'])) {
     $tanggal_lahir = "";
 
     $result = update_user($id_user, $username, $password, $email, $nama_lengkap, $no_hp, $link_foto_user, $tanggal_lahir, $role, $alamat);
-    if ($result) {
-        echo "<script>alert('Data berhasil diubah')</script>";
-        echo "<script>window.location.href='index.php'</script>";
-    } else {
-        echo "<script>alert('Data gagal diubah')</script>";
-        echo "<script>window.location.href='index.php'</script>";
-    }
+    if ($result) { ?>
+        <script>
+            Swal.fire({
+                title: 'Success!',
+                text: 'Berhasil Mengubah Data!',
+                icon: 'success',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "index.php";
+
+                }
+            });
+        </script>
+    <?php } else { ?>
+        <script>
+            Swal.fire({
+                title: 'Error!',
+                text: 'Gagal Mengubah Data!',
+                icon: 'error',
+                confirmButtonText: 'Back!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "index.php";
+
+                }
+            });
+        </script>
+    <?php }
 }
 // end edit data
 
@@ -280,13 +325,35 @@ if (isset($_POST['save_edit'])) {
 if (isset($_POST['delete_data'])) {
     $id_user = $_POST['id'];
     $result = delete_user($id_user);
-    if ($result) {
-        echo "<script>alert('Data berhasil dihapus')</script>";
-        echo "<script>window.location.href='index.php'</script>";
-    } else {
-        echo "<script>alert('Data gagal dihapus')</script>";
-        echo "<script>window.location.href='index.php'</script>";
-    }
+    if ($result) { ?>
+        <script>
+            Swal.fire({
+                title: 'Success!',
+                text: 'Berhasil Menghapus Data!',
+                icon: 'success',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "index.php";
+
+                }
+            });
+        </script>
+    <?php } else { ?>
+        <script>
+            Swal.fire({
+                title: 'Error!',
+                text: 'Gagal Menghapus Data!',
+                icon: 'error',
+                confirmButtonText: 'Back!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "index.php";
+
+                }
+            });
+        </script>
+<?php }
 }
-// end hapus data
-include('../../layout/footer.php') ?>
+// end hapus data 
+?>

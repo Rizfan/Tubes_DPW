@@ -51,6 +51,21 @@ function delete_riwayat_dompet($id_riwayat_dompet = null)
     }
 }
 
+function delete_riwayat($id_dompet = null)
+{
+    try {
+        $db = connect();
+        $query = $db->prepare("DELETE FROM riwayat_dompet WHERE id_dompet = :id_dompet");
+        $query->bindParam(':id_dompet', $id_dompet);
+        $query->execute();
+        return true;
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    } finally {
+        $db = null;
+    }
+}
+
 function get_all_riwayat()
 {
     try {

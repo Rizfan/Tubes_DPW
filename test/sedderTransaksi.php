@@ -12,7 +12,7 @@ require_once '.././src/utils.php';
 $user = get_all_user();
 $i = 0;
 foreach ($user as $value) {
-    $id_penjual = 2;
+    $id_penjual = NULL;
     $id_user = $value['id_user'];
     $total_harga_pembelian = rand(100000000, 999999999);
     $status_pembayaran = "Belum Lunas";

@@ -70,7 +70,7 @@ include('../../src/database/users.php');
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col">Pembeli</th>
-                            <th scope="col">Toko / Penjual</th>
+                            <!-- <th scope="col">Toko / Penjual</th> -->
                             <th scope="col">Total Pembelian</th>
                             <th scope="col">Status Pembayaran</th>
                             <th scope="col">Status Transaksi</th>
@@ -92,7 +92,7 @@ include('../../src/database/users.php');
                             <tr>
                                 <th scope="row"><?= $no ?></th>
                                 <td><?= $t['nama'] ?></td>
-                                <td><?= $t['nama_toko'] ?></td>
+                                <!-- <td><?= $t['nama_toko'] ?></td> -->
                                 <td>Rp <?= number_format($t['total_harga_pembelian']) ?>,-</td>
                                 <td>
                                     <?php if ($t['status_pembayaran'] == "Lunas") { ?>
@@ -117,7 +117,7 @@ include('../../src/database/users.php');
                                     </select>
                                 </td>
                                 <td><?= $t['tanggal_transaksi'] ?></td>
-                                <?php if ($t['tanggal_pembayaran'] == null) { ?>
+                                <?php if ($t['status_pembayaran'] == "Belum Lunas") { ?>
                                     <td>Belum dibayar</td>
                                 <?php } else { ?>
                                     <td><?= $t['tanggal_pembayaran'] ?></td>
@@ -125,6 +125,16 @@ include('../../src/database/users.php');
                                 <td>
                                     <a href="detail_transaksi.php?id=<?= $t['id_transaksi'] ?>" class="btn btn-success btn-sm">Detail Transaksi</a>
                                     <button type="button" class="btn btn-primary btn-sm my-1" data-toggle="modal" data-target="#editModal<?= $t['id_transaksi'] ?>">Edit</button>
+                                    <form action="#" method="post">
+                                        <input type="hidden" value="<?= $t['id_transaksi'] ?>" name="id">
+                                        <?php if ($t['status_pembayaran'] == "Lunas") { ?>
+                                            <input type="hidden" value="Belum Lunas" name="status">
+                                            <button class="btn btn-danger btn-sm" type="submit" name="bayar">Batal Bayar</button>
+                                        <?php } else { ?>
+                                            <input type="hidden" value="Lunas" name="status">
+                                            <button class="btn btn-info btn-sm" type="submit" name="bayar">Bayar</button>
+                                        <?php } ?>
+                                    </form>
                                 </td>
                             </tr>
                             <!-- Modal edit -->
@@ -192,4 +202,40 @@ include('../../src/database/users.php');
 </section>
 <?php
 include('../../layout/footer.php');
+
+if (isset($_POST['bayar'])) {
+    $id = $_POST['id'];
+    $status = $_POST['status'];
+    $tanggal = date("Y-m-d H:i:s");
+    $result = bayar($id, $status, $tanggal);
+    if ($result) { ?>
+        <script>
+            Swal.fire({
+                title: 'Success!',
+                text: 'Berhasil Mengubah Status Pembayaran!',
+                icon: 'success',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "index.php";
+
+                }
+            });
+        </script>
+    <?php } else { ?>
+        <script>
+            Swal.fire({
+                title: 'Error!',
+                text: 'Gagal Mengubah Status Pembayaran!',
+                icon: 'error',
+                confirmButtonText: 'Back!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "index.php";
+
+                }
+            });
+        </script>
+<?php }
+}
 ?>

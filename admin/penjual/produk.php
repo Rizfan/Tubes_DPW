@@ -248,6 +248,8 @@ include('../../src/database/kategori.php');
 
 <?php
 
+include('../../layout/footer.php');
+
 if (isset($_POST['save_tambah'])) {
     $id_penjual = $_POST['id_penjual'];
     $id_kategori = $_POST['id_kategori'];
@@ -264,20 +266,70 @@ if (isset($_POST['save_tambah'])) {
     $ukuran = $_FILES['foto_produk']['size'];
     $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
-    if (!in_array($ext, $ekstensi)) {
-        echo "<script>alert('Data gagal ditambahkan');window.location.href='produk.php?id=$id_penjual';</script>";
+    if (!in_array($ext, $ekstensi)) { ?>
+        <script>
+            Swal.fire({
+                title: 'Error!',
+                text: 'Gagal Menyimpan Data!',
+                icon: 'error',
+                confirmButtonText: 'Back!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "produk.php?id=<?= $id ?>";
+
+                }
+            });
+        </script>
+        <?php
     } else {
         if ($ukuran < 1044070) {
             $xx = $rand . '_' . $filename;
             move_uploaded_file($_FILES['foto_produk']['tmp_name'], '../../assets/upload/produk/' . $rand . '_' . $filename);
             $result = create_produk($id_penjual, $id_kategori, $nama_produk, $deskripsi_produk, $harga, $stok, $status_produk, $xx);
-            if ($result) {
-                echo "<script>alert('Data berhasil ditambahkan');window.location.href='produk.php?id=$id_penjual';</script>";
-            } else {
-                echo "<script>alert('Data gagal ditambahkan');window.location.href='produk.php?id=$id_penjual';</script>";
-            }
-        } else {
-            echo "<script>alert('Data gagal ditambahkan');window.location.href='produk.php?id=$id_penjual';</script>";
+            if ($result) { ?>
+                <script>
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Berhasil Menyimpan Data!',
+                        icon: 'success',
+                        confirmButtonText: 'Yes!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location = "produk.php?id=<?= $id ?>";
+
+                        }
+                    });
+                </script>
+            <?php } else { ?>
+                <script>
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Gagal Menyimpan Data!',
+                        icon: 'error',
+                        confirmButtonText: 'Back!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location = "produk.php?id=<?= $id ?>";
+
+                        }
+                    });
+                </script>
+            <?php }
+        } else { ?>
+            <script>
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Gagal Menyimpan Data!',
+                    icon: 'error',
+                    confirmButtonText: 'Back!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = "produk.php?id=<?= $id ?>";
+
+                    }
+                });
+            </script>
+        <?php
         }
     }
     // End Image Upload
@@ -303,28 +355,100 @@ if (isset($_POST['save_edit'])) {
 
     if ($filename == null) {
         $result = update_produk($id_produk, $id_penjual, $id_kategori, $nama_produk, $deskripsi_produk, $harga, $stok, $status_produk, $foto_lama);
-        if ($result) {
-            echo "<script>alert('Data berhasil diubah');window.location.href='produk.php?id=$id_penjual';</script>";
-        } else {
-            echo "<script>alert('Data gagal diubah');window.location.href='produk.php?id=$id_penjual';</script>";
-        }
+        if ($result) { ?>
+            <script>
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Berhasil Memperbarui Data!',
+                    icon: 'success',
+                    confirmButtonText: 'Yes!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = "produk.php?id=<?= $id ?>";
+
+                    }
+                });
+            </script>
+        <?php } else { ?>
+            <script>
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Gagal Memperbarui Data!',
+                    icon: 'error',
+                    confirmButtonText: 'Back!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = "produk.php?id=<?= $id ?>";
+
+                    }
+                });
+            </script>
+        <?php }
     } else {
-        if (!in_array($ext, $ekstensi)) {
-            echo "<script>alert('Data gagal diubah');window.location.href='produk.php?id=$id_penjual';</script>";
-        } else {
+        if (!in_array($ext, $ekstensi)) { ?>
+            <script>
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Gagal Memperbarui Data!',
+                    icon: 'error',
+                    confirmButtonText: 'Yes!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = "produk.php?id=<?= $id ?>";
+
+                    }
+                });
+            </script>
+            <?php } else {
             if ($ukuran < 1044070) {
                 $xx = $rand . '_' . $filename;
                 unlink('../../assets/upload/produk/' . $foto_lama);
                 move_uploaded_file($_FILES['foto_produk']['tmp_name'], '../../assets/upload/produk/' . $rand . '_' . $filename);
                 $result = update_produk($id_produk, $id_penjual, $id_kategori, $nama_produk, $deskripsi_produk, $harga, $stok, $status_produk, $xx);
-                if ($result) {
-                    echo "<script>alert('Data berhasil diubah');window.location.href='produk.php?id=$id_penjual';</script>";
-                } else {
-                    echo "<script>alert('Data gagal diubah');window.location.href='produk.php?id=$id_penjual';</script>";
-                }
-            } else {
-                echo "<script>alert('Data gagal diubah');window.location.href='produk.php?id=$id_penjual';</script>";
-            }
+                if ($result) { ?>
+                    <script>
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Berhasil Memperbarui Data!',
+                            icon: 'success',
+                            confirmButtonText: 'Yes!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = "produk.php?id=<?= $id ?>";
+
+                            }
+                        });
+                    </script>
+                <?php } else { ?>
+                    <script>
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Gagal Memperbarui Data!',
+                            icon: 'error',
+                            confirmButtonText: 'Back!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = "produk.php?id=<?= $id ?>";
+
+                            }
+                        });
+                    </script>
+                <?php }
+            } else { ?>
+                <script>
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Gagal Memperbarui Data!',
+                        icon: 'error',
+                        confirmButtonText: 'Yes!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location = "produk.php?id=<?= $id ?>";
+
+                        }
+                    });
+                </script>
+        <?php }
         }
     }
 }
@@ -335,12 +459,34 @@ if (isset($_POST['delete_data'])) {
     $id_penjual = $_POST['id_penjual'];
     unlink('../../assets/upload/produk/' . $produk['link_foto_produk']);
     $result = delete_produk($id);
-    if ($result) {
-        echo "<script>alert('Data berhasil dihapus');window.location.href='produk.php?id=$id_penjual';</script>";
-    } else {
-        echo "<script>alert('Data gagal dihapus');window.location.href='produk.php?id=$id_penjual';</script>";
-    }
-}
+    if ($result) { ?>
+        <script>
+            Swal.fire({
+                title: 'Success!',
+                text: 'Berhasil Menghapus Data!',
+                icon: 'success',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "produk.php?id=<?= $id ?>";
 
-include('../../layout/footer.php');
+                }
+            });
+        </script>
+    <?php } else { ?>
+        <script>
+            Swal.fire({
+                title: 'Error!',
+                text: 'Gagal Menghapus Data!',
+                icon: 'error',
+                confirmButtonText: 'Back!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "produk.php?id=<?= $id ?>";
+
+                }
+            });
+        </script>
+<?php }
+}
 ?>

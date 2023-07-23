@@ -51,7 +51,7 @@
     <script src="../assets/js/sb-admin-2.min.js"></script>
     <script src="../assets/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.19/dist/sweetalert2.all.min.js"></script>
 <?php } else { ?>
     <script src="../../assets/vendor/jquery/jquery.min.js"></script>
     <script src="../../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -59,7 +59,7 @@
     <script src="../../assets/js/sb-admin-2.min.js"></script>
     <script src="../../assets/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../../assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.19/dist/sweetalert2.all.min.js"></script>
 <?php } ?>
 <script>
     $(document).ready(function() {
@@ -73,11 +73,16 @@
             cache: false,
             type: 'POST',
             data: {
-                func: 'bayar',
+                func: 'status',
                 data: result
             },
             success: function(data) {
-                alert("Status Berhasil Diubah!");
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Berhasil Memperbarui Status Transaksi!',
+                    icon: 'success',
+                    confirmButtonText: 'Yes!'
+                })
             },
             error: function(xhr, ajaxOptions, thrownError) {
                 alert(xhr.responseText);

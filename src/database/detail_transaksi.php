@@ -2,12 +2,14 @@
 
 require_once __DIR__ . '/database.php';
 
-function create_detail_transaksi($jumlah_barang = null)
+function create_detail_transaksi($id_transaksi = null, $id_produk = null, $jumlah_barang = null)
 {
     try {
         $db = connect();
         $query = $db->prepare("INSERT INTO detail_transaksi (id_detail_transaksi, id_transaksi, id_produk, jumlah_barang) 
-                            VALUES (null, :jumlah_barang)");
+                            VALUES (null,:id_transaksi, :id_produk, :jumlah_barang)");
+        $query->bindParam(':id_transaksi', $id_transaksi);
+        $query->bindParam(':id_produk', $id_produk);
         $query->bindParam(':jumlah_barang', $jumlah_barang);
         $query->execute();
         return true;

@@ -3,7 +3,7 @@ $tittle = "Data Dompet";
 include('../../layout/master.php');
 include('../../src/database/dompet.php');
 include('../../src/database/penjual.php');
-include('../../src/database/riwayat_dompet.php');
+include_once('../../src/database/riwayat_dompet.php');
 ?>
 
 <section id="manage_dompet">
@@ -166,13 +166,41 @@ include('../../src/database/riwayat_dompet.php');
 
 <?php
 
+
+
+include('../../layout/footer.php');
 if (isset($_POST['save_edit'])) {
     $id_dompet = $_POST['id_dompet'];
     $saldo = $_POST['saldo'];
 
-    update_dompet($id_dompet, $saldo);
-    echo "<script>location='index.php'</script>";
-}
+    if (update_dompet($id_dompet, $saldo)) { ?>
+        <script>
+            Swal.fire({
+                title: 'Success!',
+                text: 'Berhasil Memperbarui Status Transaksi!',
+                icon: 'success',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "index.php";
 
-include('../../layout/footer.php');
+                }
+            });
+        </script>
+    <?php } else { ?>
+        <script>
+            Swal.fire({
+                title: 'Error!',
+                text: 'Gagal Memperbarui Status Transaksi!',
+                icon: 'error',
+                confirmButtonText: 'Back!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "index.php";
+
+                }
+            });
+        </script>
+<?php }
+}
 ?>

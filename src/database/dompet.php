@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/database.php';
+require_once __DIR__ . '/riwayat_dompet.php';
 
 function create_dompet($id_penjual = null)
 {
@@ -37,10 +38,28 @@ function delete_dompet($id_penjual = null)
 {
     try {
         $db = connect();
+        $id_dompet = get_dompet($id_penjual)['id_dompet'];
+        delete_riwayat($id_dompet);
         $query = $db->prepare("DELETE FROM dompet WHERE id_penjual = :id_penjual");
         $query->bindParam(':id_penjual', $id_penjual);
         $query->execute();
         return true;
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    } finally {
+        $db = null;
+    }
+}
+
+function get_dompet($id_penjual = null)
+{
+    try {
+        $db = connect();
+        $query = $db->prepare("SELECT * FROM dompet WHERE id_penjual = :id_penjual");
+        $query->bindParam(':id_penjual', $id_penjual);
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result[0];
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
     } finally {

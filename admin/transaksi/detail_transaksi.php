@@ -2,6 +2,7 @@
 $tittle = "Data Detail Transaksi";
 include('../../layout/master.php');
 include('../../src/database/transaksi.php');
+include('../../src/database/produk.php');
 include('../../src/database/detail_transaksi.php');
 $id_transaksi = $_GET['id'];
 ?>
@@ -9,7 +10,54 @@ $id_transaksi = $_GET['id'];
 
     <div class="card mt-4">
         <div class="card-body">
-            <button class="btn btn-primary mb-3" type="button">Tambah Data</button>
+
+
+            <!-- Button Tambah -->
+            <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#tambahModal">
+                Tambah Data
+            </button>
+            <!-- End Button Tambah -->
+
+            <!-- Modal Tambah -->
+            <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModal" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="tambahModalLabel">Tambah Data</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="#" method="post">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="produk">Produk</label>
+                                    <select class="form-control" id="produk" name="produk" required>
+                                        <option value="" selected disabled>-- Pilih Produk --</option>
+                                        <?php
+                                        $u = get_all_produk();
+                                        foreach ($u as $us) {
+                                        ?>
+                                            <option value="<?= $us['id_produk'] . '_' . $us['harga'] ?>"><?= $us['nama_produk'] ?></option>
+                                        <?php
+                                        } ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="qty">Jumlah</label>
+                                    <input required type="text" class="form-control" id="qty" name="qty">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" name="save_tambah" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- End Modal Tambah -->
+
             <!-- Table data -->
             <div class="table-responsive">
 
@@ -61,4 +109,47 @@ $id_transaksi = $_GET['id'];
 
 <?php
 include('../../layout/footer.php');
+
+if (isset($_POST['save_tambah'])) {
+    $data = explode('_', $_POST['produk']);
+    $id_produk = $data[0];
+    $jumlah_barang = $_POST['qty'];
+    $harga = $data[1];
+    $id_transaksi = $id_transaksi;
+    $total_pembelian = $harga * $jumlah_barang;
+    $t = get_transaksi($id_transaksi);
+    $total_harga = $t['total_harga_pembelian'] + $total_pembelian;
+    $r = update_total($total_harga, $id_transaksi);
+    $result = create_detail_transaksi($id_transaksi, $id_produk, $jumlah_barang);
+
+    if ($result && $r) { ?>
+        <script>
+            Swal.fire({
+                title: 'Success!',
+                text: 'Berhasil Menambahkan Produk yang Dibeli!',
+                icon: 'success',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "detail_transaksi.php?id=<?= $id_transaksi ?>";
+
+                }
+            });
+        </script>
+    <?php } else { ?>
+        <script>
+            Swal.fire({
+                title: 'Error!',
+                text: 'Gagal Menambahkan Produk yang Dibeli!',
+                icon: 'error',
+                confirmButtonText: 'Back!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "detail_transaksi.php?id=<?= $id_transaksi ?>";
+
+                }
+            });
+        </script>
+<?php }
+}
 ?>

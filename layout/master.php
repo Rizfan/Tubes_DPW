@@ -21,6 +21,7 @@
 
         <link href="../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
 
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.19/dist/sweetalert2.min.css">
     <?php } else { ?>
 
         <!-- Custom fonts for this template-->
@@ -31,6 +32,8 @@
         <link rel="stylesheet" href="../../assets/css/sb-admin-2.min.css">
 
         <link href="../../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.19/dist/sweetalert2.min.css">
     <?php } ?>
 </head>
 

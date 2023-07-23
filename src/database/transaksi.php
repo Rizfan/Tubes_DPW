@@ -75,7 +75,7 @@ function get_all_transaksi()
 {
     try {
         $db = connect();
-        $query = $db->prepare("SELECT * FROM transaksi JOIN user ON transaksi.id_user = user.id_user JOIN penjual ON transaksi.id_penjual = penjual.id_penjual Order By id_transaksi DESC");
+        $query = $db->prepare("SELECT * FROM transaksi JOIN user ON transaksi.id_user = user.id_user Order By id_transaksi DESC");
         $query->execute();
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
@@ -86,7 +86,7 @@ function get_all_transaksi()
     }
 }
 
-function bayar($id_transaksi = null, $status_transaksi = null)
+function update_status($id_transaksi = null, $status_transaksi = null)
 {
     try {
         $db = connect();
@@ -100,18 +100,60 @@ function bayar($id_transaksi = null, $status_transaksi = null)
     }
 }
 
+function bayar($id_transaksi = null, $status_pembayaran = null, $tanggal_pembayaran = null)
+{
+    try {
+        $db = connect();
+        $query = $db->prepare("UPDATE transaksi SET status_pembayaran = :status_pembayaran, tanggal_pembayaran = :tanggal_pembayaran WHERE id_transaksi = :id_transaksi");
+        $query->bindParam(':id_transaksi', $id_transaksi);
+        $query->bindParam(':status_pembayaran', $status_pembayaran);
+        $query->bindParam(':tanggal_pembayaran', $tanggal_pembayaran);
+        $query->execute();
+        return true;
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    }
+}
+
+function update_total($total_harga_pembelian = null, $id_transaksi = null)
+{
+    try {
+        $db = connect();
+        $query = $db->prepare("UPDATE transaksi SET total_harga_pembelian = :total_harga_pembelian WHERE id_transaksi = :id_transaksi");
+        $query->bindParam(':id_transaksi', $id_transaksi);
+        $query->bindParam(':total_harga_pembelian', $total_harga_pembelian);
+        $query->execute();
+        return true;
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    }
+}
+
+function get_transaksi($id_transaksi = null)
+{
+    try {
+        $db = connect();
+        $query = $db->prepare("SELECT * FROM transaksi WHERE id_transaksi = :id_transaksi");
+        $query->bindParam(':id_transaksi', $id_transaksi);
+        $query->execute();
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        return $result;
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    } finally {
+        $db = null;
+    }
+}
+
 if (isset($_POST['func'])) {
     $func = $_POST['func'];
     switch ($func) {
-        case 'bayar':
+        case 'status':
             $data = explode('_', $_POST['data']);
             echo $data[0];
-            bayar($data[0], $data[1]);
+            update_status($data[0], $data[1]);
             break;
         default:
-
-            $data = explode('_', $_POST['data']);
-            bayar($data[0], $data[1]);
             break;
     }
 }

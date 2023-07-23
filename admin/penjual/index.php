@@ -90,13 +90,13 @@ include('../../src/database/users.php');
 
 
                                 <td>
-                                    <a href="produk.php?id=<?= $user['id_penjual'] ?>" class="btn btn-success">Lihat Produk</a>
+                                    <a href="produk.php?id=<?= $user['id_penjual'] ?>" class="btn btn-success btn-sm">Lihat Produk</a>
                                     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal<?= $user['id_penjual'] ?>">Edit</button>
                                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusModal<?= $user['id_penjual'] ?>">Hapus</button>
                                 </td>
                             </tr>
                             <!-- Modal edit -->
-                            <div class="modal fade" id="editModal<?= $user['id_user'] ?>" tabindex="-1" aria-labelledby="editModal<?= $user['id_user'] ?>" aria-hidden="true">
+                            <div class="modal fade" id="editModal<?= $user['id_penjual'] ?>" tabindex="-1" aria-labelledby="editModal<?= $user['id_penjual'] ?>" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -192,6 +192,7 @@ include('../../src/database/users.php');
 </section>
 <?php
 
+include('../../layout/footer.php');
 // Simpan data
 if (isset($_POST['save_tambah'])) {
     $id_user = $_POST['user'];
@@ -200,14 +201,37 @@ if (isset($_POST['save_tambah'])) {
     $deskripsi_toko = $_POST['deskripsi_toko'];
 
     $result = create_penjual($id_user, $nama_toko, $status_toko, $deskripsi_toko);
-    if ($result) {
-        echo "<script>alert('Data berhasil ditambahkan!')</script>";
-        echo "<script>window.location.href='index.php'</script>";
-    } else {
-        echo "<script>alert('Data gagal ditambahkan!')</script>";
-        echo "<script>window.location.href='index.php'</script>";
-    }
+    if ($result) { ?>
+        <script>
+            Swal.fire({
+                title: 'Success!',
+                text: 'Berhasil Menyimpan Data!',
+                icon: 'success',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "index.php";
+
+                }
+            });
+        </script>
+    <?php } else { ?>
+        <script>
+            Swal.fire({
+                title: 'Error!',
+                text: 'Gagal Menyimpan Data!',
+                icon: 'error',
+                confirmButtonText: 'Back!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "index.php";
+
+                }
+            });
+        </script>
+    <?php }
 }
+
 // end simpan data
 
 // Edit data
@@ -218,13 +242,35 @@ if (isset($_POST['save_edit'])) {
     $deskripsi_toko = $_POST['deskripsi_toko'];
 
     $result = update_penjual($id_penjual, $nama_toko, $status_toko, $deskripsi_toko);
-    if ($result) {
-        echo "<script>alert('Data berhasil diubah')</script>";
-        echo "<script>window.location.href='index.php'</script>";
-    } else {
-        echo "<script>alert('Data gagal diubah')</script>";
-        echo "<script>window.location.href='index.php'</script>";
-    }
+    if ($result) { ?>
+        <script>
+            Swal.fire({
+                title: 'Success!',
+                text: 'Berhasil Mengubah Data!',
+                icon: 'success',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "index.php";
+
+                }
+            });
+        </script>
+    <?php } else { ?>
+        <script>
+            Swal.fire({
+                title: 'Error!',
+                text: 'Gagal Mengubah Data!',
+                icon: 'error',
+                confirmButtonText: 'Back!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "index.php";
+
+                }
+            });
+        </script>
+    <?php }
 }
 // end edit data
 
@@ -232,13 +278,35 @@ if (isset($_POST['save_edit'])) {
 if (isset($_POST['delete_data'])) {
     $id_penjual = $_POST['id'];
     $result = delete_penjual($id_penjual);
-    if ($result) {
-        echo "<script>alert('Data berhasil dihapus')</script>";
-        echo "<script>window.location.href='index.php'</script>";
-    } else {
-        echo "<script>alert('Data gagal dihapus')</script>";
-        echo "<script>window.location.href='index.php'</script>";
-    }
+    if ($result) { ?>
+        <script>
+            Swal.fire({
+                title: 'Success!',
+                text: 'Berhasil Menghapus Data!',
+                icon: 'success',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "index.php";
+
+                }
+            });
+        </script>
+    <?php } else { ?>
+        <script>
+            Swal.fire({
+                title: 'Error!',
+                text: 'Gagal Menghapus Data!',
+                icon: 'error',
+                confirmButtonText: 'Back!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "index.php";
+
+                }
+            });
+        </script>
+<?php }
 }
 // end hapus data
-include('../../layout/footer.php') ?>
+?>
