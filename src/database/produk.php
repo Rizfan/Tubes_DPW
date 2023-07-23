@@ -14,8 +14,7 @@ function create_produk(
 ) {
     try {
         $db = connect();
-        $query = $db->prepare("INSERT INTO produk (id_produk, id_penjual, id_kategori, nama_produk, harga, stok, status_produk, deskripsi_produk, link_foto_produk)
-                            VALUES (null,:id_penjual,:id_kategori, :nama_produk, :stok, :status_produk, :deskripsi_produk, :link_foto_produk)");
+        $query = $db->prepare("INSERT INTO produk (id_produk, id_penjual, id_kategori, nama_produk, deskripsi_produk, harga, stok, status_produk, link_foto_produk) VALUES (null,:id_penjual,:id_kategori, :nama_produk, :deskripsi_produk,:harga, :stok, :status_produk, :link_foto_produk)");
         $query->bindParam(':id_penjual', $id_penjual);
         $query->bindParam(':id_kategori', $id_kategori);
         $query->bindParam(':nama_produk', $nama_produk);
@@ -35,6 +34,8 @@ function create_produk(
 
 function update_produk(
     $id_produk = null,
+    $id_penjual = null,
+    $id_kategori = null,
     $nama_produk = null,
     $deskripsi_produk = null,
     $harga = null,
@@ -44,8 +45,10 @@ function update_produk(
 ) {
     try {
         $db = connect();
-        $query = $db->prepare("UPDATE produk SET nama_produk = :nama_produk, harga = :harga, stok = :stok, status_produk = :status_produk, deskripsi_produk = :deskripsi_produk, link_foto_produk = :link_foto_produk WHERE id_produk = :id_produk");
+        $query = $db->prepare("UPDATE produk SET id_penjual = :id_penjual, id_kategori = :id_kategori, nama_produk = :nama_produk, deskripsi_produk = :deskripsi_produk, harga = :harga, stok = :stok, status_produk = :status_produk, link_foto_produk = :link_foto_produk WHERE id_produk = :id_produk");
         $query->bindParam(':id_produk', $id_produk);
+        $query->bindParam(':id_penjual', $id_penjual);
+        $query->bindParam(':id_kategori', $id_kategori);
         $query->bindParam(':nama_produk', $nama_produk);
         $query->bindParam(':harga', $harga);
         $query->bindParam(':stok', $stok);

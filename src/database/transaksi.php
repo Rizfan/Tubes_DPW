@@ -85,3 +85,33 @@ function get_all_transaksi()
         $db = null;
     }
 }
+
+function bayar($id_transaksi = null, $status_transaksi = null)
+{
+    try {
+        $db = connect();
+        $query = $db->prepare("UPDATE transaksi SET status_transaksi = :status_transaksi WHERE id_transaksi = :id_transaksi");
+        $query->bindParam(':id_transaksi', $id_transaksi);
+        $query->bindParam(':status_transaksi', $status_transaksi);
+        $query->execute();
+        return true;
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    }
+}
+
+if (isset($_POST['func'])) {
+    $func = $_POST['func'];
+    switch ($func) {
+        case 'bayar':
+            $data = explode('_', $_POST['data']);
+            echo $data[0];
+            bayar($data[0], $data[1]);
+            break;
+        default:
+
+            $data = explode('_', $_POST['data']);
+            bayar($data[0], $data[1]);
+            break;
+    }
+}

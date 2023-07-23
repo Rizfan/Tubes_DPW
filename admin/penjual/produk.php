@@ -1,8 +1,12 @@
 <?php
 include('../../src/database/penjual.php');
 $id = $_GET['id'];
-$penjual = get_penjual($id);
-$tittle = "Data Produk dari Toko $penjual[nama_toko]";
+if ($id != 0) {
+    $penjual = get_penjual($id);
+    $tittle = "Data Produk dari Toko $penjual[nama_toko]";
+} else {
+    $tittle = "Data Produk";
+}
 include('../../layout/master.php');
 include('../../src/database/produk.php');
 include('../../src/database/kategori.php');
@@ -33,7 +37,7 @@ include('../../src/database/kategori.php');
                             <input type="hidden" name="id_penjual" value="<?= $id ?>">
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label for="user">Kategori</label>
+                                    <label for="id_kategori">Kategori</label>
                                     <select name="id_kategori" id="id_kategori" class="form-control" required>
                                         <option value="" selected disabled>-- Pilih Kategori --</option>
                                         <?php
@@ -53,7 +57,7 @@ include('../../src/database/kategori.php');
                                     <textarea name="deskripsi_produk" id="deskripsi_produk" class="form-control" cols="30" rows="5" required></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label for="Harga">Harga</label>
+                                    <label for="harga">Harga</label>
                                     <div class="input-group mb-2">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">Rp</div>
@@ -62,11 +66,11 @@ include('../../src/database/kategori.php');
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="Stok">Stok</label>
+                                    <label for="stok">Stok</label>
                                     <input required type="number" class="form-control" id="stok" name="stok">
                                 </div>
                                 <div class="form-group">
-                                    <label for="Foto Produk">Foto Produk</label>
+                                    <label for="foto_produk">Foto Produk</label>
                                     <input type="file" class="form-control" id="foto_produk" name="foto_produk">
                                 </div>
                             </div>
@@ -103,7 +107,11 @@ include('../../src/database/kategori.php');
                     <tbody>
 
                         <?php
-                        $pro = get_produk($id);
+                        if ($id != 0) {
+                            $pro = get_produk($id);
+                        } else {
+                            $pro = get_all_produk();
+                        }
                         $no = 1;
                         foreach ($pro as $produk) {
                         ?>
@@ -114,7 +122,7 @@ include('../../src/database/kategori.php');
                                 <td>Rp <?= number_format($produk['harga']) ?>,-</td>
                                 <td><?= $produk['stok'] ?></td>
                                 <td><?= $produk['status_produk'] ?></td>
-                                <td></td>
+                                <td><a href="../../assets/upload/produk/<?= $produk['link_foto_produk'] ?>" target="_blank">Lihat Foto</a></td>
 
 
                                 <td>
@@ -127,26 +135,54 @@ include('../../src/database/kategori.php');
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="editModalLabel">edit Data</h5>
+                                            <h5 class="modal-title" id="editModalLabel">Edit Data</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form action="#" method="post">
+                                        <form action="#" method="POST" enctype="multipart/form-data">
                                             <input type="hidden" name="id_produk" value="<?= $produk['id_produk'] ?>">
+                                            <input type="hidden" name="id_penjual" value="<?= $produk['id_penjual'] ?>">
                                             <div class="modal-body">
                                                 <div class="form-group">
-                                                    <label for="user">User</label>
-
+                                                    <label for="id_kategori">Kategori</label>
+                                                    <select name="id_kategori" id="id_kategori" class="form-control" required>
+                                                        <option value="" selected disabled>-- Pilih Kategori --</option>
+                                                        <?php
+                                                        $kategori = get_all_kategori();
+                                                        foreach ($kategori as $k) { ?>
+                                                            <option value="<?= $k['id_kategori'] ?>" <?php if ($produk['id_kategori'] == $k['id_kategori']) {
+                                                                                                            echo "selected";
+                                                                                                        } ?>><?= $k['nama_kategori'] ?></option>
+                                                        <?php
+                                                        } ?>
+                                                    </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="nama_produk">Nama Toko</label>
+                                                    <label for="nama_produk">Nama Produk</label>
                                                     <input required type="text" class="form-control" id="nama_produk" name="nama_produk" value="<?= $produk['nama_produk'] ?>">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="status_produk">Status Toko</label>
-                                                    <select name="status_produk" id="status_produk" class="form-control" required>
-                                                        <option value="" selected disabled>-- Pilih Status --</option>
+                                                    <label for="deskripsi_produk">Deskripsi Produk</label>
+                                                    <textarea name="deskripsi_produk" id="deskripsi_produk" class="form-control" cols="30" rows="5" required><?= $produk['deskripsi_produk'] ?></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="harga">Harga</label>
+                                                    <div class="input-group mb-2">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">Rp</div>
+                                                        </div>
+                                                        <input type="number" class="form-control" id="harga" name="harga" placeholder="harga" value="<?= $produk['harga'] ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="stok">Stok</label>
+                                                    <input required type="number" class="form-control" value="<?= $produk['stok'] ?>" id="stok" name="stok">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="status">Status Barang</label>
+                                                    <select name="status" id="status" class="form-control">
+                                                        <option value="" disabled>-- Pilih Status --</option>
                                                         <option value="Aktif" <?php if ($produk['status_produk'] == "Aktif") {
                                                                                     echo "selected";
                                                                                 } ?>>Aktif</option>
@@ -156,8 +192,9 @@ include('../../src/database/kategori.php');
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="deskripsi_produk">Deskripsi Toko</label>
-                                                    <textarea name="deskripsi_produk" id="deskripsi_produk" class="form-control" cols="30" rows="5" required><?= $produk['deskripsi_produk'] ?></textarea>
+                                                    <label for="foto_produk">Foto Produk</label>
+                                                    <input type="file" class="form-control" id="foto_produk" name="foto_produk">
+                                                    <input type="hidden" name="foto_lama" value="<?= $produk['link_foto_produk'] ?>">
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -187,6 +224,7 @@ include('../../src/database/kategori.php');
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                                             <form action="#" method="POST">
                                                 <input type="hidden" name="id" value="<?= $produk['id_produk'] ?>">
+                                                <input type="hidden" name="id_penjual" value="<?= $produk['id_penjual'] ?>">
                                                 <button type="submit" name="delete_data" class="btn btn-danger">Hapus</button>
                                             </form>
                                         </div>
@@ -219,21 +257,88 @@ if (isset($_POST['save_tambah'])) {
     $stok = $_POST['stok'];
     $status_produk = "Aktif";
 
-    // ambil data file
-    $namaFile = $_FILES['foto_produk']['name'];
-    $namaSementara = $_FILES['foto_produk']['tmp_name'];
+    // Image Upload
+    $rand = rand();
+    $ekstensi =  array('png', 'jpg', 'jpeg', 'gif');
+    $filename = $_FILES['foto_produk']['name'];
+    $ukuran = $_FILES['foto_produk']['size'];
+    $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
-    // tentukan lokasi file akan dipindahkan
-    $dirUpload = "terupload/";
-
-    // pindahkan file
-    $terupload = move_uploaded_file($namaSementara, $dirUpload . $namaFile);
-
-    $result = create_produk($id_penjual, $id_kategori, $nama_produk, $deskripsi_produk, $harga, $stok, $status_produk, $namaFile);
-    if ($result) {
-        echo "<script>alert('Data berhasil ditambahkan');window.location.href='produk.php?id=$id_penjual';</script>";
-    } else {
+    if (!in_array($ext, $ekstensi)) {
         echo "<script>alert('Data gagal ditambahkan');window.location.href='produk.php?id=$id_penjual';</script>";
+    } else {
+        if ($ukuran < 1044070) {
+            $xx = $rand . '_' . $filename;
+            move_uploaded_file($_FILES['foto_produk']['tmp_name'], '../../assets/upload/produk/' . $rand . '_' . $filename);
+            $result = create_produk($id_penjual, $id_kategori, $nama_produk, $deskripsi_produk, $harga, $stok, $status_produk, $xx);
+            if ($result) {
+                echo "<script>alert('Data berhasil ditambahkan');window.location.href='produk.php?id=$id_penjual';</script>";
+            } else {
+                echo "<script>alert('Data gagal ditambahkan');window.location.href='produk.php?id=$id_penjual';</script>";
+            }
+        } else {
+            echo "<script>alert('Data gagal ditambahkan');window.location.href='produk.php?id=$id_penjual';</script>";
+        }
+    }
+    // End Image Upload
+}
+
+if (isset($_POST['save_edit'])) {
+    $id_produk = $_POST['id_produk'];
+    $id_penjual = $_POST['id_penjual'];
+    $id_kategori = $_POST['id_kategori'];
+    $nama_produk = $_POST['nama_produk'];
+    $deskripsi_produk = $_POST['deskripsi_produk'];
+    $harga = $_POST['harga'];
+    $stok = $_POST['stok'];
+    $status_produk = $_POST['status'];
+    $foto_lama = $_POST['foto_lama'];
+
+    // Image Upload
+    $rand = rand();
+    $ekstensi =  array('png', 'jpg', 'jpeg', 'gif');
+    $filename = $_FILES['foto_produk']['name'];
+    $ukuran = $_FILES['foto_produk']['size'];
+    $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+    if ($filename == null) {
+        $result = update_produk($id_produk, $id_penjual, $id_kategori, $nama_produk, $deskripsi_produk, $harga, $stok, $status_produk, $foto_lama);
+        if ($result) {
+            echo "<script>alert('Data berhasil diubah');window.location.href='produk.php?id=$id_penjual';</script>";
+        } else {
+            echo "<script>alert('Data gagal diubah');window.location.href='produk.php?id=$id_penjual';</script>";
+        }
+    } else {
+        if (!in_array($ext, $ekstensi)) {
+            echo "<script>alert('Data gagal diubah');window.location.href='produk.php?id=$id_penjual';</script>";
+        } else {
+            if ($ukuran < 1044070) {
+                $xx = $rand . '_' . $filename;
+                unlink('../../assets/upload/produk/' . $foto_lama);
+                move_uploaded_file($_FILES['foto_produk']['tmp_name'], '../../assets/upload/produk/' . $rand . '_' . $filename);
+                $result = update_produk($id_produk, $id_penjual, $id_kategori, $nama_produk, $deskripsi_produk, $harga, $stok, $status_produk, $xx);
+                if ($result) {
+                    echo "<script>alert('Data berhasil diubah');window.location.href='produk.php?id=$id_penjual';</script>";
+                } else {
+                    echo "<script>alert('Data gagal diubah');window.location.href='produk.php?id=$id_penjual';</script>";
+                }
+            } else {
+                echo "<script>alert('Data gagal diubah');window.location.href='produk.php?id=$id_penjual';</script>";
+            }
+        }
+    }
+}
+// End Image Upload
+
+if (isset($_POST['delete_data'])) {
+    $id = $_POST['id'];
+    $id_penjual = $_POST['id_penjual'];
+    unlink('../../assets/upload/produk/' . $produk['link_foto_produk']);
+    $result = delete_produk($id);
+    if ($result) {
+        echo "<script>alert('Data berhasil dihapus');window.location.href='produk.php?id=$id_penjual';</script>";
+    } else {
+        echo "<script>alert('Data gagal dihapus');window.location.href='produk.php?id=$id_penjual';</script>";
     }
 }
 

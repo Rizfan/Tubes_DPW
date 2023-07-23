@@ -65,6 +65,25 @@
     $(document).ready(function() {
         $('.table').DataTable();
     });
+
+    function updateSTATUS(value) {
+        let result = document.getElementById("status" + value).value;
+        $.ajax({
+            url: '../../src/database/transaksi.php',
+            cache: false,
+            type: 'POST',
+            data: {
+                func: 'bayar',
+                data: result
+            },
+            success: function(data) {
+                alert("Status Berhasil Diubah!");
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.responseText);
+            }
+        });
+    }
 </script>
 
 

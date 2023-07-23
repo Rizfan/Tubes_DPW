@@ -91,25 +91,25 @@
             <li class="nav-item <?php if (str_contains($tittle, "Penjual")) {
                                     echo "active";
                                 } ?>">
-                <a class="nav-link collapsed" href="<?php if (str_contains($tittle, "Penjual")) {
-                                                        echo "#";
-                                                    } else {
-                                                        echo "../admin/penjual/index.php";
-                                                    } ?>">
+                <!-- <a class="nav-link collapsed" href="<?php if (str_contains($tittle, "Penjual")) {
+                                                                echo "#";
+                                                            } else {
+                                                                echo "../admin/penjual/index.php";
+                                                            } ?>">
+                    <i class="fas fa-store"></i>
+                    <span>Data Penjual</span>
+                </a> -->
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-store"></i>
                     <span>Data Penjual</span>
                 </a>
-                <!-- <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Manage Data Users</span>
-                </a> -->
-                <!-- <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.html">Buttons</a>
-                        <a class="collapse-item" href="cards.html">Cards</a>
+                        <h6 class="collapse-header">Manage</h6>
+                        <a class="collapse-item" href="../admin/penjual/index.php">Data Penjual</a>
+                        <a class="collapse-item" href="../admin/penjual/produk.php?id=0">Data Produk</a>
                     </div>
-                </div> -->
+                </div>
             </li>
             <li class="nav-item <?php if (str_contains($tittle, "Dompet")) {
                                     echo "active";

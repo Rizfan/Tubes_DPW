@@ -3,11 +3,63 @@ $tittle = "Data Transaksi";
 include('../../layout/master.php');
 include('../../src/database/transaksi.php');
 include('../../src/database/penjual.php');
+include('../../src/database/users.php');
 ?>
 
 <section id="manage_transaksi">
     <div class="card mt-4">
         <div class="card-body">
+
+            <!-- Button Tambah -->
+            <!-- <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#tambahModal">
+                Tambah Data
+            </button> -->
+            <!-- End Button Tambah -->
+
+
+            <!-- Modal Tambah -->
+            <!-- <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModal" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="tambahModalLabel">Tambah Data</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="#" method="post">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="user">Pembeli</label>
+                                    <select class="form-control" id="user" name="user" required>
+                                        <option value="" selected disabled>-- Pilih Pembeli --</option>
+                                        <?php
+                                        $u = get_all_user();
+                                        foreach ($u as $us) {
+                                        ?>
+                                            <option value="<?= $us['id_user'] ?>"><?= $us['nama'] ?></option>
+                                        <?php
+                                        } ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nama_toko">Nama Toko</label>
+                                    <input required type="text" class="form-control" id="nama_toko" name="nama_toko">
+                                </div>
+                                <div class="form-group">
+                                    <label for="deskripsi_toko">Deskripsi Toko</label>
+                                    <textarea name="deskripsi_toko" id="deskripsi_toko" class="form-control" cols="30" rows="5" required></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" name="save_tambah" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div> -->
+            <!-- End Modal Tambah -->
 
             <!-- Table data -->
             <div class="table-responsive">
@@ -42,8 +94,28 @@ include('../../src/database/penjual.php');
                                 <td><?= $t['nama'] ?></td>
                                 <td><?= $t['nama_toko'] ?></td>
                                 <td>Rp <?= number_format($t['total_harga_pembelian']) ?>,-</td>
-                                <td><?= $t['status_pembayaran'] ?></td>
-                                <td><?= $t['status_transaksi'] ?></td>
+                                <td>
+                                    <?php if ($t['status_pembayaran'] == "Lunas") { ?>
+                                        <span class="badge badge-success">Lunas</span>
+                                    <?php } else { ?>
+                                        <span class="badge badge-danger">Belum Lunas</span>
+                                    <?php } ?>
+                                </td>
+                                <td>
+
+                                    <select id="status<?= $no ?>" class="form-control" onchange="updateSTATUS(<?= $no++ ?>)">
+                                        <?php if ($t['status_transaksi'] == "Proses") { ?>
+                                            <option value="<?= $t['id_transaksi'] ?>_Proses" selected disabled>Proses</option>
+                                            <option value="<?= $t['id_transaksi'] ?>_Selesai">Selesai</option>
+                                            <option value="<?= $t['id_transaksi'] ?>_Batal">Batal</option>
+                                        <?php } elseif ($t['status_transaksi'] == "Selesai") { ?>
+                                            <option value="<?= $t['id_transaksi'] ?>_Selesai" selected disabled>Selesai</option>
+                                            <option value="<?= $t['id_transaksi'] ?>_Batal">Batal</option>
+                                        <?php } else { ?>
+                                            <option value="<?= $t['id_transaksi'] ?>_Batal">Batal</option>
+                                        <?php } ?>
+                                    </select>
+                                </td>
                                 <td><?= $t['tanggal_transaksi'] ?></td>
                                 <?php if ($t['tanggal_pembayaran'] == null) { ?>
                                     <td>Belum dibayar</td>
@@ -107,7 +179,6 @@ include('../../src/database/penjual.php');
                             <!-- End Modal edit -->
 
                         <?php
-                            $no++;
                         }
                         ?>
 
