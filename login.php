@@ -14,14 +14,14 @@ include 'layout/navbar.php';
                             <h3>Login</h3>
                         </div>
                         <div class="card-body">
-                            <form action="#" method="POST">
+                            <form action="login_proses.php" method="POST">
                                 <div class="form-group">
                                     <label for="Username">Username</label>
-                                    <input type="text" class="form-control" id="username" name="username">
+                                    <input type="text" class="form-control" id="username" name="username" placeholder="Masukan Username">
                                 </div>
                                 <div class="form-group">
                                     <label for="Password">Password</label>
-                                    <input type="text" class="form-control" id="password" name="password">
+                                    <input type="text" class="form-control" id="password" name="password" placeholder="Masukan Password">
                                 </div>
                                 <button type="submit" class="btn btn-primary">Masuk</button>
                             </form>
