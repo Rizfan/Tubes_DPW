@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Ubah X, Y, Z dengan session agar menyimpan data yang tadi berhasil login kedalam session
         $_SESSION['id_user'] = $user['id_user'];
         $_SESSION['email'] = $user['email'];
-        
+
 
         $role = $user['role'];
         if ($role === '1') {
@@ -24,12 +24,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif ($role == '3') {
             $_SESSION['role'] = 'penjual';
             // Redirect ke halaman penjual
-            header("Location: admin/index.php");
+            header("Location: admin/penjual/index.php");
         } elseif ($role == '2') {
             $_SESSION['role'] = 'user';
             // Redirect ke halaman user
-            header("Location: admin/user/index.php");
-        
+            header("Location: user/index.php");
+
 
             // Login berhasil, redirect ke halaman utama
 
