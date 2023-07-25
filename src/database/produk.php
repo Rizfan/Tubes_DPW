@@ -109,7 +109,6 @@ function get_produk($id_penjual = null)
     }
 }
 
-<<<<<<< Updated upstream
 function cek_stok($id_produk = null, $jumlah = null)
 {
     try {
@@ -131,23 +130,14 @@ function cek_stok($id_produk = null, $jumlah = null)
     }
 }
 
-=======
->>>>>>> Stashed changes
 function get_produk_by_id($id_produk = null)
 {
     try {
         $db = connect();
-<<<<<<< Updated upstream
         $query = $db->prepare("SELECT * FROM produk WHERE id_produk = :id_produk");
         $query->bindParam(':id_produk', $id_produk);
         $query->execute();
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
-=======
-        $query = $db->prepare("SELECT * FROM produk JOIN penjual ON produk.id_penjual = penjual.id_penjual JOIN kategori ON produk.id_kategori = kategori.id_kategori WHERE id_produk = :id_produk");
-        $query->bindParam(':id_produk', $id_produk);
-        $query->execute();
-        $result = $query->fetch(PDO::FETCH_ASSOC);
->>>>>>> Stashed changes
         return $result;
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
@@ -155,7 +145,6 @@ function get_produk_by_id($id_produk = null)
         $db = null;
     }
 }
-<<<<<<< Updated upstream
 
 function update_stok($id_produk = null, $jumlah = null)
 {
@@ -170,5 +159,3 @@ function update_stok($id_produk = null, $jumlah = null)
         die("Error: " . $e->getMessage());
     }
 }
-=======
->>>>>>> Stashed changes
