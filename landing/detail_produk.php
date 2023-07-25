@@ -45,7 +45,7 @@ $produk = get_produk_by_id($id);
                             <span class="input-group-text" id="basic-addon1">Jumlah</span>
                         </div>
                         <input type="number" class="form-control" placeholder="0" aria-label="jumlah"
-                            onchange="tambah()" aria-describedby="basic-addon1">
+                            onchange="tambah()" aria-describedby="basic-addon1" name="jumlah" id="jumlah">
                     </div>
                     <div class="d-flex justify-content-between">
                         <p>Subtotal</p>
@@ -59,7 +59,8 @@ $produk = get_produk_by_id($id);
                     </div>
                     <?php if ($produk['stok'] > 0) {?>
                     <button class="btn btn-primary btn-block" id="btn_beli" name="btn_beli">Beli</button>
-                    <button class="btn btn-outline-primary btn-block">Keranjang</button>
+                    <button class="btn btn-outline-primary btn-block" id="btn_keranjang"
+                        name="btn_keranjang">Keranjang</button>
 
                     <?php } else {?>
                     <button disabled="disabled" class="btn btn-primary btn-block">Stok Tidak Tersedia</button>
@@ -87,20 +88,17 @@ function tambah() {
 <script type="text/javascript">
 $(document).ready(function() {
 
-    var btn_beli = document.getElementById('btn_beli');
-    btn_beli.addEventListener('click', function() {
-
-        console.log('btn_beli');
-
+    var btn_keranjang = document.getElementById('btn_keranjang');
+    btn_keranjang.addEventListener('click', function() {
         var id_produk = document.getElementById('id_produk').value;
+        var jumlah = document.getElementById('jumlah').value;
         var site = document.location.origin;
-        console.log(site);
-
         $.ajax({
             url: site + '/TUBES_DPW/src/proses/proses_add_keranjang.php',
             type: 'GET',
             data: {
                 id_produk: id_produk,
+                jumlah: jumlah
             },
             success: function(data) {
                 alert('Berhasil ditambahkan ke keranjang');
@@ -112,6 +110,6 @@ $(document).ready(function() {
 </script>
 
 
-< /body>
+</body>
 
-    < /html>
+</html>
