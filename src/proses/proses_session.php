@@ -40,7 +40,7 @@ function redirect_to_role_page($custom_redirect = null)
         if ($get_current_session['role'] != null) {
 
             // Redirect ke halaman sesuai role
-            header("Location: " . $custom_redirect . "" . strtolower($get_current_session['role']) . "/");
+            header("Location: " . $custom_redirect . "");
             exit();
 
         } else {
