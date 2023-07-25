@@ -4,5 +4,8 @@
         "user": "root",
         "pass": "",
         "name": "db_tubes_dpw"
+    },
+    "web": {
+        "base_url": "http://localhost/Tubes_DPW/"
     }
 }

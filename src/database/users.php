@@ -2,7 +2,7 @@
 /*
  *
  * Users Database
- * 
+ *
  */
 
 require_once __DIR__ . '/database.php';
@@ -77,6 +77,23 @@ function delete_user($id_user = null)
         $query->bindParam(':id_user', $id_user);
         $query->execute();
         return true;
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    } finally {
+        $db = null;
+    }
+}
+
+function get_user_by_email_password($email = null, $password = null)
+{
+    try {
+        $db = connect();
+        $query = $db->prepare("SELECT * FROM user WHERE email = :email AND password = :password");
+        $query->bindParam(':email', $email);
+        $query->bindParam(':password', $password);
+        $query->execute();
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        return $result;
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
     } finally {
