@@ -1,3 +1,14 @@
+<?php
+
+require_once './../src/proses/proses_session.php';
+
+$current_session = session_manager("get_session", [
+    "username",
+    "role",
+]);
+
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -116,7 +127,9 @@ if ($current_session["username"] != null) {
                         <img class="card-img-top" src="..." alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">Benih Rispan</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in
+                                to
+                                additional content. This content is a little bit longer.</p>
                             <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                         </div>
                     </div>
@@ -124,7 +137,8 @@ if ($current_session["username"] != null) {
                         <img class="card-img-top" src="..." alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">Benih Sandro</h5>
-                            <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+                            <p class="card-text">This card has supporting text below as a natural lead-in to additional
+                                content.</p>
                             <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                         </div>
                     </div>
@@ -132,7 +146,9 @@ if ($current_session["username"] != null) {
                         <img class="card-img-top" src="..." alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                                additional content. This card has even longer content than the first to show that equal
+                                height action.</p>
                             <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                         </div>
                     </div>
@@ -140,7 +156,7 @@ if ($current_session["username"] != null) {
             </div>
         </div>
 
-        
+
 
 
     </div>
@@ -148,7 +164,7 @@ if ($current_session["username"] != null) {
 
 
     <script>
-        new Splide('#image-carousel').mount();
+    new Splide('#image-carousel').mount();
     </script>
 
     <!-- Optional JavaScript -->
