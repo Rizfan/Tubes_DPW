@@ -1,3 +1,5 @@
 <?php
 require_once './../src/proses/proses_session.php';
-redirect_to_role_page();
+redirect_to_role_page(
+    "http://localhost/Tubes_DPW/"
+);

@@ -31,7 +31,7 @@ function session_manager($type = "add_session", $data_session = null)
 
 }
 
-function redirect_to_role_page()
+function redirect_to_role_page($custom_redirect = null)
 {
     $get_current_session = session_manager("get_session", ["username", "role"]);
     if ($get_current_session['username'] != null) {
@@ -40,7 +40,7 @@ function redirect_to_role_page()
         if ($get_current_session['role'] != null) {
 
             // Redirect ke halaman sesuai role
-            header("Location: ./" . strtolower($get_current_session['role']) . "/");
+            header("Location: " . $custom_redirect . "" . strtolower($get_current_session['role']) . "/");
             exit();
 
         } else {
@@ -52,7 +52,7 @@ function redirect_to_role_page()
     } else {
 
         // Redirect ke halaman landing karena belum login
-        header("Location: " . $_SERVER['WEB_ROOT'] . "landing/");
+        header("Location: " . $custom_redirect);
         exit();
     }
 }
