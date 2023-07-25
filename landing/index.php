@@ -47,7 +47,7 @@ $current_session = session_manager("get_session", [
                     <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Keranjang</a>
+                    <a class="nav-link" href="../user/keranjang.php">Keranjang</a>
                 </li>
             </ul>
         </div>

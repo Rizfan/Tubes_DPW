@@ -1,5 +1,12 @@
 <?php
+
 $tittle = 'Keranjang';
+require_once './../src/proses/proses_session.php';
+
+$current_session = session_manager("get_session", [
+    "username",
+    "role",
+]);
 include_once('../layout/navbar.php');
 ?>
 <section id="keranjang">
