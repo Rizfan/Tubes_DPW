@@ -104,13 +104,21 @@ include('../../src/database/users.php');
                                 <td>
 
                                     <select id="status<?= $no ?>" class="form-control" onchange="updateSTATUS(<?= $no++ ?>)">
-                                        <?php if ($t['status_transaksi'] == "Proses") { ?>
-                                            <option value="<?= $t['id_transaksi'] ?>_Proses" selected disabled>Proses</option>
-                                            <option value="<?= $t['id_transaksi'] ?>_Selesai">Selesai</option>
-                                            <option value="<?= $t['id_transaksi'] ?>_Batal">Batal</option>
-                                        <?php } elseif ($t['status_transaksi'] == "Selesai") { ?>
+                                        <?php if ($t['status_transaksi'] == "Proses") {
+                                            if ($t['status_pembayaran'] == "Belum Lunas") {
+                                        ?>
+
+                                                <option value="<?= $t['id_transaksi'] ?>_Proses" selected disabled>Proses</option>
+                                                <option value="<?= $t['id_transaksi'] ?>_Selesai" disabled>Selesai</option>
+                                                <option value="<?= $t['id_transaksi'] ?>_Batal">Batal</option>
+                                            <?php } else { ?>
+
+                                                <option value="<?= $t['id_transaksi'] ?>_Proses" selected disabled>Proses</option>
+                                                <option value="<?= $t['id_transaksi'] ?>_Selesai">Selesai</option>
+                                                <option value="<?= $t['id_transaksi'] ?>_Batal">Batal</option>
+                                            <?php }
+                                        } elseif ($t['status_transaksi'] == "Selesai") { ?>
                                             <option value="<?= $t['id_transaksi'] ?>_Selesai" selected disabled>Selesai</option>
-                                            <option value="<?= $t['id_transaksi'] ?>_Batal">Batal</option>
                                         <?php } else { ?>
                                             <option value="<?= $t['id_transaksi'] ?>_Batal">Batal</option>
                                         <?php } ?>
@@ -123,17 +131,31 @@ include('../../src/database/users.php');
                                     <td><?= $t['tanggal_pembayaran'] ?></td>
                                 <?php } ?>
                                 <td>
-                                    <a href="detail_transaksi.php?id=<?= $t['id_transaksi'] ?>" class="btn btn-success btn-sm">Detail Transaksi</a>
-                                    <button type="button" class="btn btn-primary btn-sm my-1" data-toggle="modal" data-target="#editModal<?= $t['id_transaksi'] ?>">Edit</button>
+                                    <a href="detail_transaksi.php?id=<?= $t['id_transaksi'] ?>" class="btn my-1 btn-success btn-sm">Detail Transaksi</a>
+
                                     <form action="#" method="post">
                                         <input type="hidden" value="<?= $t['id_transaksi'] ?>" name="id">
-                                        <?php if ($t['status_pembayaran'] == "Lunas") { ?>
-                                            <input type="hidden" value="Belum Lunas" name="status">
-                                            <button class="btn btn-danger btn-sm" type="submit" name="bayar">Batal Bayar</button>
-                                        <?php } else { ?>
-                                            <input type="hidden" value="Lunas" name="status">
-                                            <button class="btn btn-info btn-sm" type="submit" name="bayar">Bayar</button>
-                                        <?php } ?>
+                                        <?php if ($t['status_pembayaran'] == "Lunas") {
+                                            if ($t['status_transaksi'] == "Selesai" || $t['status_transaksi'] == "Batal") {
+                                        ?>
+                                                <input type="hidden" value="Belum Lunas" name="status">
+                                                <button class="btn btn-danger btn-sm" type="submit" name="bayar" disabled>Batal Bayar</button>
+                                            <?php } else {
+                                            ?>
+                                                <input type="hidden" value="Belum Lunas" name="status">
+                                                <button class="btn btn-danger btn-sm" type="submit" name="bayar">Batal Bayar</button>
+                                            <?php
+                                            }
+                                        } else {
+                                            if ($t['status_transaksi'] == "Batal") { ?>
+                                                <input type="hidden" value="Belum Lunas" name="status">
+                                                <button class="btn btn-info btn-sm" type="submit" name="bayar" disabled>Bayar</button>
+                                            <?php } else { ?>
+                                                <input type="hidden" value="Lunas" name="status">
+                                                <button class="btn btn-info btn-sm" type="submit" name="bayar">Bayar</button>
+                                        <?php }
+                                        }
+                                        ?>
                                     </form>
                                 </td>
                             </tr>
@@ -217,6 +239,7 @@ if (isset($_POST['bayar'])) {
                 confirmButtonText: 'Yes!'
             }).then((result) => {
                 if (result.isConfirmed) {
+                    window.reload();
                     window.location = "index.php";
 
                 }
@@ -231,6 +254,7 @@ if (isset($_POST['bayar'])) {
                 confirmButtonText: 'Back!'
             }).then((result) => {
                 if (result.isConfirmed) {
+                    window.reload();
                     window.location = "index.php";
 
                 }

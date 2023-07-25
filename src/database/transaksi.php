@@ -1,6 +1,7 @@
 <?php
 
-require __DIR__ . '/database.php';
+require_once __DIR__ . '/database.php';
+require_once __DIR__ . '/detail_transaksi.php';
 
 function create_transaksi(
     $id_penjual = null,
@@ -150,8 +151,10 @@ if (isset($_POST['func'])) {
     switch ($func) {
         case 'status':
             $data = explode('_', $_POST['data']);
-            echo $data[0];
             update_status($data[0], $data[1]);
+            if ($data[1] == "Batal") {
+                pembatalan($data[0]);
+            }
             break;
         default:
             break;
