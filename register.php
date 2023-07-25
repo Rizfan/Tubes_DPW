@@ -3,7 +3,7 @@
 require_once './src/proses/proses_session.php';
 
 // Redirect ke index jika sudah login akan masuk ke halaman sesuai role
-if (session_manager("get_session", "username") != null) {
+if (session_manager("get_session", ["username"])['username'] != null) {
     header("Location: ./index.php");
 }
 
@@ -48,16 +48,16 @@ if (session_manager("get_session", "username") != null) {
                             </div>
 
                             <?php
-                                if (@$_REQUEST['status'] == 'failed'){
-                            ?>
+if (@$_REQUEST['status'] == 'failed') {
+    ?>
 
                             <div class="alert alert-danger" role="alert">
                                 Gagal mendaftar akun
                             </div>
 
                             <?php
-                                }
-                            ?>
+}
+?>
 
                             <form class="user" method="POST" action="./src/proses/proses_register.php">
 
