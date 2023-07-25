@@ -3,6 +3,7 @@ include __DIR__ . './../src/proses/proses_session.php';
 $get_keranjang = session_manager("get_session", [
     "keranjang",
 ]);
+
 $tittle = 'Keranjang';
 $total_semua = 0;
 include_once '../layout/navbar.php';
@@ -18,7 +19,7 @@ include __DIR__ . './../src/database/produk.php';
 
             <?php
 
-if ($get_keranjang == []) {
+if ($get_keranjang['keranjang'] == null) {
     echo "<h5>Keranjang Kosong</h5>";
 } else {
     ?>
@@ -66,11 +67,41 @@ if ($get_keranjang == []) {
                     <h4>Ringkasan</h4>
                     <hr>
                     <div class="d-flex justify-content-between">
+
+                        <?php
+if ($get_keranjang['keranjang'] == null) {
+    ?>
+
+                        <p>Total Harga</p>
+                        <p>Rp. 0</p>
+
+                        <?php
+} else {
+    ?>
                         <p>Total Harga (<?=count($get_keranjang['keranjang'])?> Barang)</p>
                         <p class="font-weight-bold" name="total_semua_harga">Rp. <?=number_format($total_semua)?></p>
+
+                        <?php
+}
+?>
+
                     </div>
                     <hr>
-                    <button class="btn btn-primary btn-block">Beli</button>
+                    <button class="btn btn-primary btn-block
+
+                    <?php
+if ($get_keranjang['keranjang'] == null) {
+    echo "disabled";
+
+}
+
+?>
+
+
+
+
+
+                    ">Beli</button>
                 </div>
             </div>
         </div>
