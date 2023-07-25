@@ -108,3 +108,67 @@ function get_produk($id_penjual = null)
         $db = null;
     }
 }
+
+<<<<<<< Updated upstream
+function cek_stok($id_produk = null, $jumlah = null)
+{
+    try {
+        $db = connect();
+        $query = $db->prepare("SELECT stok FROM produk WHERE id_produk = :id_produk");
+        $query->bindParam(':id_produk', $id_produk);
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        $stok_produk = $result[0]['stok'];
+        if ($stok_produk >= $jumlah) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    } finally {
+        $db = null;
+    }
+}
+
+=======
+>>>>>>> Stashed changes
+function get_produk_by_id($id_produk = null)
+{
+    try {
+        $db = connect();
+<<<<<<< Updated upstream
+        $query = $db->prepare("SELECT * FROM produk WHERE id_produk = :id_produk");
+        $query->bindParam(':id_produk', $id_produk);
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+=======
+        $query = $db->prepare("SELECT * FROM produk JOIN penjual ON produk.id_penjual = penjual.id_penjual JOIN kategori ON produk.id_kategori = kategori.id_kategori WHERE id_produk = :id_produk");
+        $query->bindParam(':id_produk', $id_produk);
+        $query->execute();
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+>>>>>>> Stashed changes
+        return $result;
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    } finally {
+        $db = null;
+    }
+}
+<<<<<<< Updated upstream
+
+function update_stok($id_produk = null, $jumlah = null)
+{
+    try {
+        $db = connect();
+        $query = $db->prepare("UPDATE produk SET stok = :stok WHERE id_produk = :id_produk");
+        $query->bindParam(':id_produk', $id_produk);
+        $query->bindParam(':stok', $jumlah);
+        $query->execute();
+        return true;
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    }
+}
+=======
+>>>>>>> Stashed changes
