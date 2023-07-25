@@ -13,7 +13,7 @@ $produk = get_produk_by_id($id);
                 <div class="card-body">
                     <div class="row justify-content-center">
                         <div class="col col-md-6">
-                            <img src="../assets/upload/produk/112193035_20200213_103459.jpg " alt="Produk" style="height:400px; width:350px;">
+                            <img src="../assets/upload/produk/<?= $produk['link_foto_produk'] ?>" alt="Produk" style="height:400px; width:350px;">
                         </div>
                         <div class="col col-md-6">
                             <h4 class="font-weight-bold"><?= $produk['nama_produk'] ?></h4>
@@ -52,8 +52,13 @@ $produk = get_produk_by_id($id);
                         <p>Total</p>
                         <p class="font-weight-bold">Rp 100.000</p>
                     </div>
-                    <button class="btn btn-primary btn-block">Beli</button>
-                    <button class="btn btn-outline-primary btn-block">Keranjang</button>
+                    <?php if ($produk['stok'] > 0) { ?>
+                        <button class="btn btn-primary btn-block">Beli</button>
+                        <button class="btn btn-outline-primary btn-block">Keranjang</button>
+
+                    <?php } else { ?>
+                        <button disabled="disabled" class="btn btn-primary btn-block">Stok Tidak Tersedia</button>
+                    <?php } ?>
                 </div>
             </div>
         </div>

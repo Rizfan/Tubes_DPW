@@ -158,7 +158,7 @@ if (isset($_POST['save_tambah'])) {
     $cek_stok = cek_stok($id_produk, $jumlah_barang);
     if ($cek_stok) {
         $stok = get_produk_by_id($id_produk);
-        $jumlah_barang1 = $stok[0]['stok'] - $jumlah_barang;
+        $jumlah_barang1 = $stok['stok'] - $jumlah_barang;
         $update_stok = update_stok($id_produk, $jumlah_barang1);
         $total_pembelian = $harga * $jumlah_barang;
         $t = get_transaksi($id_transaksi);
