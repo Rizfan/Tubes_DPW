@@ -22,7 +22,8 @@ $produk = get_produk_by_id($id);
                                 hidden>
                             <h4 class="font-weight-bold"><?=$produk['nama_produk']?></h4>
                             <p class="font-weight-light">Dijual oleh : <?=$produk['nama_toko']?></p>
-                            <h3>Rp <?=number_format($produk['harga'])?>,-</h3>
+                            <h3 id="harga_produk" name="harga_produk" desc="<?=number_format($produk['harga'])?>">Rp
+                                <?=number_format($produk['harga'])?>,-</h3>
                             <hr>
                             <h5>Deskripsi Produk</h5>
                             <p class="text-justify"><?=$produk['deskripsi_produk']?></p>
@@ -45,18 +46,14 @@ $produk = get_produk_by_id($id);
                             <span class="input-group-text" id="basic-addon1">Jumlah</span>
                         </div>
                         <input type="number" class="form-control" placeholder="0" aria-label="jumlah"
-                            onchange="tambah()" aria-describedby="basic-addon1" name="jumlah" id="jumlah">
+                            aria-describedby="basic-addon1" name="jumlah" id="jumlah">
                     </div>
                     <div class="d-flex justify-content-between">
                         <p>Subtotal</p>
                         <input type="hidden" class="form-control" id="total" name="total" readonly>
-                        <p class="font-weight-bold">Rp 100.000</p>
+                        <p class="font-weight-bold" id="total_harga">Rp.</p>
                     </div>
                     <hr>
-                    <div class="d-flex justify-content-between">
-                        <p>Total</p>
-                        <p class="font-weight-bold">Rp 100.000</p>
-                    </div>
                     <?php if ($produk['stok'] > 0) {?>
                     <button class="btn btn-primary btn-block" id="btn_beli" name="btn_beli">Beli</button>
                     <button class="btn btn-outline-primary btn-block" id="btn_keranjang"
@@ -71,9 +68,9 @@ $produk = get_produk_by_id($id);
     </div>
 </div>
 
-<!-- Bootstrap core JavaScript-->
-<script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="../assets/vendor/jquery/jquery.min.js"></script>
+<?php
+include '../layout/footer.php';
+?>
 
 <script>
 function tambah() {
@@ -88,10 +85,38 @@ function tambah() {
 <script type="text/javascript">
 $(document).ready(function() {
 
+    var id_produk = document.getElementById('id_produk').value;
+    var stok = <?=$produk['stok']?>;
+
     var btn_keranjang = document.getElementById('btn_keranjang');
     btn_keranjang.addEventListener('click', function() {
-        var id_produk = document.getElementById('id_produk').value;
         var jumlah = document.getElementById('jumlah').value;
+
+        if (jumlah == 0) {
+            Swal.fire({
+                title: 'Error!',
+                text: 'Jumlah Tidak Boleh 0!',
+                icon: 'error',
+                confirmButtonText: 'Yes!'
+            });
+            return;
+        }
+
+
+
+        if (jumlah > stok) {
+            Swal.fire({
+                title: 'Error!',
+                text: 'Jumlah Melebihi Stok!',
+                icon: 'error',
+                confirmButtonText: 'Yes!'
+            });
+
+            jumlah.value = 0;
+
+            return;
+        }
+
         var site = document.location.origin;
         $.ajax({
             url: site + '/TUBES_DPW/src/proses/proses_add_keranjang.php',
@@ -101,15 +126,31 @@ $(document).ready(function() {
                 jumlah: jumlah
             },
             success: function(data) {
-                alert('Berhasil ditambahkan ke keranjang');
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Berhasil Menambahkan Produk ke Keranjang!',
+                    icon: 'success',
+                    confirmButtonText: 'Yes!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = "detail_produk.php?id=<?=$id?>";
+
+                    }
+                });
             }
         });
     });
 
+
+
+    var jumlah = document.getElementById('jumlah');
+    // add event onchange
+    jumlah.addEventListener('change', function() {
+        var harga = document.getElementById('harga_produk').getAttribute('desc');
+        var total = jumlah.value * parseInt(harga);
+        document.getElementById('total_harga').textContent = "Rp " + total.toLocaleString("id-ID", {
+            minimumFractionDigits: 3
+        });
+    });
 });
 </script>
-
-
-</body>
-
-</html>

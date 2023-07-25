@@ -13,5 +13,5 @@ echo "<br>";
 var_dump(
     session_manager("get_session", [
         "keranjang",
-    ])
+    ])['keranjang']
 );
