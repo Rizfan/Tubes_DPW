@@ -100,3 +100,19 @@ function get_user_by_email_password($email = null, $password = null)
         $db = null;
     }
 }
+
+function get_user_by_id($id_user = null)
+{
+    try {
+        $db = connect();
+        $query = $db->prepare("SELECT * FROM user WHERE id_user = :id_user");
+        $query->bindParam(':id_user', $id_user);
+        $query->execute();
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        return $result;
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    } finally {
+        $db = null;
+    }
+}
