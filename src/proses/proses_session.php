@@ -2,7 +2,7 @@
 
 function session_manager($type = "add_session", $data_session = null)
 {
-    session_start();
+    @session_start();
     if (strtolower($type) == "add_session") {
 
         for ($i = 0; $i < count($data_session); $i++) {
