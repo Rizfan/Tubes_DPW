@@ -49,6 +49,9 @@ $current_session = session_manager("get_session", [
                 <li class="nav-item active">
                     <a class="nav-link" href="../user/keranjang.php">Keranjang</a>
                 </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="../user/index.php">Riwayat</a>
+                </li>
             </ul>
         </div>
         <div class="d-flex">
@@ -59,7 +62,7 @@ $current_session = session_manager("get_session", [
 
             ?>
                 <a href="./../src/proses/proses_logout.php" class="btn btn-primary my-2-sm-0 mr-3" role="button" aria-pressed="true">Logout</a>
-
+                <a herf="./"><?= $current_session["username"] ?></a>
             <?php
 
             } else {

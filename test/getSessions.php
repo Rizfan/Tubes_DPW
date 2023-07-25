@@ -6,6 +6,7 @@ var_dump(
     session_manager("get_session", [
         "username",
         "role",
+        "password"
     ])
 );
 
