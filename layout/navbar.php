@@ -1,3 +1,15 @@
+<?php
+
+require_once './../src/proses/proses_session.php';
+
+$current_session = session_manager("get_session", [
+    "username",
+    "role",
+]);
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
