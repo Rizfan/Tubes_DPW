@@ -46,11 +46,11 @@ function get_all_user()
     }
 }
 
-function update_user($id_user = null, $username = null, $password = null, $email = null, $name = null, $no_hp = null, $link_foto_user = null, $tanggal_lahir = null, $role = null)
+function update_user($id_user = null, $username = null, $password = null, $email = null, $name = null, $no_hp = null, $link_foto_user = null, $tanggal_lahir = null, $role = null, $alamat_user = null)
 {
     try {
         $db = connect();
-        $query = $db->prepare("UPDATE user SET username = :username, password = :password, email = :email, nama = :nama, no_hp = :no_hp, link_foto_user = :link_foto_user, tanggal_lahir = :tanggal_lahir, role = :role WHERE id_user = :id_user");
+        $query = $db->prepare("UPDATE user SET username = :username, password = :password, email = :email, nama = :nama, no_hp = :no_hp, link_foto_user = :link_foto_user, tanggal_lahir = :tanggal_lahir, role = :role, alamat_user = :alamat_user WHERE id_user = :id_user");
         $query->bindParam(':id_user', $id_user);
         $query->bindParam(':username', $username);
         $query->bindParam(':password', $password);
@@ -60,6 +60,23 @@ function update_user($id_user = null, $username = null, $password = null, $email
         $query->bindParam(':link_foto_user', $link_foto_user);
         $query->bindParam(':tanggal_lahir', $tanggal_lahir);
         $query->bindParam(':role', $role);
+        $query->bindParam(':alamat_user', $alamat_user);
+        $query->execute();
+        return true;
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    } finally {
+        $db = null;
+    }
+}
+
+function update_foto_user($id_user = null, $link_foto_user = null)
+{
+    try {
+        $db = connect();
+        $query = $db->prepare("UPDATE user SET link_foto_user = :link_foto_user WHERE id_user = :id_user");
+        $query->bindParam(':id_user', $id_user);
+        $query->bindParam(':link_foto_user', $link_foto_user);
         $query->execute();
         return true;
     } catch (PDOException $e) {
