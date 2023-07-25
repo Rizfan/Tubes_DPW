@@ -134,11 +134,11 @@ function get_produk_by_id($id_produk = null)
 {
     try {
         $db = connect();
-        $query = $db->prepare("SELECT * FROM produk WHERE id_produk = :id_produk");
+        $query = $db->prepare("SELECT * FROM produk JOIN penjual ON produk.id_penjual = penjual.id_penjual JOIN kategori ON produk.id_kategori = kategori.id_kategori WHERE id_produk = :id_produk");
         $query->bindParam(':id_produk', $id_produk);
         $query->execute();
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        return $result[0];
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
     } finally {
