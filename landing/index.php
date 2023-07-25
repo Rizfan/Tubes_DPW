@@ -30,7 +30,7 @@ $current_session = session_manager("get_session", [
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-light py-4" style="background-color: #EEEEEE;">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="index.php">
             <img src="../assets/img/logo.png" width="" height="40" class="d-inline-block align-top" alt="">
 
         </a>
@@ -49,20 +49,7 @@ $current_session = session_manager("get_session", [
                 <li class="nav-item active">
                     <a class="nav-link" href="#">Keranjang</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Notifikasi
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
-
             </ul>
-
         </div>
         <div class="d-flex">
 
@@ -113,13 +100,13 @@ $current_session = session_manager("get_session", [
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner rounded">
                 <div class="carousel-item active">
-                    <img class="d-block w-100" src="../assets/img/1.jpeg" alt="First slide">
+                    <img class="d-block w-100" src="../assets/upload/produk/1442200225_20200213_103459.jpg" alt="First slide">
                 </div>
                 <div class="carousel-item">
-                    <img class="d-block w-100" src="../assets/img/2.jpeg" alt="Second slide">
+                    <img class="d-block w-100" src="../assets/upload/produk/112193035_20200213_103459.jpg" alt="Second slide">
                 </div>
                 <div class="carousel-item">
-                    <img class="d-block w-100" src="../assets/img/3.jpeg" alt="Third slide">
+                    <img class="d-block w-100" src="../assets/upload/produk/27163977_20200213_103459.jpg" alt="Third slide">
                 </div>
             </div>
             <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -139,7 +126,7 @@ $current_session = session_manager("get_session", [
             <div class="card-body">
                 <div class="card-deck">
                     <div class="card">
-                        <img class="card-img-top" src="../assets/img/rispan.jpg" alt="Card image cap">
+                        <img class="card-img-top" src="../assets/upload/produk/1442200225_20200213_103459.jpg" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">Benih Rispan</h5>
                             <p class="card-text">This is a longer card with supporting text below as a natural lead-in
@@ -149,7 +136,7 @@ $current_session = session_manager("get_session", [
                         </div>
                     </div>
                     <div class="card">
-                        <img class="card-img-top" src="../assets/img/rispan.jpg" alt="Card image cap">
+                        <img class="card-img-top" src="../assets/upload/produk/1442200225_20200213_103459.jpg" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">Benih Sandro</h5>
                             <p class="card-text">This card has supporting text below as a natural lead-in to additional
@@ -158,7 +145,7 @@ $current_session = session_manager("get_session", [
                         </div>
                     </div>
                     <div class="card">
-                        <img class="card-img-top" src="../assets/img/rispan.jpg" alt="Card image cap">
+                        <img class="card-img-top" src="" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">Card title</h5>
                             <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
