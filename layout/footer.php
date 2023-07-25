@@ -44,7 +44,7 @@
     </div>
 </div>
 
-<?php if (str_contains($tittle, "Dashboard")) { ?>
+<?php if (str_contains($tittle, "Dashboard") || str_contains($tittle, "Profile")) { ?>
     <script src="../assets/vendor/jquery/jquery.min.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
