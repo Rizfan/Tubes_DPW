@@ -128,3 +128,17 @@ function get_penjual($id_penjual = null)
         $db = null;
     }
 }
+
+function get_penjual_by_id_user($id_user = null)
+{
+    try {
+        $db = connect();
+        $query = $db->prepare("SELECT * FROM penjual JOIN user ON penjual.id_user = user.id_user WHERE penjual.id_user = :id_user");
+        $query->bindParam(':id_user', $id_user);
+        $query->execute();
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        return $result;
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    }
+}

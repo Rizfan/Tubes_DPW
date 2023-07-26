@@ -27,9 +27,7 @@ if (session_manager("get_session", ['username'])['username'] != null) {
 
     <!-- Custom fonts for this template-->
     <link href="./assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="./assets/css/sb-admin-2.min.css" rel="stylesheet">
@@ -57,13 +55,10 @@ if (session_manager("get_session", ['username'])['username'] != null) {
                                     </div>
                                     <form class="user" method="POST" action="./src/proses/proses_login.php">
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email"
-                                                name="email">
+                                            <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email" name="email">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Kata sandi" name="password">
+                                            <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Kata sandi" name="password">
                                         </div>
 
                                         <button type="submit" class="btn btn-primary btn-user btn-block">

@@ -1,8 +1,14 @@
 <?php
+require_once './../src/proses/proses_session.php';
+if (session_manager("get_session", ['username', 'role'])['username'] == null) {
+    redirect_to_role_page("http://localhost/Tubes_DPW/landing/");
+}
+
+$id = session_manager("get_session", ['id_user'])['id_user'];
+
 $tittle = "Profile";
 include('../layout/master_dashboard.php');
 include('../src/database/users.php');
-$id = $_GET['id'];
 $user = get_user_by_id($id);
 ?>
 

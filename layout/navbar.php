@@ -90,6 +90,14 @@ $current_session = session_manager("get_session", [
                                             <?= $current_session["username"] ?>
                                         </a>
                                         <div class="dropdown-menu">
+                                            <?php if ($current_session["role"] == "Admin") { ?>
+                                                <a href="./../admin/index.php" class="dropdown-item" aria-pressed="true">Dashboard</a>
+                                            <?php } elseif ($current_session['role'] == "Penjual") { ?>
+                                                <a href="./../penjual/index.php" class="dropdown-item" aria-pressed="true">Dashboard</a>
+                                            <?php } else { ?>
+                                                <a href="./../user/index.php" class="dropdown-item" aria-pressed="true">Dashboard</a>
+                                            <?php } ?>
+
                                             <a href="#" data-toggle="modal" data-target="#logoutModal" class="dropdown-item" aria-pressed="true">Logout</a>
                                         </div>
                                     </li>

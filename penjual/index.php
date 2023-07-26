@@ -1,22 +1,23 @@
 <?php
-require_once './../src/proses/proses_session.php';
-if (session_manager("get_session", ['username', 'role'])['role'] != "User") {
-    redirect_to_role_page("http://localhost/Tubes_DPW/landing/");
+
+include __DIR__ . '/../src/proses/proses_session.php';
+if (session_manager("get_session", ["username", "role"])['role'] != "Penjual") {
+    redirect_to_role_page(
+        "http://localhost/Tubes_DPW/"
+    );
 }
-// var_dump(session_manager("get_session", ['username', 'role']));
 
-$tittle = 'Dashboard';
+$tittle = "Dashboard";
 include '../layout/master_dashboard.php';
-
+include '../src/database/dashboard.php';
 ?>
-
 <section id="dashboard">
 
     <!-- Content Row -->
     <div class="row">
 
         <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
+        <!-- <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -31,10 +32,10 @@ include '../layout/master_dashboard.php';
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
+        <!-- <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-success shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -49,7 +50,7 @@ include '../layout/master_dashboard.php';
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
