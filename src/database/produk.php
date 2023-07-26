@@ -83,7 +83,7 @@ function get_all_produk()
 {
     try {
         $db = connect();
-        $query = $db->prepare("SELECT * FROM produk ORDER BY id_produk Desc");
+        $query = $db->prepare("SELECT * FROM produk JOIN penjual ON produk.id_penjual = penjual.id_penjual ORDER BY id_produk Desc");
         $query->execute();
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;

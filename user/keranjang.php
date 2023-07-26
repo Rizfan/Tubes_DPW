@@ -11,7 +11,7 @@ include_once '../layout/navbar.php';
 include __DIR__ . './../src/database/produk.php';
 
 ?>
-<section id="keranjang">
+<section id="keranjang" class="mt-4">
     <div class="row">
         <div class="col col-md-8">
             <h3>Keranjang</h3>

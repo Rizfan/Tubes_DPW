@@ -58,60 +58,82 @@ $current_session = session_manager("get_session", [
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand-lg navbar-light py-4" style="background-color: #EEEEEE;">
-                    <a class="navbar-brand" href="index.php">
-                        <img src="../assets/img/logo.png" width="" height="40" class="d-inline-block align-top" alt="">
+                <nav class="navbar navbar-expand-lg navbar-light py-3 shadow bg-light">
+                    <div class="container">
+                        <a class="navbar-brand" href="index.php">
+                            <img src="../assets/img/logo.png" width="" height="40" class="d-inline-block align-top" alt="">
 
-                    </a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Cari Produk" aria-label="Search" style="width: 1050px;">
+                        </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <!-- <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Cari Produk" aria-label="Search" style="width: 100%;"> -->
                         <!-- <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button> -->
-                    </form>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">Keranjang</a>
-                            </li>
-                        </ul>
+                        <!-- </form> -->
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="#" data-toggle="modal" data-target="#searchModal"><i class="fa fa-search"></i></a>
+                                </li>
+                                <li class="nav-item mr-2">
+                                    <a class="nav-link" href="#"><i class="fa fa-shopping-cart"></i></a>
+                                </li>
+
+                                <?php
+
+                                if ($current_session["username"] != null) {
+
+                                ?>
+                                    <li class="nav-item dropdown mr-2">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                                            <?= $current_session["username"] ?>
+                                        </a>
+                                        <div class="dropdown-menu">
+                                            <a href="#" data-toggle="modal" data-target="#logoutModal" class="dropdown-item" aria-pressed="true">Logout</a>
+                                        </div>
+                                    </li>
+                                <?php
+
+                                } else {
+
+                                ?>
+                                    <li class="nav-item">
+                                        <a href="./../register.php" class="btn btn-outline-primary mr-2" aria-pressed="true">Daftar</a>
+                                        <a href="./../login.php" class="btn btn-primary" aria-pressed="true">Masuk</a>
+                                    </li>
+                                <?php
+
+                                }
+
+                                ?>
+
+                            </ul>
+                        </div>
                     </div>
-                    <div class="d-flex">
 
-                        <?php
-
-                        if ($current_session["username"] != null) {
-
-                        ?>
-                            <a href="./../src/proses/proses_logout.php" class="btn btn-primary my-2-sm-0 mr-3" role="button" aria-pressed="true">Logout</a>
-
-                        <?php
-
-                        } else {
-
-                        ?>
-                            <a href="./../register.php" class="btn btn-primary my-2-sm-0 mr-3" role="button" aria-pressed="true">Daftar</a>
-                            <a href="./../login.php" class="btn btn-primary my-2-sm-0" role="button" aria-pressed="true">Masuk</a>
-
-                        <?php
-
-                        }
-
-                        ?>
-
-
-
-
+                    <!-- Modal -->
+                    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <form action="#" method="post">
+                                        <div class="form-group">
+                                            <label for="search">Cari Produk</label>
+                                            <input type="text" class="form-control" name="search" id="search" placeholder="Search">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-sm btn-block">Search</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                 </nav>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container">
+                <div class="container mt-2">
 
                     <!-- Page Heading -->
                     <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
