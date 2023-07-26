@@ -1,7 +1,6 @@
 <?php
 $tittle = "Detail Produk";
 include_once '../layout/navbar.php';
-include_once '../src/database/produk.php';
 
 ?>
 <section id="produk" class="mt-4">

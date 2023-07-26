@@ -6,6 +6,7 @@ if (session_manager("get_session", ['username', 'role'])['role'] != "User") {
 // var_dump(session_manager("get_session", ['username', 'role']));
 
 $tittle = 'Dashboard';
+require_once './../src/database/dashboard.php';
 include '../layout/master_dashboard.php';
 
 ?>

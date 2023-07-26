@@ -1,6 +1,7 @@
 <?php
 
 require_once './../src/proses/proses_session.php';
+require_once './../src/database/produk.php';
 
 $current_session = session_manager("get_session", [
     "username",
@@ -44,36 +45,26 @@ include_once '../layout/navbar.php';
         Produk Unggulan
     </div>
     <div class="card-body">
-        <div class="card-deck">
-            <div class="card">
-                <img class="card-img-top" src="../assets/upload/produk/1442200225_20200213_103459.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Benih Rispan</h5>
-                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in
-                        to
-                        additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        <div class="row justify-content-center">
+            <?php
+            $produk = get_all_produk();
+            shuffle($produk);
+            foreach ($produk as $produk) {
+            ?>
+                <div class="col col-md-3 my-2">
+                    <a href="detail_produk.php?id=<?= $produk['id_produk'] ?>" class="text-decoration-none text-dark">
+                        <div class="card">
+                            <img src="../assets/upload/produk/<?= $produk['link_foto_produk'] ?>" class="card-img-top" height="200px" alt="<? $produk['nama_produk'] ?>">
+                            <div class="card-body">
+                                <h5 class="card-title mb-1"><?= $produk['nama_produk'] ?></h5>
+                                <p class="card-text font-weight-lighter"><i class="fa fa-store"></i> <?= $produk['nama_toko'] ?></p>
+                                <p class="card-text font-weight-bold">Rp <?= number_format($produk['harga']) ?></p>
+                                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                            </div>
+                        </div>
+                    </a>
                 </div>
-            </div>
-            <div class="card">
-                <img class="card-img-top" src="../assets/upload/produk/1442200225_20200213_103459.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Benih Sandro</h5>
-                    <p class="card-text">This card has supporting text below as a natural lead-in to additional
-                        content.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                </div>
-            </div>
-            <div class="card">
-                <img class="card-img-top" src="" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                        additional content. This card has even longer content than the first to show that equal
-                        height action.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                </div>
-            </div>
+            <?php } ?>
         </div>
     </div>
 </div>

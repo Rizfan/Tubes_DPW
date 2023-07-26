@@ -9,7 +9,9 @@ $id = session_manager("get_session", ['id_user'])['id_user'];
 $tittle = "Profile";
 include('../layout/master_dashboard.php');
 include('../src/database/users.php');
+include('../src/database/penjual.php');
 $user = get_user_by_id($id);
+$penjual = get_penjual_by_id_user($id);
 ?>
 
 <section id="profile">
@@ -71,6 +73,122 @@ $user = get_user_by_id($id);
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="col col-md-5">
+            <div class="card">
+                <?php if ($penjual) { ?>
+                    <div class="card-body">
+                        <h4>Profil Toko Anda!</h4>
+                        <table class="table table-borderless">
+                            <tr>
+                                <td>Nama Toko</td>
+                                <td>:</td>
+                                <td><?= $penjual['nama_toko'] ?></td>
+                            </tr>
+                            <tr>
+                                <td>Status Toko</td>
+                                <td>:</td>
+                                <td><?= $penjual['status_toko'] ?></td>
+                            </tr>
+                            <tr>
+                                <td>Deskripsi Toko</td>
+                                <td>:</td>
+                                <td><?= $penjual['deskripsi_toko'] ?></td>
+                            </tr>
+                        </table>
+                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#editModal<?= $penjual['id_penjual'] ?>">Edit</a>
+
+                        <!-- Modal edit -->
+                        <div class="modal fade" id="editModal<?= $penjual['id_penjual'] ?>" tabindex="-1" aria-labelledby="editModal<?= $penjual['id_penjual'] ?>" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editModalLabel">edit Data</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form action="#" method="post">
+                                        <input type="hidden" name="id_penjual" value="<?= $penjual['id_penjual'] ?>">
+                                        <input type="hidden" name="user" value="<?= $penjual['id_user'] ?>">
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="nama_toko">Nama Toko</label>
+                                                <input required type="text" class="form-control" id="nama_toko" name="nama_toko" value="<?= $penjual['nama_toko'] ?>">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="status_toko">Status Toko</label>
+                                                <select name="status_toko" id="status_toko" class="form-control" required>
+                                                    <option value="" selected disabled>-- Pilih Status --</option>
+                                                    <option value="Aktif" <?php if ($penjual['status_toko'] == "Aktif") {
+                                                                                echo "selected";
+                                                                            } ?>>Aktif</option>
+                                                    <option value="Tidak Aktif" <?php if ($penjual['status_toko'] == "Tidak Aktif") {
+                                                                                    echo "selected";
+                                                                                } ?>>Tidak Aktif</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="deskripsi_toko">Deskripsi Toko</label>
+                                                <textarea name="deskripsi_toko" id="deskripsi_toko" class="form-control" cols="30" rows="5" required><?= $penjual['deskripsi_toko'] ?></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" name="save_edit_toko" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Modal edit -->
+                    </div>
+                <?php } else { ?>
+
+                    <div class="card-body">
+                        <p>Ingin menjadi penjual?</p>
+                        <!-- Button Tambah -->
+                        <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#tambahModal">
+                            Tambah Data
+                        </button>
+                        <!-- End Button Tambah -->
+
+                        <!-- Modal Tambah -->
+                        <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModal" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="tambahModalLabel">Tambah Data</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form action="#" method="post">
+                                        <div class="modal-body">
+                                            <input type="hidden" name="user" value="<?= $penjual['id_user'] ?>">
+                                            <div class="form-group">
+                                                <label for="nama_toko">Nama Toko</label>
+                                                <input required type="text" class="form-control" id="nama_toko" name="nama_toko">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="deskripsi_toko">Deskripsi Toko</label>
+                                                <textarea name="deskripsi_toko" id="deskripsi_toko" class="form-control" cols="30" rows="5" required></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" name="save_tambah" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Modal Tambah -->
+
+                    </div>
+                <?php } ?>
             </div>
         </div>
     </div>
@@ -270,9 +388,88 @@ if (isset($_POST['save_edit_foto'])) {
                     }
                 });
             </script>
-<?php
+        <?php
         }
     }
     // End Image Upload
 }
+
+// Simpan data
+if (isset($_POST['save_tambah'])) {
+    $id_user = $_POST['user'];
+    $nama_toko = $_POST['nama_toko'];
+    $status_toko = "Aktif";
+    $deskripsi_toko = $_POST['deskripsi_toko'];
+
+    $result = create_penjual($id_user, $nama_toko, $status_toko, $deskripsi_toko);
+    if ($result) { ?>
+        <script>
+            Swal.fire({
+                title: 'Success!',
+                text: 'Berhasil Menyimpan Data!',
+                icon: 'success',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "profil.php";
+
+                }
+            });
+        </script>
+    <?php } else { ?>
+        <script>
+            Swal.fire({
+                title: 'Error!',
+                text: 'Gagal Menyimpan Data!',
+                icon: 'error',
+                confirmButtonText: 'Back!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "profil.php";
+
+                }
+            });
+        </script>
+    <?php }
+}
+// Edit data
+if (isset($_POST['save_edit_toko'])) {
+    $id_penjual = $_POST['id_penjual'];
+    $nama_toko = $_POST['nama_toko'];
+    $status_toko = $_POST['status_toko'];
+    $deskripsi_toko = $_POST['deskripsi_toko'];
+
+    $result = update_penjual($id_penjual, $nama_toko, $status_toko, $deskripsi_toko);
+    if ($result) { ?>
+        <script>
+            Swal.fire({
+                title: 'Success!',
+                text: 'Berhasil Mengubah Data!',
+                icon: 'success',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "profil.php";
+
+                }
+            });
+        </script>
+    <?php } else { ?>
+        <script>
+            Swal.fire({
+                title: 'Error!',
+                text: 'Gagal Mengubah Data!',
+                icon: 'error',
+                confirmButtonText: 'Back!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "profil.php";
+
+                }
+            });
+        </script>
+<?php }
+}
+// end edit data
+
 ?>
