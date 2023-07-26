@@ -220,7 +220,7 @@ function get_qr_code($trx_id)
         null,
         null
     );
-    print_r($requests_qr_code);
+    return json_decode($requests_qr_code['Body'], true)['qris_url'];
 }
 
 $getCookie = get_cookie();
@@ -230,7 +230,7 @@ $validate_order = is_order_validated($getCookie, '082223127698');
 print_r($validate_order);
 
 $detail_order = detail_order($getCookie, $validate_order);
-print_r($datail_order);
+print_r($detail_order);
 
 $is_submit_order = submit_order($getCookie, $validate_order, '082223127698');
 print_r($is_submit_order);
