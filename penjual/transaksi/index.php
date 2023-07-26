@@ -30,7 +30,7 @@ include('../../src/database/users.php');
                             <th scope="col">No</th>
                             <th scope="col">Pembeli</th>
                             <!-- <th scope="col">Toko / Penjual</th> -->
-                            <th scope="col">Total Pembelian</th>
+                            <!-- <th scope="col">Total Pembelian</th> -->
                             <th scope="col">Status Pembayaran</th>
                             <th scope="col">Status Transaksi</th>
                             <th scope="col">Tanggal Transaksi</th>
@@ -52,7 +52,7 @@ include('../../src/database/users.php');
                                 <th scope="row"><?= $no ?></th>
                                 <td><?= $t['nama'] ?></td>
                                 <!-- <td><?= $t['nama_toko'] ?></td> -->
-                                <td>Rp <?= number_format($t['total_harga_pembelian']) ?>,-</td>
+                                <!-- <td>Rp <?= number_format($t['total_harga_pembelian']) ?>,-</td> -->
                                 <td>
                                     <?php if ($t['status_pembayaran'] == "Lunas") { ?>
                                         <span class="badge badge-success">Lunas</span>
