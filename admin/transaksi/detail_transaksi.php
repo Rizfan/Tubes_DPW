@@ -1,9 +1,16 @@
 <?php
+
+include '../../src/proses/proses_session.php';
+
+if (session_manager("get_session", ["role"])['role'] != "Admin") {
+    redirect_to_role_page("http://localhost/Tubes_DPW/");
+}
+
 $tittle = "Data Detail Transaksi";
-include_once('../../layout/master.php');
-include_once('../../src/database/transaksi.php');
-include_once('../../src/database/produk.php');
-include_once('../../src/database/detail_transaksi.php');
+include_once '../../layout/master.php';
+include_once '../../src/database/transaksi.php';
+include_once '../../src/database/produk.php';
+include_once '../../src/database/detail_transaksi.php';
 $id_transaksi = $_GET['id'];
 $t = get_transaksi($id_transaksi);
 ?>
@@ -15,8 +22,8 @@ $t = get_transaksi($id_transaksi);
 
             <!-- Button Tambah -->
             <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#tambahModal" <?php if ($t['status_pembayaran'] != "Belum Lunas" || $t['status_transaksi'] != "Proses") {
-                                                                                                                    echo "disabled";
-                                                                                                                } ?>>
+    echo "disabled";
+}?>>
                 Tambah Data
             </button>
             <!-- End Button Tambah -->
@@ -38,12 +45,13 @@ $t = get_transaksi($id_transaksi);
                                     <select class="form-control" id="produk" name="produk" required>
                                         <option value="" selected disabled>-- Pilih Produk --</option>
                                         <?php
-                                        $u = get_all_produk();
-                                        foreach ($u as $us) {
-                                        ?>
-                                            <option value="<?= $us['id_produk'] . '_' . $us['harga'] ?>"><?= $us['nama_produk'] ?></option>
+$u = get_all_produk();
+foreach ($u as $us) {
+    ?>
+                                        <option value="<?=$us['id_produk'] . '_' . $us['harga']?>">
+                                            <?=$us['nama_produk']?></option>
                                         <?php
-                                        } ?>
+}?>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -82,58 +90,68 @@ $t = get_transaksi($id_transaksi);
                     <tbody>
 
                         <?php
-                        $detail = get_detail($id_transaksi);
-                        $no = 1;
-                        foreach ($detail as $d) {
-                        ?>
-                            <tr>
-                                <th scope="row"><?= $no ?></th>
-                                <td><?= $d['nama_produk'] ?></td>
-                                <td>Rp <?= number_format($d['harga']) ?>,-</td>
-                                <td><?= $d['jumlah_barang'] ?></td>
-                                <td>Rp <?= number_format($d['harga'] * $d['jumlah_barang']) ?>,-</td>
-                                <td><?php if ($t['status_pembayaran'] != "Belum Lunas" && $t['status_transaksi'] != "Proses") { ?>
-                                        <button type="button" class="btn btn-primary btn-sm my-1" data-toggle="modal" data-target="#editModal<?= $d['id_detail_transaksi'] ?>" disabled>Edit</button>
-                                        <button type="button" class="btn btn-danger btn-sm my-1" data-toggle="modal" data-target="#hapusModal<?= $d['id_detail_transaksi'] ?>" disabled>Hapus</button>
-                                    <?php } else { ?>
+$detail = get_detail($id_transaksi);
+$no = 1;
+foreach ($detail as $d) {
+    ?>
+                        <tr>
+                            <th scope="row"><?=$no?></th>
+                            <td><?=$d['nama_produk']?></td>
+                            <td>Rp <?=number_format($d['harga'])?>,-</td>
+                            <td><?=$d['jumlah_barang']?></td>
+                            <td>Rp <?=number_format($d['harga'] * $d['jumlah_barang'])?>,-</td>
+                            <td><?php if ($t['status_pembayaran'] != "Belum Lunas" && $t['status_transaksi'] != "Proses") {?>
+                                <button type="button" class="btn btn-primary btn-sm my-1" data-toggle="modal"
+                                    data-target="#editModal<?=$d['id_detail_transaksi']?>" disabled>Edit</button>
+                                <button type="button" class="btn btn-danger btn-sm my-1" data-toggle="modal"
+                                    data-target="#hapusModal<?=$d['id_detail_transaksi']?>" disabled>Hapus</button>
+                                <?php } else {?>
 
-                                        <button type="button" class="btn btn-primary btn-sm my-1" data-toggle="modal" data-target="#editModal<?= $d['id_detail_transaksi'] ?>">Edit</button>
-                                        <button type="button" class="btn btn-danger btn-sm my-1" data-toggle="modal" data-target="#hapusModal<?= $d['id_detail_transaksi'] ?>">Hapus</button>
+                                <button type="button" class="btn btn-primary btn-sm my-1" data-toggle="modal"
+                                    data-target="#editModal<?=$d['id_detail_transaksi']?>">Edit</button>
+                                <button type="button" class="btn btn-danger btn-sm my-1" data-toggle="modal"
+                                    data-target="#hapusModal<?=$d['id_detail_transaksi']?>">Hapus</button>
 
-                                        <!-- Modal hapus -->
-                                        <div class="modal fade" id="hapusModal<?= $d['id_detail_transaksi'] ?>" tabindex="-1" role="dialog" aria-labelledby="hapusModal1Label" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="hapusModal1Label">Konfirmasi Penghapusan</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        Apakah Anda yakin ingin menghapus data pengguna ini?
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                                        <form action="#" method="POST">
-                                                            <input type="hidden" name="id" value="<?= $d['id_detail_transaksi'] ?>">
-                                                            <input type="hidden" name="produk" value="<?= $d['id_produk'] ?>">
-                                                            <input type="hidden" name="harga" value="<?= $d['harga'] ?>">
-                                                            <input type="hidden" name="jml" value="<?= $d['jumlah_barang'] ?>">
-                                                            <button type="submit" name="delete_data" class="btn btn-danger">Hapus</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
+                                <!-- Modal hapus -->
+                                <div class="modal fade" id="hapusModal<?=$d['id_detail_transaksi']?>" tabindex="-1"
+                                    role="dialog" aria-labelledby="hapusModal1Label" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="hapusModal1Label">Konfirmasi Penghapusan
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Apakah Anda yakin ingin menghapus data pengguna ini?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Batal</button>
+                                                <form action="#" method="POST">
+                                                    <input type="hidden" name="id"
+                                                        value="<?=$d['id_detail_transaksi']?>">
+                                                    <input type="hidden" name="produk" value="<?=$d['id_produk']?>">
+                                                    <input type="hidden" name="harga" value="<?=$d['harga']?>">
+                                                    <input type="hidden" name="jml" value="<?=$d['jumlah_barang']?>">
+                                                    <button type="submit" name="delete_data"
+                                                        class="btn btn-danger">Hapus</button>
+                                                </form>
                                             </div>
                                         </div>
-                                        <!-- End Modal hapus -->
-                                    <?php } ?>
-                                </td>
-                            </tr>
+                                    </div>
+                                </div>
+                                <!-- End Modal hapus -->
+                                <?php }?>
+                            </td>
+                        </tr>
                         <?php
-                            $no++;
-                        }
-                        ?>
+$no++;
+}
+?>
                     </tbody>
 
                 </table>
@@ -144,7 +162,7 @@ $t = get_transaksi($id_transaksi);
 </section>
 
 <?php
-include('../../layout/footer.php');
+include '../../layout/footer.php';
 
 if (isset($_POST['save_tambah'])) {
     $data = explode('_', $_POST['produk']);
@@ -152,8 +170,6 @@ if (isset($_POST['save_tambah'])) {
     $jumlah_barang = $_POST['qty'];
     $harga = $data[1];
     $id_transaksi = $id_transaksi;
-
-
 
     $cek_stok = cek_stok($id_produk, $jumlah_barang);
     if ($cek_stok) {
@@ -172,53 +188,52 @@ if (isset($_POST['save_tambah'])) {
             $result = create_detail_transaksi($id_transaksi, $id_produk, $jumlah_barang);
         }
 
+        if ($result && $r) {?>
+<script>
+Swal.fire({
+    title: 'Success!',
+    text: 'Berhasil Menambahkan Produk yang Dibeli!',
+    icon: 'success',
+    confirmButtonText: 'Yes!'
+}).then((result) => {
+    if (result.isConfirmed) {
+        window.location = "detail_transaksi.php?id=<?=$id_transaksi?>";
 
-        if ($result && $r) { ?>
-            <script>
-                Swal.fire({
-                    title: 'Success!',
-                    text: 'Berhasil Menambahkan Produk yang Dibeli!',
-                    icon: 'success',
-                    confirmButtonText: 'Yes!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location = "detail_transaksi.php?id=<?= $id_transaksi ?>";
+    }
+});
+</script>
+<?php } else {?>
+<script>
+Swal.fire({
+    title: 'Error!',
+    text: 'Gagal Menambahkan Produk yang Dibeli!',
+    icon: 'error',
+    confirmButtonText: 'Back!'
+}).then((result) => {
+    if (result.isConfirmed) {
+        window.location = "detail_transaksi.php?id=<?=$id_transaksi?>";
 
-                    }
-                });
-            </script>
-        <?php } else { ?>
-            <script>
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'Gagal Menambahkan Produk yang Dibeli!',
-                    icon: 'error',
-                    confirmButtonText: 'Back!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location = "detail_transaksi.php?id=<?= $id_transaksi ?>";
+    }
+});
+</script>
+<?php
+}
+    } else {?>
+<script>
+Swal.fire({
+    title: 'Gagal!',
+    text: 'Stok yang tersedia tidak mencukupi!',
+    icon: 'error',
+    confirmButtonText: 'Yes!'
+}).then((result) => {
+    if (result.isConfirmed) {
+        window.location = "detail_transaksi.php?id=<?=$id_transaksi?>";
 
-                    }
-                });
-            </script>
-        <?php
-        }
-    } else { ?>
-        <script>
-            Swal.fire({
-                title: 'Gagal!',
-                text: 'Stok yang tersedia tidak mencukupi!',
-                icon: 'error',
-                confirmButtonText: 'Yes!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location = "detail_transaksi.php?id=<?= $id_transaksi ?>";
+    }
+});
+</script>
 
-                }
-            });
-        </script>
-
-    <?php }
+<?php }
 }
 
 if (isset($_POST['delete_data'])) {
@@ -235,37 +250,36 @@ if (isset($_POST['delete_data'])) {
     $total_harga = $t['total_harga_pembelian'] - $total_pembelian;
     $r = update_total($total_harga, $id_transaksi);
     $result = delete_detail_transaksi($id);
-    if ($result && $r) { ?>
-        <script>
-            Swal.fire({
-                title: 'Success!',
-                text: 'Berhasil Menghapus Produk yang Dibeli!',
-                icon: 'success',
-                confirmButtonText: 'Yes!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location = "detail_transaksi.php?id=<?= $id_transaksi ?>";
+    if ($result && $r) {?>
+<script>
+Swal.fire({
+    title: 'Success!',
+    text: 'Berhasil Menghapus Produk yang Dibeli!',
+    icon: 'success',
+    confirmButtonText: 'Yes!'
+}).then((result) => {
+    if (result.isConfirmed) {
+        window.location = "detail_transaksi.php?id=<?=$id_transaksi?>";
 
-                }
-            });
-        </script>
-    <?php } else { ?>
-        <script>
-            Swal.fire({
-                title: 'Error!',
-                text: 'Gagal Menghapus Produk yang Dibeli!',
-                icon: 'error',
-                confirmButtonText: 'Back!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location = "detail_transaksi.php?id=<?= $id_transaksi ?>";
-
-                }
-            });
-        </script>
-<?php
     }
-}
+});
+</script>
+<?php } else {?>
+<script>
+Swal.fire({
+    title: 'Error!',
+    text: 'Gagal Menghapus Produk yang Dibeli!',
+    icon: 'error',
+    confirmButtonText: 'Back!'
+}).then((result) => {
+    if (result.isConfirmed) {
+        window.location = "detail_transaksi.php?id=<?=$id_transaksi?>";
 
+    }
+});
+</script>
+<?php
+}
+}
 
 ?>

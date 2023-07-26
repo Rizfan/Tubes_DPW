@@ -4,16 +4,13 @@ include __DIR__ . './../database/users.php';
 include __DIR__ . './../database/penjual.php';
 include __DIR__ . './../proses/proses_session.php';
 
-
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
     if (isset($_POST['email']) && isset($_POST['password'])) {
         $password = $_POST['password'];
         $email = $_POST['email'];
 
-
         $result = get_user_by_email_password($email, $password);
-        print_r($result);
 
         if ($result) {
 
@@ -30,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     ['email', $result['email']],
                     ['role', "Penjual"],
                 ];
+
             } else {
                 // Add session
                 $data_session = [
@@ -40,7 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     ['role', $result['role']],
                 ];
             }
-
 
             session_manager("add_session", $data_session);
 
