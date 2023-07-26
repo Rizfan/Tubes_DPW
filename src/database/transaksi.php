@@ -146,6 +146,23 @@ function get_transaksi($id_transaksi = null)
     }
 }
 
+function get_all_transaksi_penjual($id_penjual = null)
+{
+    try {
+        $db = connect();
+        $sql = "SELECT * FROM detail_transaksi JOIN transaksi ON detail_transaksi.id_transaksi = transaksi.id_transaksi JOIN produk ON detail_transaksi.id_produk = produk.id_produk JOIN user ON transaksi.id_user = user.id_user WHERE produk.id_penjual = :id_penjual";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':id_penjual', $id_penjual);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    } finally {
+        $db = null;
+    }
+}
+
 if (isset($_POST['func'])) {
     $func = $_POST['func'];
     switch ($func) {

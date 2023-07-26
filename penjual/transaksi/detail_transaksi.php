@@ -1,4 +1,10 @@
 <?php
+
+include '../../src/proses/proses_session.php';
+
+if (session_manager("get_session", ["role"])['role'] != "Penjual") {
+    redirect_to_role_page("http://localhost/Tubes_DPW/");
+}
 $tittle = "Data Detail Transaksi";
 include_once('../../layout/master.php');
 include_once('../../src/database/transaksi.php');

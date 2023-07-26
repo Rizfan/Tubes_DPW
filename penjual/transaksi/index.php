@@ -1,4 +1,13 @@
 <?php
+
+include '../../src/proses/proses_session.php';
+
+if (session_manager("get_session", ["role"])['role'] != "Penjual") {
+    redirect_to_role_page("http://localhost/Tubes_DPW/");
+}
+
+$id_penjual = session_manager("get_session", ['id_penjual'])['id_penjual'];
+
 $tittle = "Data Transaksi";
 include('../../layout/master.php');
 include('../../src/database/transaksi.php');
@@ -10,56 +19,6 @@ include('../../src/database/users.php');
     <div class="card mt-4">
         <div class="card-body">
 
-            <!-- Button Tambah -->
-            <!-- <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#tambahModal">
-                Tambah Data
-            </button> -->
-            <!-- End Button Tambah -->
-
-
-            <!-- Modal Tambah -->
-            <!-- <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModal" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="tambahModalLabel">Tambah Data</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <form action="#" method="post">
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="user">Pembeli</label>
-                                    <select class="form-control" id="user" name="user" required>
-                                        <option value="" selected disabled>-- Pilih Pembeli --</option>
-                                        <?php
-                                        $u = get_all_user();
-                                        foreach ($u as $us) {
-                                        ?>
-                                            <option value="<?= $us['id_user'] ?>"><?= $us['nama'] ?></option>
-                                        <?php
-                                        } ?>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="nama_toko">Nama Toko</label>
-                                    <input required type="text" class="form-control" id="nama_toko" name="nama_toko">
-                                </div>
-                                <div class="form-group">
-                                    <label for="deskripsi_toko">Deskripsi Toko</label>
-                                    <textarea name="deskripsi_toko" id="deskripsi_toko" class="form-control" cols="30" rows="5" required></textarea>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" name="save_tambah" class="btn btn-primary">Save changes</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div> -->
-            <!-- End Modal Tambah -->
 
             <!-- Table data -->
             <div class="table-responsive">
@@ -85,7 +44,7 @@ include('../../src/database/users.php');
                     <tbody>
 
                         <?php
-                        $trans = get_all_transaksi();
+                        $trans = get_all_transaksi_penjual($id_penjual);
                         $no = 1;
                         foreach ($trans as $t) {
                         ?>

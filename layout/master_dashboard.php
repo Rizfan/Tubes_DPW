@@ -192,7 +192,7 @@
                     <a class="nav-link collapsed" href="<?php if (str_contains($tittle, "Transaksi")) {
                                                             echo "#";
                                                         } else {
-                                                            echo "../admin/transaksi/index.php";
+                                                            echo "../penjual/transaksi/index.php";
                                                         } ?>">
                         <i class="fas fa-clipboard-list "></i>
                         <span>Data Transaksi</span>
@@ -325,7 +325,7 @@
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="/user/profil.php">
+                                <a class="dropdown-item" href="../user/profil.php">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
