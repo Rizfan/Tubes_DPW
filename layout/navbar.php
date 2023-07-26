@@ -77,7 +77,7 @@ $current_session = session_manager("get_session", [
                                     <a class="nav-link" href="#" data-toggle="modal" data-target="#searchModal"><i class="fa fa-search"></i></a>
                                 </li>
                                 <li class="nav-item mr-2">
-                                    <a class="nav-link" href="#"><i class="fa fa-shopping-cart"></i></a>
+                                    <a class="nav-link" href="../user/keranjang.php"><i class="fa fa-shopping-cart"></i></a>
                                 </li>
 
                                 <?php
