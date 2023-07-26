@@ -4,6 +4,10 @@ $get_keranjang = session_manager("get_session", [
     "keranjang",
 ]);
 
+$user = session_manager("get_session", [
+    "id_user",
+]);
+
 $tittle = 'Keranjang';
 $total_semua = 0;
 include_once '../layout/navbar.php';
@@ -86,26 +90,65 @@ include __DIR__ . './../src/database/produk.php';
 
                     </div>
                     <hr>
-                    <button class="btn btn-primary btn-block
+                    <button class="btn btn-primary btn-block" <?php
+                                                                if ($get_keranjang['keranjang'] == null) {
+                                                                    echo "disabled";
+                                                                }
 
-                    <?php
-                    if ($get_keranjang['keranjang'] == null) {
-                        echo "disabled";
-                    }
-
-                    ?>
-
-
-
-
-
-                    ">Beli</button>
+                                                                ?> data-toggle="modal" data-target="#cekoutModal">Beli</button>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
+<!-- Modal edit -->
+<div class="modal fade" id="cekoutModal" tabindex="-1" aria-labelledby="cekoutModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cekoutModalLabel">Pembayaran</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="#" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="id_user" value="<?= $user ?>">
+                <div class="modal-body">
+                    <h6>Metode Pembayaran</h6>
+                    <div class="card py-3 px-4">
+                        <div class="form-check d-flex align-items-center">
+                            <input class="form-check-input " type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                            <label class="form-check-label" for="exampleRadios1">
+                                <img src="../assets/img/LinkAja!.png" alt="Link Aja" width="50px;">LinkAja
+                            </label>
+                        </div>
+                    </div>
+                    <hr>
+                    <h6>Ringkasan Pembayaran</h6>
+
+                    <div class="d-flex justify-content-between mb-auto">
+                        <p>Total Belanja (<?= count($get_keranjang['keranjang']) ?> Barang)</p>
+                        <p class="font-weight-bold" name="total_semua_harga">Rp. <?= number_format($total_semua) ?></p>
+                    </div>
+                    <div class="d-flex justify-content-between align-item-start">
+                        <p>Biaya Admin</p>
+                        <p class="font-weight-bold" name="total_semua_harga">Rp. <?= number_format(1000) ?></p>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <p>Total Pembayaran</p>
+                        <p class="font-weight-bold" name="total_semua_harga">Rp. <?= number_format($total_semua + 1000) ?></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" name="buat_pesanan" class="btn btn-primary">Buat Pesanan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End Modal edit -->
 
 <?php
 
@@ -114,6 +157,6 @@ include_once '../layout/footer.php';
 ?>
 
 
-<script type="text/javascript">
+<script type=" text/javascript">
 
 </script>

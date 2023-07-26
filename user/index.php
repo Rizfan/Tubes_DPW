@@ -1,10 +1,11 @@
 <?php
 require_once './../src/proses/proses_session.php';
-if (session_manager("get_session", ['username', 'role'])['role'] != "User") {
-    redirect_to_role_page("http://localhost/Tubes_DPW/landing/");
+if (session_manager("get_session", ['username', 'id_penjual'])['id_penjual'] != null) {
+    redirect_to_role_page("http://localhost/Tubes_DPW/penjual/index.php");
 }
 
 $tittle = 'Dashboard';
+require_once './../src/database/dashboard.php';
 include '../layout/master_dashboard.php';
 
 ?>
@@ -56,7 +57,7 @@ include '../layout/master_dashboard.php';
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Transaksi
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Riwayat Transaksi
                             </div>
 
                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?php count_transaksi()?></div>
@@ -69,23 +70,6 @@ include '../layout/master_dashboard.php';
             </div>
         </div>
 
-        <!-- Pending Requests Card Example -->
-        <!-- <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-warning shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                Pending Requests</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-comments fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
     </div>
 </section>
 
