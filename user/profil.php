@@ -4,7 +4,6 @@ if (session_manager("get_session", ['username', 'role'])['username'] == null) {
     redirect_to_role_page("http://localhost/Tubes_DPW/landing/");
 }
 
-$current_users = session_manager("get_session", ['email', 'password']);
 $id = session_manager("get_session", ['id_user'])['id_user'];
 
 $tittle = "Profile";
