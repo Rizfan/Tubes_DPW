@@ -66,6 +66,12 @@ foreach (session_manager("get_session", [
 // destroy cart
 session_manager("destroy_cart");
 
-// redirect
-?>
-<img src="<?=$get_qr_code?>">
+// add qr to session
+
+session_manager("add_session", [[
+    "qr_code",
+    $get_qr_code,
+]]);
+
+// redirect to payment page
+redirect_to_role_page("http://localhost/Tubes_DPW/user/payment.php");

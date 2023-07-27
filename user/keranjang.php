@@ -55,6 +55,8 @@ if ($get_keranjang['keranjang'] == null) {
                     <p class="font-weight-bold" id="produk_<?=$id_produk?>">Rp.
                         <?=number_format($total_harga_produk)?>
                     </p>
+                    <a class="btn btn-danger btn-sm"
+                        href="../src/proses/proses_hapus_keranjang.php?id_produk=<?=$id_produk?>">Hapus</a>
                 </div>
             </div>
             <hr>
