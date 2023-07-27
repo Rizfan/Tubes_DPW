@@ -172,8 +172,6 @@ function detail_order($cookie, $data)
         null
     );
 
-    print_r($request_detail_order);
-
 }
 
 function submit_order($cookie, $data_order_valid, $cust_target)
@@ -220,20 +218,24 @@ function get_qr_code($trx_id)
         null,
         null
     );
-    print_r($requests_qr_code);
+    return json_decode($requests_qr_code['Body'], true)['qris_url'];
 }
 
-$getCookie = get_cookie();
-print_r($getCookie);
+function check_status_trx($trx_id)
+{
 
-$validate_order = is_order_validated($getCookie, '082223127698');
-print_r($validate_order);
-
-$detail_order = detail_order($getCookie, $validate_order);
-print_r($datail_order);
-
-$is_submit_order = submit_order($getCookie, $validate_order, '082223127698');
-print_r($is_submit_order);
-
-$get_qr_code = get_qr_code($is_submit_order);
-print_r($get_qr_code);
+    $requests_check_status_trx = curl(
+        'https://app.midtrans.com/snap/v2/transactions/' . $trx_id . '/status',
+        'GET',
+        null,
+        null,
+        [
+            'Host: app.midtrans.com',
+            'Content-Type: application/json',
+            'Cookie: preferredPayment-M098309=gopay',
+        ],
+        null,
+        null
+    );
+    return json_decode($requests_check_status_trx['Body'], true)['transaction_status'];
+}

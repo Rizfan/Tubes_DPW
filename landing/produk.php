@@ -1,7 +1,8 @@
 <?php
+
 $tittle = "Detail Produk";
 include_once '../layout/navbar.php';
-include __DIR__ . './../src/database/produk.php';
+include_once '../src/database/produk.php';
 
 ?>
 <section id="produk" class="mt-4">
@@ -22,7 +23,6 @@ include __DIR__ . './../src/database/produk.php';
                             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                         </div>
                     </div>
-                </a>
             </div>
         <?php } ?>
     </div>
