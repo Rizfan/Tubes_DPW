@@ -54,8 +54,8 @@ $produk = get_produk_by_id($id);
                     <hr>
                     <?php if ($produk['stok'] > 0) { ?>
                         
-                        <button class="btn btn-outline-primary btn-block" id="btn_keranjang" name="btn_keranjang">Keranjang</button>
-
+                            <button class="btn btn-outline-primary btn-block" id="btn_keranjang" name="btn_keranjang">Keranjang</button>
+                        
                     <?php } else { ?>
                         <button disabled="disabled" class="btn btn-primary btn-block">Stok Tidak Tersedia</button>
                     <?php } ?>

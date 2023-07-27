@@ -9,10 +9,15 @@ include_once '../layout/navbar.php';
 ?>
 
 <section id="keranjang" class="mt-4">
-
-    <div class="row">
-
-        <img src="<?=$get_qr['qr_code']?>" alt="" srcset="">
-
+    <div class="card text-center">
+        <div class="card-header">
+            QR
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Scan QR Berikut</h5>
+            <hr>
+            <img class="mx-auto d-block" width="500px" src="<?= $get_qr['qr_code'] ?>" alt="" srcset="">
+        </div>
+        
     </div>
 </section>
