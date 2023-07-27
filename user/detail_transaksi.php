@@ -1,15 +1,15 @@
 <?php
 
-include '../../src/proses/proses_session.php';
+include '../src/proses/proses_session.php';
 
-if (session_manager("get_session", ["role"])['role'] != "Penjual") {
+if (session_manager("get_session", ["role"])['role'] != "User") {
     redirect_to_role_page("http://localhost/Tubes_DPW/");
 }
 $tittle = "Data Detail Transaksi";
-include_once('../../layout/master.php');
-include_once('../../src/database/transaksi.php');
-include_once('../../src/database/produk.php');
-include_once('../../src/database/detail_transaksi.php');
+include_once('../layout/master_dashboard.php');
+include_once('../src/database/transaksi.php');
+include_once('../src/database/produk.php');
+include_once('../src/database/detail_transaksi.php');
 $id_transaksi = $_GET['id'];
 $t = get_transaksi($id_transaksi);
 ?>
@@ -17,15 +17,6 @@ $t = get_transaksi($id_transaksi);
 
     <div class="card mt-4">
         <div class="card-body">
-
-
-            <!-- Button Tambah -->
-            <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#tambahModal" <?php if ($t['status_pembayaran'] != "Belum Lunas" || $t['status_transaksi'] != "Proses") {
-                                                                                                                    echo "disabled";
-                                                                                                                } ?>>
-                Tambah Data
-            </button>
-            <!-- End Button Tambah -->
 
             <!-- Modal Tambah -->
             <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModal" aria-hidden="true">
@@ -79,7 +70,6 @@ $t = get_transaksi($id_transaksi);
                             <th scope="col">Harga Satuan</th>
                             <th scope="col">Quantity</th>
                             <th scope="col">Total Harga</th>
-                            <th scope="col">Opsi</th>
                         </tr>
                     </thead>
                     <!-- End header table -->
@@ -98,43 +88,6 @@ $t = get_transaksi($id_transaksi);
                                 <td>Rp <?= number_format($d['harga']) ?>,-</td>
                                 <td><?= $d['jumlah_barang'] ?></td>
                                 <td>Rp <?= number_format($d['harga'] * $d['jumlah_barang']) ?>,-</td>
-                                <td><?php if ($t['status_pembayaran'] != "Belum Lunas" && $t['status_transaksi'] != "Proses") { ?>
-                                        <button type="button" class="btn btn-primary btn-sm my-1" data-toggle="modal" data-target="#editModal<?= $d['id_detail_transaksi'] ?>" disabled>Edit</button>
-                                        <button type="button" class="btn btn-danger btn-sm my-1" data-toggle="modal" data-target="#hapusModal<?= $d['id_detail_transaksi'] ?>" disabled>Hapus</button>
-                                    <?php } else { ?>
-
-                                        <button type="button" class="btn btn-primary btn-sm my-1" data-toggle="modal" data-target="#editModal<?= $d['id_detail_transaksi'] ?>">Edit</button>
-                                        <button type="button" class="btn btn-danger btn-sm my-1" data-toggle="modal" data-target="#hapusModal<?= $d['id_detail_transaksi'] ?>">Hapus</button>
-
-                                        <!-- Modal hapus -->
-                                        <div class="modal fade" id="hapusModal<?= $d['id_detail_transaksi'] ?>" tabindex="-1" role="dialog" aria-labelledby="hapusModal1Label" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="hapusModal1Label">Konfirmasi Penghapusan</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        Apakah Anda yakin ingin menghapus data pengguna ini?
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                                        <form action="#" method="POST">
-                                                            <input type="hidden" name="id" value="<?= $d['id_detail_transaksi'] ?>">
-                                                            <input type="hidden" name="produk" value="<?= $d['id_produk'] ?>">
-                                                            <input type="hidden" name="harga" value="<?= $d['harga'] ?>">
-                                                            <input type="hidden" name="jml" value="<?= $d['jumlah_barang'] ?>">
-                                                            <button type="submit" name="delete_data" class="btn btn-danger">Hapus</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- End Modal hapus -->
-                                    <?php } ?>
-                                </td>
                             </tr>
                         <?php
                             $no++;
@@ -150,7 +103,7 @@ $t = get_transaksi($id_transaksi);
 </section>
 
 <?php
-include('../../layout/footer.php');
+include('../layout/footer.php');
 
 if (isset($_POST['save_tambah'])) {
     $data = explode('_', $_POST['produk']);
