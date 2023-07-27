@@ -24,6 +24,19 @@ function session_manager($type = "add_session", $data_session = null)
         return $data_sessione;
     } elseif (strtolower($type) == "destroy_cart") {
         unset($_SESSION['keranjang']);
+    } elseif (strtolower($type) == "destroy_cart_by_id" && $data_session != null) {
+        // get session keranjang
+        $get_session_keranjang = session_manager("get_session", ["keranjang"])['keranjang'];
+        foreach ($get_session_keranjang as $keranjang => $value) {
+            $explode = explode("-", $value);
+            $id_produk = $explode[0];
+
+            if ($id_produk == $data_session) {
+                echo $id_produk;
+                unset($_SESSION['keranjang'][$keranjang]);
+            }
+
+        }
     }
 }
 
