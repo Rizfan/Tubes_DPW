@@ -131,7 +131,7 @@ function is_order_validated($cookie, $cust_target)
     $request_is_order_validated = curl(
         constant('BASE_API') . 'pulsa/index.php/ewallet/isOrderValidated',
         'POST',
-        'cust_number=' . $cust_target . '&id=44&tipe_produk=13&web=web&hm_csrf_hash_name=' . $cookie['cookiev1']['hotelmurah_csrf_cookie_name'],
+        'cust_number=' . $cust_target . '&id=36&tipe_produk=11&web=web&hm_csrf_hash_name=' . $cookie['cookiev1']['hotelmurah_csrf_cookie_name'],
         null,
         [
             'Host: hotelmurah.com',
@@ -213,7 +213,6 @@ function get_qr_code($trx_id)
         [
             'Host: app.midtrans.com',
             'Content-Type: application/json',
-            'Cookie: preferredPayment-M098309=gopay',
         ],
         null,
         null
@@ -232,7 +231,6 @@ function check_status_trx($trx_id)
         [
             'Host: app.midtrans.com',
             'Content-Type: application/json',
-            'Cookie: preferredPayment-M098309=gopay',
         ],
         null,
         null
