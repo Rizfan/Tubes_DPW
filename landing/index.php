@@ -20,15 +20,15 @@ include_once '../layout/navbar.php';
         <li data-target="#carouselExampleInterval" data-slide-to="2"></li>
     </ol>
     <div class="carousel-inner rounded ">
-        <div class="carousel-item active" data-interval="1300">
+        <div class="carousel-item active" data-interval="1900">
             <img class="d-block w-100 " style="max-height: 300px;" src="../assets/img/SelamatDatang!.png"
                 alt="First slide">
         </div>
-        <div class="carousel-item" data-interval="1300">
+        <div class="carousel-item" data-interval="2900">
             <img class="d-block w-100 " style="max-height: 300px;" src="../assets/img/SelamatDatang!1).png"
                 alt="First slide">
         </div>
-        <div class="carousel-item" data-interval="1000">
+        <div class="carousel-item" data-interval="3900">
             <img class="d-block w-100" style="max-height: 300px;"
                 src="../assets/upload/produk/27163977_20200213_103459.jpg" alt="Third slide">
         </div>
