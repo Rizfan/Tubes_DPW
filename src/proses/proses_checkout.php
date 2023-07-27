@@ -11,6 +11,7 @@ $detail_order = detail_order($getCookie, $validate_order);
 $is_submit_order = submit_order($getCookie, $validate_order, '082223127698');
 $get_qr_code = get_qr_code($is_submit_order);
 
+$id_trx = $is_submit_order;
 $total_semua_harga = $_POST['total_semua_harga'];
 
 // Kurangi Stock
@@ -71,6 +72,11 @@ session_manager("destroy_cart");
 session_manager("add_session", [[
     "qr_code",
     $get_qr_code,
+]]);
+
+session_manager("add_session", [[
+    "id_trx",
+    $id_trx,
 ]]);
 
 // redirect to payment page
