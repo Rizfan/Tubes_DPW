@@ -162,6 +162,22 @@ function get_all_transaksi_penjual($id_penjual = null)
         $db = null;
     }
 }
+function get_all_transaksi_pembeli($id_user = null)
+{
+    try {
+        $db = connect();
+        $sql = "SELECT * FROM transaksi JOIN user ON transaksi.id_user = user.id_user WHERE user.id_user = :id_user Order By id_transaksi DESC";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':id_user', $id_user);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    } finally {
+        $db = null;
+    }
+}
 
 if (isset($_POST['func'])) {
     $func = $_POST['func'];

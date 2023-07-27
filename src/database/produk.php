@@ -164,7 +164,7 @@ function get_produk_by_search($keyword)
 {
     try {
         $db = connect();
-        $query = $db->prepare("SELECT * FROM produk JOIN penjual ON produk.id_penjual = penjual.id_penjual JOIN kategori ON produk.id_kategori = kategori.id_kategori WHERE nama_produk LIKE :keyword OR nama_toko LIKE :keyword OR nama_kategori LIKE :keyword");
+        $query = $db->prepare("SELECT * FROM produk JOIN penjual ON produk.id_penjual = penjual.id_penjual JOIN kategori ON produk.id_kategori = kategori.id_kategori WHERE nama_produk LIKE :keyword OR nama_toko LIKE :keyword OR nama_kategori LIKE :keyword OR produk.id_kategori LIKE :keyword ");
         $query->bindValue(':keyword', "%$keyword%");
         $query->execute();
         $result = $query->fetchAll(PDO::FETCH_ASSOC);

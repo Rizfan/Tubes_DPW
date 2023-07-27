@@ -5,7 +5,7 @@
 <!-- End of Main Content -->
 
 <!-- Footer -->
-<footer class="sticky-footer bg-white">
+<footer class="sticky-footer bg-light">
     <div class="container my-auto">
         <div class="copyright text-center my-auto">
             <span>Copyright &copy; Bybit.id 2023</span>
@@ -53,6 +53,7 @@
     <script src="../assets/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.19/dist/sweetalert2.all.min.js"></script>
+    <script src="../assets/splidejs/js/splide.min.js"></script>
 <?php } else { ?>
 
     <!-- Logout Modal-->
@@ -109,7 +110,16 @@
             }
         });
     }
+
+    var splide = new Splide('.splide', {
+        perPage: 5,
+        focus: 0,
+        omitEnd: true,
+    });
+
+    splide.mount();
 </script>
+
 
 
 </body>

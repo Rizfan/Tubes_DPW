@@ -5,7 +5,7 @@ require_once '.././src/database/produk.php';
 
 for ($i = 0; $i < 10; $i++) {
     $id_penjual = 1;
-    $id_kategori = 1;
+    $id_kategori = rand(1, 5);
     $nama_produk = "Produk " . $i;
     $harga = rand(1000, 999999);
     $stok = rand(1, 100);

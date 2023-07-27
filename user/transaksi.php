@@ -44,7 +44,7 @@ include '../src/database/users.php';
                     <tbody>
 
                         <?php
-                        $trans = get_all_transaksi_penjual($id_user);
+                        $trans = get_all_transaksi_pembeli($id_user);
                         $no = 1;
                         foreach ($trans as $t) {
                         ?>
@@ -62,26 +62,13 @@ include '../src/database/users.php';
                                 </td>
                                 <td>
 
-                                    <select id="status<?= $no ?>" class="form-control" onchange="updateSTATUS(<?= $no++ ?>)">
-                                        <?php if ($t['status_transaksi'] == "Proses") {
-                                            if ($t['status_pembayaran'] == "Belum Lunas") {
-                                        ?>
-
-                                                <option value="<?= $t['id_transaksi'] ?>_Proses" selected disabled>Proses</option>
-                                                <option value="<?= $t['id_transaksi'] ?>_Selesai" disabled>Selesai</option>
-                                                <option value="<?= $t['id_transaksi'] ?>_Batal">Batal</option>
-                                            <?php } else { ?>
-
-                                                <option value="<?= $t['id_transaksi'] ?>_Proses" selected disabled>Proses</option>
-                                                <option value="<?= $t['id_transaksi'] ?>_Selesai">Selesai</option>
-                                                <option value="<?= $t['id_transaksi'] ?>_Batal">Batal</option>
-                                            <?php }
-                                        } elseif ($t['status_transaksi'] == "Selesai") { ?>
-                                            <option value="<?= $t['id_transaksi'] ?>_Selesai" selected disabled>Selesai</option>
-                                        <?php } else { ?>
-                                            <option value="<?= $t['id_transaksi'] ?>_Batal">Batal</option>
-                                        <?php } ?>
-                                    </select>
+                                    <?php if ($t['status_transaksi'] == "Proses") { ?>
+                                        <span class="badge badge-warning">Proses</span>
+                                    <?php } else if ($t['status_transaksi'] == "Selesai") { ?>
+                                        <span class="badge badge-success">Selesai</span>
+                                    <?php } else { ?>
+                                        <span class="badge badge-danger">Batal</span>
+                                    <?php } ?>
                                 </td>
                                 <td><?= $t['tanggal_transaksi'] ?></td>
                                 <?php if ($t['status_pembayaran'] == "Belum Lunas") { ?>
@@ -92,66 +79,8 @@ include '../src/database/users.php';
                                 <td>
                                     <a href="detail_transaksi.php?id=<?= $t['id_transaksi'] ?>" class="btn my-1 btn-success btn-sm">Detail Transaksi</a>
 
-                                    <form action="#" method="post">
-                                        <input type="hidden" value="<?= $t['id_transaksi'] ?>" name="id">
-                                        <?php if ($t['status_pembayaran'] == "Lunas") {
-                                            if ($t['status_transaksi'] == "Selesai" || $t['status_transaksi'] == "Batal") {
-                                        ?>
-                                                <input type="hidden" value="Belum Lunas" name="status">
-                                                <button class="btn btn-danger btn-sm" type="submit" name="bayar" disabled>Batal Bayar</button>
-                                            <?php } else {
-                                            ?>
-                                                <input type="hidden" value="Belum Lunas" name="status">
-                                                <button class="btn btn-danger btn-sm" type="submit" name="bayar">Batal Bayar</button>
-                                            <?php
-                                            }
-                                        } else {
-                                            if ($t['status_transaksi'] == "Batal") { ?>
-                                                <input type="hidden" value="Belum Lunas" name="status">
-                                                <button class="btn btn-info btn-sm" type="submit" name="bayar" disabled>Bayar</button>
-                                            <?php } else { ?>
-                                                <input type="hidden" value="Lunas" name="status">
-                                                <button class="btn btn-info btn-sm" type="submit" name="bayar">Bayar</button>
-                                        <?php }
-                                        }
-                                        ?>
-                                    </form>
                                 </td>
                             </tr>
-                            <!-- Modal edit -->
-                            <div class="modal fade" id="editModal<?= $t['id_transaksi'] ?>" tabindex="-1" aria-labelledby="editModal<?= $t['id_transaksi'] ?>" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="editModalLabel">Edit Data</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <form action="#" method="post">
-                                            <input type="hidden" name="id_transaksi" value="<?= $t['id_transaksi'] ?>">
-                                            <div class="modal-body">
-
-                                                <div class="form-group">
-                                                    <label for="saldo">Saldo</label>
-
-                                                    <div class="input-group mb-2">
-                                                        <div class="input-group-prepend">
-                                                            <div class="input-group-text">Rp</div>
-                                                        </div>
-                                                        <input type="number" class="form-control" id="saldo" placeholder="Saldo" value="<?= $t['total_harga_pembelian'] ?>">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <button type="submit" name="save_edit" class="btn btn-primary">Save changes</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Modal edit -->
 
                         <?php
                         }
