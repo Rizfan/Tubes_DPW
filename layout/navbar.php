@@ -7,6 +7,13 @@ $current_session = session_manager("get_session", [
     "role",
 ]);
 
+include_once '../src/database/produk.php';
+
+if (isset($_POST['search-btn'])) {
+    $search = $_POST['search'];
+    redirect_to_role_page("http://localhost/Tubes_DPW/landing/produk.php?search=$search");
+}
+
 ?>
 
 
@@ -23,27 +30,15 @@ $current_session = session_manager("get_session", [
 
     <title><?= $tittle ?></title>
 
-    <?php if (str_contains($tittle, "Dashboard")) { ?>
-        <!-- Custom fonts for this template-->
-        <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-        <!-- Custom styles for this template-->
-        <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    <!-- Custom fonts for this template-->
+    <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-        <link href="../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <!-- Custom styles for this template-->
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
 
-    <?php } else { ?>
-
-        <!-- Custom fonts for this template-->
-        <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-        <!-- Custom styles for this template-->
-        <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
-
-        <link href="../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
-    <?php } ?>
+    <link href="../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
 </head>
 
 <body id="page-top">
@@ -130,7 +125,7 @@ $current_session = session_manager("get_session", [
                                             <label for="search">Cari Produk</label>
                                             <input type="text" class="form-control" name="search" id="search" placeholder="Search">
                                         </div>
-                                        <button type="submit" class="btn btn-primary btn-sm btn-block">Search</button>
+                                        <button type="submit" name="search-btn" class="btn btn-primary btn-sm btn-block">Search</button>
                                     </form>
                                 </div>
                             </div>

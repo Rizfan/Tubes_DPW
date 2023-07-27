@@ -12,7 +12,7 @@ $tittle = 'Keranjang';
 $total_semua = 0;
 include_once '../layout/navbar.php';
 
-include __DIR__ . './../src/database/produk.php';
+include_once __DIR__ . './../src/database/produk.php';
 
 ?>
 <section id="keranjang" class="mt-4">
