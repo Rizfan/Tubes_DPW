@@ -10,6 +10,8 @@ $tittle = "Profile";
 include('../layout/master_dashboard.php');
 include('../src/database/users.php');
 include('../src/database/penjual.php');
+include_once('../src/database/dompet.php');
+
 $user = get_user_by_id($id);
 $penjual = get_penjual_by_id_user($id);
 ?>
@@ -80,7 +82,8 @@ $penjual = get_penjual_by_id_user($id);
         <?php if (session_manager("get_session", ['role'])['role'] != "Admin") { ?>
             <div class="col col-md-5">
                 <div class="card">
-                    <?php if ($penjual) { ?>
+                    <?php if ($penjual) {
+                        $dompet = get_dompet($penjual['id_penjual']); ?>
                         <div class="card-body">
                             <h4>Profil Toko Anda!</h4>
                             <table class="table table-borderless">
@@ -98,6 +101,11 @@ $penjual = get_penjual_by_id_user($id);
                                     <td>Deskripsi Toko</td>
                                     <td>:</td>
                                     <td><?= $penjual['deskripsi_toko'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Saldo</td>
+                                    <td>:</td>
+                                    <td>Rp <?= number_format($dompet['saldo']) ?></td>
                                 </tr>
                             </table>
                             <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#editModal<?= $penjual['id_penjual'] ?>">Edit</a>

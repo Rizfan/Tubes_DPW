@@ -26,7 +26,7 @@
 </a>
 
 
-<?php if (str_contains($tittle, "B") || str_contains($tittle, "Dashboard") || str_contains($tittle, "Profile") || str_contains($tittle, "Keranjang") || str_contains($tittle, "Detail")) { ?>
+<?php if (str_contains($tittle, "B") || str_contains(session_manager("get_session", ['role'])['role'], "User") || str_contains($tittle, "Dashboard") || str_contains($tittle, "Profile") || str_contains($tittle, "Keranjang") || str_contains($tittle, "Detail")) { ?>
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
