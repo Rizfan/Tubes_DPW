@@ -11,13 +11,6 @@ $detail_order = detail_order($getCookie, $validate_order);
 $is_submit_order = submit_order($getCookie, $validate_order, '082223127698');
 $get_qr_code = get_qr_code($is_submit_order);
 
-?>
-
-<img src="<?=$get_qr_code?>">
-
-
-<?php
-exit();
 $total_semua_harga = $_POST['total_semua_harga'];
 
 // Kurangi Stock
@@ -69,4 +62,10 @@ foreach (session_manager("get_session", [
     );
 
 }
+
+// destroy cart
+session_manager("destroy_cart");
+
+// redirect
 ?>
+<img src="<?=$get_qr_code?>">
