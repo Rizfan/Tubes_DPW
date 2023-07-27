@@ -22,6 +22,8 @@ function session_manager($type = "add_session", $data_session = null)
             }
         }
         return $data_sessione;
+    } elseif (strtolower($type) == "destroy_cart") {
+        unset($_SESSION['keranjang']);
     }
 }
 
