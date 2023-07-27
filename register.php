@@ -88,11 +88,9 @@ if (@$_REQUEST['status'] == 'failed') {
                                     Daftar Akun
                                 </button>
                             </form>
+                            
                             <div class="text-center">
-                                <a class="small" href="forgot-password.html">Lupa Kata Sandi?</a>
-                            </div>
-                            <div class="text-center">
-                                <a class="small" href="login.html">Sudah Punya Akun? Login</a>
+                                <a class="small" href="login.php">Sudah Punya Akun? Login</a>
                             </div>
                         </div>
                     </div>

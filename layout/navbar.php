@@ -60,7 +60,7 @@ $current_session = session_manager("get_session", [
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand-lg navbar-light py-3 shadow bg-light">
                     <div class="container">
-                        <a class="navbar-brand" href="index.php">
+                        <a class="navbar-brand" href="../landing/index.php">
                             <img src="../assets/img/logo.png" width="" height="40" class="d-inline-block align-top" alt="">
 
                         </a>
@@ -77,7 +77,7 @@ $current_session = session_manager("get_session", [
                                     <a class="nav-link" href="#" data-toggle="modal" data-target="#searchModal"><i class="fa fa-search"></i></a>
                                 </li>
                                 <li class="nav-item mr-2">
-                                    <a class="nav-link" href="#"><i class="fa fa-shopping-cart"></i></a>
+                                    <a class="nav-link" href="../user/keranjang.php"><i class="fa fa-shopping-cart"></i></a>
                                 </li>
 
                                 <?php
