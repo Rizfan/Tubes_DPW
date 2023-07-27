@@ -53,7 +53,7 @@ $produk = get_produk_by_id($id);
                     </div>
                     <hr>
                     <?php if ($produk['stok'] > 0) { ?>
-                        <button class="btn btn-primary btn-block" id="btn_beli" name="btn_beli">Beli</button>
+                        <!-- <button class="btn btn-primary btn-block" id="btn_beli" name="btn_beli">Beli</button> -->
                         <button class="btn btn-outline-primary btn-block" id="btn_keranjang" name="btn_keranjang">Keranjang</button>
 
                     <?php } else { ?>
