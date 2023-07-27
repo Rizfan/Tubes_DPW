@@ -20,14 +20,17 @@ include_once '../layout/navbar.php';
         <li data-target="#carouselExampleInterval" data-slide-to="2"></li>
     </ol>
     <div class="carousel-inner rounded ">
-        <div class="carousel-item active" data-interval="1000">
-            <img class="d-block w-100 " style="max-height: 300px;" src="../assets/img/SelamatDatang!.png" alt="First slide">
+        <div class="carousel-item active" data-interval="1300">
+            <img class="d-block w-100 " style="max-height: 300px;" src="../assets/img/SelamatDatang!.png"
+                alt="First slide">
+        </div>
+        <div class="carousel-item" data-interval="1300">
+            <img class="d-block w-100 " style="max-height: 300px;" src="../assets/img/SelamatDatang!1).png"
+                alt="First slide">
         </div>
         <div class="carousel-item" data-interval="1000">
-            <img class="d-block w-100 " style="max-height: 300px;" src="../assets/img/SelamatDatang!1).png" alt="First slide">
-        </div>
-        <div class="carousel-item" data-interval="1000">
-            <img class="d-block w-100" style="max-height: 300px;" src="../assets/img/SelamatDatang2.png" alt="Third slide">
+            <img class="d-block w-100" style="max-height: 300px;"
+                src="../assets/upload/produk/27163977_20200213_103459.jpg" alt="Third slide">
         </div>
     </div>
     <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">
@@ -40,73 +43,100 @@ include_once '../layout/navbar.php';
     </a>
 </div>
 
-<div class="card mt-5">
-    <div class="card-header">
-        Produk Unggulan
-    </div>
+<div class="card mt-5 shadow-sm">
     <div class="card-body">
-        <div class="row justify-content-center">
+        <h5 class="mb-4">Kategori</h5>
+        <div class="row">
             <?php
-            $produk = get_all_produk();
-            shuffle($produk);
-            foreach ($produk as $produk) {
-            ?>
-                <div class="col col-md-3 my-2">
-                    <a href="detail_produk.php?id=<?= $produk['id_produk'] ?>" class="text-decoration-none text-dark">
-                        <div class="card">
-                            <img src="../assets/upload/produk/<?= $produk['link_foto_produk'] ?>" class="card-img-top" height="200px" alt="<? $produk['nama_produk'] ?>">
-                            <div class="card-body">
-                                <h5 class="card-title mb-1"><?= $produk['nama_produk'] ?></h5>
-                                <p class="card-text font-weight-lighter"><i class="fa fa-store"></i> <?= $produk['nama_toko'] ?></p>
-                                <p class="card-text font-weight-bold">Rp <?= number_format($produk['harga']) ?></p>
-                                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            <?php } ?>
+include_once './../src/database/kategori.php';
+$kategori = get_all_kategori();
+foreach ($kategori as $kategori) {
+    ?>
+            <div class="col col-md-2">
+                <a href="produk.php?search=<?=$kategori['nama_kategori']?>" class="card card-body bg-light shadow-sm">
+                    <!-- <img src="../assets/img/logo.png" alt="Kategori" width="100px"> -->
+                    <p class="text-center text-dark"><?=$kategori['nama_kategori']?></p>
+                </a>
+            </div>
+            <?php }?>
         </div>
     </div>
 </div>
 
-<div class="card mt-3">
-    <div class="card-header">
-        Bibit Lele
-    </div>
+<div class="card mt-5 shadow-sm">
     <div class="card-body">
-        <div class="card-deck">
-            <div class="card">
-                <img class="card-img-top" src="..." alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Benih Rispan</h5>
-                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in
-                        to
-                        additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                </div>
-            </div>
-            <div class="card">
-                <img class="card-img-top" src="..." alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Benih Sandro</h5>
-                    <p class="card-text">This card has supporting text below as a natural lead-in to additional
-                        content.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                </div>
-            </div>
-            <div class="card">
-                <img class="card-img-top" src="..." alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                        additional content. This card has even longer content than the first to show that equal
-                        height action.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                </div>
-            </div>
+        <div class="d-flex justify-content-between mb-4">
+            <h4>Rekomendasi</h4>
+            <a href="produk.php">Lihat Selengkapnya</a>
         </div>
+        <section class="splide" aria-label="Slide Container Example">
+            <div class="splide__track">
+                <ul class="splide__list">
+
+                    <?php
+$produk = get_all_produk();
+shuffle($produk);
+foreach (array_slice($produk, 0, 12) as $produk) {
+    ?>
+                    <li class="splide__slide mx-2">
+                        <div class="splide__slide__container">
+                            <a href="detail_produk.php?id=<?=$produk['id_produk']?>"
+                                class="text-decoration-none text-dark card bg-light">
+                                <img src="../assets/upload/produk/<?=$produk['link_foto_produk']?>" class="card-img-top"
+                                    height="150px" alt="<?=$produk['nama_produk']?>">
+                                <div class="card-body" style="font-size: small;">
+                                    <p class="card-title mb-1"><?=$produk['nama_produk']?></p>
+                                    <p class="card-text font-weight-lighter"><i class="fa fa-store"></i>
+                                        <?=$produk['nama_toko']?></p>
+                                    <p class="card-text font-weight-bold">Rp <?=number_format($produk['harga'])?></p>
+                                    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                                </div>
+                            </a>
+                        </div>
+                    </li>
+
+                    <?php }?>
+                </ul>
+            </div>
+        </section>
+
     </div>
 </div>
+
+
+<div class="card mt-5 shadow-sm mb-4">
+    <div class="card-body">
+        <div class="d-flex justify-content-between mb-4">
+            <h4>Sering Dibeli</h4>
+            <a href="produk.php">Lihat Selengkapnya</a>
+        </div>
+
+        <div class="row justify-content-center">
+            <?php
+$produk = get_all_produk();
+shuffle($produk);
+foreach (array_slice($produk, 0, 12) as $produk) {
+    ?>
+            <div class="col col-md-3 my-2">
+                <a href="detail_produk.php?id=<?=$produk['id_produk']?>"
+                    class="text-decoration-none text-dark card bg-light">
+                    <img src="../assets/upload/produk/<?=$produk['link_foto_produk']?>" class="card-img-top"
+                        height="150px" alt="<?=$produk['nama_produk']?>">
+                    <div class="card-body" style="font-size: small;">
+                        <p class="card-title mb-1"><?=$produk['nama_produk']?></p>
+                        <p class="card-text font-weight-lighter"><i class="fa fa-store"></i> <?=$produk['nama_toko']?>
+                        </p>
+                        <p class="card-text font-weight-bold">Rp <?=number_format($produk['harga'])?></p>
+                        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                    </div>
+                </a>
+            </div>
+            <?php }?>
+        </div>
+
+    </div>
+</div>
+
 
 
 <?php

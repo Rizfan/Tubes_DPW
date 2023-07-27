@@ -7,6 +7,13 @@ $current_session = session_manager("get_session", [
     "role",
 ]);
 
+include_once '../src/database/produk.php';
+
+if (isset($_POST['search-btn'])) {
+    $search = $_POST['search'];
+    redirect_to_role_page("http://localhost/Tubes_DPW/landing/produk.php?search=$search");
+}
+
 ?>
 
 
@@ -21,29 +28,21 @@ $current_session = session_manager("get_session", [
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title><?= $tittle ?></title>
+    <title><?=$tittle?></title>
 
-    <?php if (str_contains($tittle, "Dashboard")) { ?>
-        <!-- Custom fonts for this template-->
-        <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-        <!-- Custom styles for this template-->
-        <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    <!-- Custom fonts for this template-->
+    <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="../assets/splidejs/css/splide.min.css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
-        <link href="../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <!-- Custom styles for this template-->
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/sb-admin-2.min.css">
 
-    <?php } else { ?>
-
-        <!-- Custom fonts for this template-->
-        <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-        <!-- Custom styles for this template-->
-        <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
-
-        <link href="../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
-    <?php } ?>
+    <link href="../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
 </head>
 
 <body id="page-top">
@@ -58,13 +57,16 @@ $current_session = session_manager("get_session", [
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand-lg navbar-light py-3 shadow bg-light">
+                <nav class="navbar navbar-expand-lg navbar-light py-3 shadow">
                     <div class="container">
-                        <a class="navbar-brand" href="../landing/index.php">
-                            <img src="../assets/img/logo.png" width="" height="40" class="d-inline-block align-top" alt="">
+                        <a class="navbar-brand" href="index.php">
+                            <img src="../assets/img/logo.png" width="" height="40" class="d-inline-block align-top"
+                                alt="">
 
                         </a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <!-- <form class="form-inline my-2 my-lg-0">
@@ -74,63 +76,74 @@ $current_session = session_manager("get_session", [
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item ">
-                                    <a class="nav-link" href="#" data-toggle="modal" data-target="#searchModal"><i class="fa fa-search"></i></a>
+                                    <a class="nav-link" href="#" data-toggle="modal" data-target="#searchModal"><i
+                                            class="fa fa-search"></i></a>
                                 </li>
                                 <li class="nav-item mr-2">
-                                    <a class="nav-link" href="../user/keranjang.php"><i class="fa fa-shopping-cart"></i></a>
+                                    <a class="nav-link" href="../user/keranjang.php"><i
+                                            class="fa fa-shopping-cart"></i></a>
                                 </li>
 
                                 <?php
 
-                                if ($current_session["username"] != null) {
+if ($current_session["username"] != null) {
 
-                                ?>
-                                    <li class="nav-item dropdown mr-2">
-                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-                                            <?= $current_session["username"] ?>
-                                        </a>
-                                        <div class="dropdown-menu">
-                                            <?php if ($current_session["role"] == "Admin") { ?>
-                                                <a href="./../admin/index.php" class="dropdown-item" aria-pressed="true">Dashboard</a>
-                                            <?php } elseif ($current_session['role'] == "Penjual") { ?>
-                                                <a href="./../penjual/index.php" class="dropdown-item" aria-pressed="true">Dashboard</a>
-                                            <?php } else { ?>
-                                                <a href="./../user/index.php" class="dropdown-item" aria-pressed="true">Dashboard</a>
-                                            <?php } ?>
+    ?>
+                                <li class="nav-item dropdown mr-2">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <?=$current_session["username"]?>
+                                    </a>
+                                    <div class="dropdown-menu">
+                                        <?php if ($current_session["role"] == "Admin") {?>
+                                        <a href="./../admin/index.php" class="dropdown-item"
+                                            aria-pressed="true">Dashboard</a>
+                                        <?php } elseif ($current_session['role'] == "Penjual") {?>
+                                        <a href="./../penjual/index.php" class="dropdown-item"
+                                            aria-pressed="true">Dashboard</a>
+                                        <?php } else {?>
+                                        <a href="./../user/index.php" class="dropdown-item"
+                                            aria-pressed="true">Dashboard</a>
+                                        <?php }?>
 
-                                            <a href="#" data-toggle="modal" data-target="#logoutModal" class="dropdown-item" aria-pressed="true">Logout</a>
-                                        </div>
-                                    </li>
+                                        <a href="#" data-toggle="modal" data-target="#logoutModal" class="dropdown-item"
+                                            aria-pressed="true">Logout</a>
+                                    </div>
+                                </li>
                                 <?php
 
-                                } else {
+} else {
 
-                                ?>
-                                    <li class="nav-item">
-                                        <a href="./../register.php" class="btn btn-outline-primary mr-2" aria-pressed="true">Daftar</a>
-                                        <a href="./../login.php" class="btn btn-primary" aria-pressed="true">Masuk</a>
-                                    </li>
+    ?>
+                                <li class="nav-item">
+                                    <a href="./../register.php" class="btn btn-outline-primary mr-2"
+                                        aria-pressed="true">Daftar</a>
+                                    <a href="./../login.php" class="btn btn-primary" aria-pressed="true">Masuk</a>
+                                </li>
                                 <?php
 
-                                }
+}
 
-                                ?>
+?>
 
                             </ul>
                         </div>
                     </div>
 
                     <!-- Modal -->
-                    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel"
+                        aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-body">
                                     <form action="#" method="post">
                                         <div class="form-group">
                                             <label for="search">Cari Produk</label>
-                                            <input type="text" class="form-control" name="search" id="search" placeholder="Search">
+                                            <input type="text" class="form-control" name="search" id="search"
+                                                placeholder="Search">
                                         </div>
-                                        <button type="submit" class="btn btn-primary btn-sm btn-block">Search</button>
+                                        <button type="submit" name="search-btn"
+                                            class="btn btn-primary btn-sm btn-block">Search</button>
                                     </form>
                                 </div>
                             </div>

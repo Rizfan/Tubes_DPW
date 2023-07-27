@@ -10,6 +10,8 @@ $tittle = "Profile";
 include('../layout/master_dashboard.php');
 include('../src/database/users.php');
 include('../src/database/penjual.php');
+include_once('../src/database/dompet.php');
+
 $user = get_user_by_id($id);
 $penjual = get_penjual_by_id_user($id);
 ?>
@@ -77,123 +79,131 @@ $penjual = get_penjual_by_id_user($id);
             </div>
         </div>
 
-        <div class="col col-md-5">
-            <div class="card">
-                <?php if ($penjual) { ?>
-                    <div class="card-body">
-                        <h4>Profil Toko Anda!</h4>
-                        <table class="table table-borderless">
-                            <tr>
-                                <td>Nama Toko</td>
-                                <td>:</td>
-                                <td><?= $penjual['nama_toko'] ?></td>
-                            </tr>
-                            <tr>
-                                <td>Status Toko</td>
-                                <td>:</td>
-                                <td><?= $penjual['status_toko'] ?></td>
-                            </tr>
-                            <tr>
-                                <td>Deskripsi Toko</td>
-                                <td>:</td>
-                                <td><?= $penjual['deskripsi_toko'] ?></td>
-                            </tr>
-                        </table>
-                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#editModal<?= $penjual['id_penjual'] ?>">Edit</a>
+        <?php if (session_manager("get_session", ['role'])['role'] != "Admin") { ?>
+            <div class="col col-md-5">
+                <div class="card">
+                    <?php if ($penjual) {
+                        $dompet = get_dompet($penjual['id_penjual']); ?>
+                        <div class="card-body">
+                            <h4>Profil Toko Anda!</h4>
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td>Nama Toko</td>
+                                    <td>:</td>
+                                    <td><?= $penjual['nama_toko'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Status Toko</td>
+                                    <td>:</td>
+                                    <td><?= $penjual['status_toko'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Deskripsi Toko</td>
+                                    <td>:</td>
+                                    <td><?= $penjual['deskripsi_toko'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Saldo</td>
+                                    <td>:</td>
+                                    <td>Rp <?= number_format($dompet['saldo']) ?></td>
+                                </tr>
+                            </table>
+                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#editModal<?= $penjual['id_penjual'] ?>">Edit</a>
 
-                        <!-- Modal edit -->
-                        <div class="modal fade" id="editModal<?= $penjual['id_penjual'] ?>" tabindex="-1" aria-labelledby="editModal<?= $penjual['id_penjual'] ?>" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="editModalLabel">edit Data</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <form action="#" method="post">
-                                        <input type="hidden" name="id_penjual" value="<?= $penjual['id_penjual'] ?>">
-                                        <input type="hidden" name="user" value="<?= $penjual['id_user'] ?>">
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <label for="nama_toko">Nama Toko</label>
-                                                <input required type="text" class="form-control" id="nama_toko" name="nama_toko" value="<?= $penjual['nama_toko'] ?>">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="status_toko">Status Toko</label>
-                                                <select name="status_toko" id="status_toko" class="form-control" required>
-                                                    <option value="" selected disabled>-- Pilih Status --</option>
-                                                    <option value="Aktif" <?php if ($penjual['status_toko'] == "Aktif") {
-                                                                                echo "selected";
-                                                                            } ?>>Aktif</option>
-                                                    <option value="Tidak Aktif" <?php if ($penjual['status_toko'] == "Tidak Aktif") {
-                                                                                    echo "selected";
-                                                                                } ?>>Tidak Aktif</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="deskripsi_toko">Deskripsi Toko</label>
-                                                <textarea name="deskripsi_toko" id="deskripsi_toko" class="form-control" cols="30" rows="5" required><?= $penjual['deskripsi_toko'] ?></textarea>
-                                            </div>
+                            <!-- Modal edit -->
+                            <div class="modal fade" id="editModal<?= $penjual['id_penjual'] ?>" tabindex="-1" aria-labelledby="editModal<?= $penjual['id_penjual'] ?>" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editModalLabel">edit Data</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="submit" name="save_edit_toko" class="btn btn-primary">Save
-                                                changes</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Modal edit -->
-                    </div>
-                <?php } else { ?>
-
-                    <div class="card-body">
-                        <p>Ingin menjadi penjual?</p>
-                        <!-- Button Tambah -->
-                        <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#tambahModal">
-                            Tambah Data
-                        </button>
-                        <!-- End Button Tambah -->
-
-                        <!-- Modal Tambah -->
-                        <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModal" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="tambahModalLabel">Tambah Data</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <form action="#" method="post">
-                                        <div class="modal-body">
+                                        <form action="#" method="post">
+                                            <input type="hidden" name="id_penjual" value="<?= $penjual['id_penjual'] ?>">
                                             <input type="hidden" name="user" value="<?= $penjual['id_user'] ?>">
-                                            <div class="form-group">
-                                                <label for="nama_toko">Nama Toko</label>
-                                                <input required type="text" class="form-control" id="nama_toko" name="nama_toko">
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="nama_toko">Nama Toko</label>
+                                                    <input required type="text" class="form-control" id="nama_toko" name="nama_toko" value="<?= $penjual['nama_toko'] ?>">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="status_toko">Status Toko</label>
+                                                    <select name="status_toko" id="status_toko" class="form-control" required>
+                                                        <option value="" selected disabled>-- Pilih Status --</option>
+                                                        <option value="Aktif" <?php if ($penjual['status_toko'] == "Aktif") {
+                                                                                    echo "selected";
+                                                                                } ?>>Aktif</option>
+                                                        <option value="Tidak Aktif" <?php if ($penjual['status_toko'] == "Tidak Aktif") {
+                                                                                        echo "selected";
+                                                                                    } ?>>Tidak Aktif</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="deskripsi_toko">Deskripsi Toko</label>
+                                                    <textarea name="deskripsi_toko" id="deskripsi_toko" class="form-control" cols="30" rows="5" required><?= $penjual['deskripsi_toko'] ?></textarea>
+                                                </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label for="deskripsi_toko">Deskripsi Toko</label>
-                                                <textarea name="deskripsi_toko" id="deskripsi_toko" class="form-control" cols="30" rows="5" required></textarea>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="submit" name="save_edit_toko" class="btn btn-primary">Save
+                                                    changes</button>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="submit" name="save_tambah" class="btn btn-primary">Save
-                                                changes</button>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
+                            <!-- End Modal edit -->
                         </div>
-                        <!-- End Modal Tambah -->
+                    <?php } else { ?>
 
-                    </div>
-                <?php } ?>
+                        <div class="card-body">
+                            <p>Ingin menjadi penjual?</p>
+                            <!-- Button Tambah -->
+                            <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#tambahModal">
+                                Tambah Data
+                            </button>
+                            <!-- End Button Tambah -->
+
+                            <!-- Modal Tambah -->
+                            <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModal" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="tambahModalLabel">Tambah Data</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form action="#" method="post">
+                                            <div class="modal-body">
+                                                <input type="hidden" name="user" value="<?= $penjual['id_user'] ?>">
+                                                <div class="form-group">
+                                                    <label for="nama_toko">Nama Toko</label>
+                                                    <input required type="text" class="form-control" id="nama_toko" name="nama_toko">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="deskripsi_toko">Deskripsi Toko</label>
+                                                    <textarea name="deskripsi_toko" id="deskripsi_toko" class="form-control" cols="30" rows="5" required></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="submit" name="save_tambah" class="btn btn-primary">Save
+                                                    changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Modal Tambah -->
+
+                        </div>
+                    <?php } ?>
+                </div>
             </div>
-        </div>
+        <?php } ?>
     </div>
 
     <!-- Modal edit -->
@@ -286,6 +296,20 @@ include '../layout/footer.php';
 
 
         btn_no_hp.addEventListener('click', function() {
+            let timerInterval
+            Swal.fire({
+                title: 'Sedang Proses Verifikasi!',
+                html: 'Tunggu Sebentar!',
+                timer: 5000,
+                didOpen: () => {
+                    Swal.showLoading()
+                    const b = Swal.getHtmlContainer().querySelector('b')
+                    timerInterval = setInterval(() => {}, 100)
+                },
+                willClose: () => {
+                    clearInterval(timerInterval)
+                }
+            })
 
             $.ajax({
                 url: "http://47.88.53.4:3333/api/ewallet/linkaja/" + no_telp,

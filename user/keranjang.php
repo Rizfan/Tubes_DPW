@@ -12,7 +12,7 @@ $tittle = 'Keranjang';
 $total_semua = 0;
 include_once '../layout/navbar.php';
 
-include __DIR__ . './../src/database/produk.php';
+include_once __DIR__ . './../src/database/produk.php';
 
 ?>
 <section id="keranjang" class="mt-4">
@@ -124,7 +124,8 @@ if ($get_keranjang['keranjang'] == null) {
                             <input class="form-check-input " type="radio" name="exampleRadios" id="exampleRadios1"
                                 value="option1" checked>
                             <label class="form-check-label" for="exampleRadios1">
-                                <img src="../assets/img/LinkAja!.png" alt="Link Aja" width="50px;">LinkAja
+                                <img src="../assets/img/iconQris-removebg-preview.png" alt="Qris" width="50px;"
+                                    class="ml-2">
                             </label>
                         </div>
                     </div>
