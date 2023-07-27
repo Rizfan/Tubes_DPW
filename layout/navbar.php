@@ -59,7 +59,7 @@ if (isset($_POST['search-btn'])) {
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand-lg navbar-light py-3 shadow">
                     <div class="container">
-                        <a class="navbar-brand" href="index.php">
+                        <a class="navbar-brand" href="./../index.php">
                             <img src="../assets/img/logo.png" width="" height="40" class="d-inline-block align-top"
                                 alt="">
 
