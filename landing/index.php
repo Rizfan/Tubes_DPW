@@ -27,7 +27,7 @@ include_once '../layout/navbar.php';
             <img class="d-block w-100 " style="max-height: 300px;" src="../assets/img/SelamatDatang!1).png" alt="First slide">
         </div>
         <div class="carousel-item" data-interval="1000">
-            <img class="d-block w-100" style="max-height: 300px;" src="../assets/upload/produk/27163977_20200213_103459.jpg" alt="Third slide">
+            <img class="d-block w-100" style="max-height: 300px;" src="../assets/img/SelamatDatang2.png" alt="Third slide">
         </div>
     </div>
     <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">
